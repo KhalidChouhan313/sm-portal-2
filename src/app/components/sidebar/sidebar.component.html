@@ -1,0 +1,348 @@
+<div *ngIf="token" class="sidebar-wrapper">
+  <nav class="sidebar" [class.toggled]="isToggled">
+    <div class="logo">
+      <img src="../../../assets/texi-msg-logo.png" alt="" />
+      <h1>Taxi Messages</h1>
+    </div>
+    <div class="menu">
+      <ul class="sidebar-borders menu">
+        <li
+          [routerLink]="'/'"
+          (click)="setCurrentItem('Home')"
+          [class.active]="currentItem === 'Home'"
+          class="menu_item"
+        >
+          <div>
+            <img src="../../../assets/homeicon.png" />
+            <img src="../../../assets/homeiconw.png" />
+          </div>
+          <span>Home</span>
+        </li>
+
+        <li
+          [routerLink]="'/messages'"
+          (click)="setCurrentItem('Messages')"
+          [class.active]="currentItem === 'Messages'"
+          class="menu_item"
+        >
+          <div>
+            <img src="../../../assets/msgicon.png" />
+            <img src="../../../assets/msgiconw.png" />
+          </div>
+          <span>Messages</span>
+        </li>
+
+        <li
+          [routerLink]="'/block-list'"
+          (click)="setCurrentItem('Blocked')"
+          [class.active]="currentItem === 'Blocked'"
+          class="menu_item"
+        >
+          <div>
+            <img src="../../../assets/blockicon.png" />
+            <img src="../../../assets/blockiconw.png" />
+          </div>
+          <span>Blocked List</span>
+        </li>
+
+        <li
+          [routerLink]="'/devices'"
+          (click)="setCurrentItem('Devices')"
+          [class.active]="currentItem === 'Devices'"
+          class="menu_item"
+        >
+          <div>
+            <img src="../../../assets/deviceicon.png" />
+            <img src="../../../assets/deviceiconw.png" />
+          </div>
+          <span>Devices</span>
+        </li>
+
+        <!-- <li [routerLink]="'/chats'" (click)="setCurrentItem('Chats')" [class.active]="currentItem === 'Chats'"
+          class="menu_item">
+          <div>
+            <img src="../../../assets/messages-white.png" />
+            <img src="../../../assets/messages.png" />
+          </div>
+          <span>Chats</span>
+        </li> -->
+
+        <div (click)="setCurrentItem('Chatbots')">
+          <li
+            *ngIf="haveBot"
+            [routerLink]="'/chatbot/analytics'"
+            (click)="setCurrentSubItem('Analytics')"
+            [class.active]="currentItem === 'Chatbots'"
+            class="menu_item"
+          >
+            <div>
+              <img src="../../../assets/chatboticon.png" />
+              <img src="../../../assets/chatboticonw.png" />
+            </div>
+            <span>Chatbots</span>
+          </li>
+
+          <ul
+            *ngIf="hoveredItem === 'Chatbots' || currentItem === 'Chatbots'"
+            class="sub_menu"
+          >
+            <li
+              [routerLink]="'/chatbot/analytics'"
+              (click)="setCurrentSubItem('Analytics')"
+              [class.active]="currentSubItem === 'Analytics'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/icons/analytics.svg" />
+              <span>Analytics</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/chat-flow'"
+              (click)="setCurrentSubItem('Chat')"
+              [class.active]="currentSubItem === 'Chat'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/icons/chat-flow.png" />
+              <span>Chat Flow</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/QR-code'"
+              (click)="setCurrentSubItem('qrcode')"
+              [class.active]="currentSubItem === 'qrcode'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/qricon.png" />
+              <span>QR Code</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/bookings'"
+              (click)="setCurrentSubItem('Bookings')"
+              [class.active]="currentSubItem === 'Bookings'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/icons/bookings.svg" />
+              <span>Bookings</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/interactions'"
+              (click)="setCurrentSubItem('Interactions')"
+              [class.active]="currentSubItem === 'Interactions'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/icons/bookings.svg" />
+              <span>Interactions</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/customers'"
+              (click)="setCurrentSubItem('Customers')"
+              [class.active]="currentSubItem === 'Customers'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/icons/customers.png" />
+              <span>Customers</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/bot-settings'"
+              (click)="setCurrentSubItem('Bot Settings')"
+              [class.active]="currentSubItem === 'Bot Settings'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/icons/bot-settings.svg" />
+              <span>Bot Settings</span>
+            </li>
+          </ul>
+        </div>
+
+        <div (click)="setCurrentItem('Chat History')">
+          <li
+            [routerLink]="'/chat-history'"
+            [class.active]="currentItem === 'Chat History'"
+            class="menu_item"
+          >
+            <div>
+              <img src="../../../assets/chatboticon.png" alt="" />
+            </div>
+            <span>Chat History</span>
+          </li>
+        </div>
+
+        <div (click)="setCurrentItem('Broadcast')">
+          <li
+            [routerLink]="'/broadcast-sms'"
+            (click)="setCurrentSubItem('SMS')"
+            [class.active]="currentItem === 'Broadcast'"
+            class="menu_item"
+          >
+            <div>
+              <img src="../../../assets/broadcasticon.png" />
+              <img src="../../../assets/broadcasticonw.png" />
+            </div>
+            <span>Broadcast</span>
+          </li>
+          <!-- <ul *ngIf="hoveredItem === 'Broadcast' || currentItem === 'Broadcast'" class="sub_menu">
+            <li [routerLink]="'/broadcast-sms'" (click)="setCurrentSubItem('SMS')"
+              [class.active]="currentSubItem === 'SMS'" class="sub_menu_item">
+              <img src="../../../assets/icons/broadcast-sms.svg" />
+              <span>SMS</span>
+            </li>
+            <li [routerLink]="'/broadcast-whatsapp'" (click)="setCurrentSubItem('WhatsApp')"
+              [class.active]="currentSubItem === 'WhatsApp'" class="sub_menu_item">
+              <img src="../../../assets/icons/broadcast-w.svg" />
+              <span>WhatsApp</span>
+            </li>
+          </ul> -->
+        </div>
+        <div (click)="setCurrentItem('buttonstats')">
+          <li
+            [routerLink]="'/buttonstats'"
+            (click)="setCurrentSubItem('buttonstats')"
+            [class.active]="currentItem === 'buttonstats'"
+            class="menu_item"
+          >
+            <div>
+              <img src="../../../assets/Vector (2).svg" />
+              <img src="../../../assets/Vector.png" />
+            </div>
+            <span>Button Stats</span>
+          </li>
+          <!-- <ul *ngIf="hoveredItem === 'Broadcast' || currentItem === 'Broadcast'" class="sub_menu">
+            <li [routerLink]="'/broadcast-sms'" (click)="setCurrentSubItem('SMS')"
+              [class.active]="currentSubItem === 'SMS'" class="sub_menu_item">
+              <img src="../../../assets/icons/broadcast-sms.svg" />
+              <span>SMS</span>
+            </li>
+            <li [routerLink]="'/broadcast-whatsapp'" (click)="setCurrentSubItem('WhatsApp')"
+              [class.active]="currentSubItem === 'WhatsApp'" class="sub_menu_item">
+              <img src="../../../assets/icons/broadcast-w.svg" />
+              <span>WhatsApp</span>
+            </li>
+          </ul> -->
+        </div>
+
+        <!-- <div (click)="setCurrentItem('AI Prompt')">
+          <li
+            *ngIf="haveBot"
+            [routerLink]="'/official-ai-prompt/ai-prompt'"
+            (click)="setCurrentSubItem('Official')"
+            [class.active]="currentItem === 'AI Prompt'"
+            class="menu_item"
+          >
+            <div>
+              <img src="../../../assets/ai-icon.png" />
+              <img src="../../../assets/ai-iconw.png" />
+            </div>
+            <span>AI Prompt</span>
+          </li>
+
+          <ul
+            *ngIf="hoveredItem === 'AI Prompt' || currentItem === 'AI Prompt'"
+            class="sub_menu"
+          >
+            <li
+              [routerLink]="'/official-ai-prompt/ai-prompt'"
+              (click)="setCurrentSubItem('Official')"
+              [class.active]="currentSubItem === 'Official'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/official-device.png" />
+              <span>Official</span>
+            </li>
+            <li
+              [routerLink]="'/chatbot/chat-flow'"
+              (click)="setCurrentSubItem('Chat')"
+              [class.active]="currentSubItem === 'Chat'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/unofficial-device.png" />
+              <span>Unofficial</span>
+            </li>
+          </ul>
+        </div> -->
+      </ul>
+
+      <ul class="sidebar-borders menu">
+        <div (click)="setCurrentItem('Review Page')">
+          <li
+            [routerLink]="'/review/review-page'"
+            (click)="setCurrentSubItem('Review Page')"
+            [class.active]="currentItem === 'Review Page'"
+            class="menu_item"
+          >
+            <div>
+              <img src="../../../assets/review-img-b.png" />
+              <img src="../../../assets/review-img-w.png" />
+            </div>
+            <span>Review</span>
+          </li>
+
+          <ul
+            *ngIf="
+              hoveredItem === 'Review Page' || currentItem === 'Review Page'
+            "
+            class="sub_menu"
+          >
+            <li
+              [routerLink]="'/review/review-page'"
+              (click)="setCurrentSubItem('Review Page')"
+              [class.active]="currentSubItem === 'Review Page'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/review-1.png" />
+              <span>Review Page</span>
+            </li>
+            <li
+              [routerLink]="'/review/my-reviews'"
+              (click)="setCurrentSubItem('My Reviews')"
+              [class.active]="currentSubItem === 'My Reviews'"
+              class="sub_menu_item"
+            >
+              <img src="../../../assets/review-2.png" />
+              <span>My Reviews</span>
+            </li>
+          </ul>
+        </div>
+      </ul>
+
+      <ul class="sidebar-borders menu">
+        <li
+          [routerLink]="'/settings'"
+          [queryParams]="{ tab: 'SMS Settings' }"
+          (click)="setCurrentItem('App')"
+          [class.active]="currentItem === 'App'"
+          class="menu_item"
+        >
+          <div>
+            <img src="../../../assets/settingicon.png" />
+            <img src="../../../assets/settingiconw.png" />
+          </div>
+          <span>App Settings</span>
+        </li>
+        <li
+          [routerLink]="'profile'"
+          (click)="setCurrentSubItem('profile Page')"
+          [class.active]="currentItem === 'profile Page'"
+          class="menu_item"
+        >
+          <div>
+            <img src="../../../assets/profileicon.png" />
+            <img src="../../../assets/profileiconw.png" />
+          </div>
+          <span>Profile</span>
+        </li>
+      </ul>
+
+      <ul class="sidebar-borders menu">
+        <li [routerLink]="'/'" (click)="logoutHandler()" class="menu_item">
+          <div>
+            <img src="../../../assets/logouticon.png" />
+            <img src="../../../assets/logouticonw.png" />
+          </div>
+          <span>Logout</span>
+        </li>
+      </ul>
+    </div>
+
+    <button (click)="toggleNavbar()" class="toggle">
+      <img src="../../../assets/img/toggle.png" alt="toggle" />
+    </button>
+  </nav>
+</div>

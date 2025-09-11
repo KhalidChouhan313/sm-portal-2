@@ -1,0 +1,72 @@
+<div class="booking-details">
+  <div>
+    <h3>Booking Details</h3>
+  </div>
+  <div class="canvas-box">
+    <canvas id="bookingDetailsChart"></canvas>
+  </div>
+  <!-- <div class="custom-legend">
+        <div class="legend" *ngFor="let label of labels;let i = index;">
+            <span class="legend-color" [style.background-color]="this.colors[i]"></span>
+            <span class="legend-label">{{label}}</span>
+        </div>
+    </div> -->
+  <div class="body">
+    <div class="header">
+      <span class="asap">
+        <div class="dot"></div>
+        ASAP
+      </span>
+      <span class="break"></span>
+      <!-- <span class="later-today">
+                <div class="dot"></div>Later Today
+            </span>
+            <span class="break"></span> -->
+      <span class="schedule">
+        <div class="dot"></div>
+        Pre Booking
+      </span>
+    </div>
+
+    <div class="content row">
+      <div class="col-6 box asap">
+        <!-- <h3>ASAP</h3> -->
+        <!-- <div class="growth">
+                    <span class="arrow">⬆</span>
+                    <span>15%</span>
+                </div> -->
+        <!-- <div class="total">Total: <strong>120</strong></div> -->
+        <div class="sub-info">
+          <span
+            >Total: <strong>{{ asap }}</strong></span
+          >
+        </div>
+      </div>
+      <div class="col-6 box asap">
+        <!-- <h3>Pre Bookings</h3> -->
+        <!-- <div class="growth">
+                    <span class="arrow">⬆</span>
+                    <span>15%</span>
+                </div> -->
+        <!-- <div class="total">Total: <strong>120</strong></div> -->
+        <div class="sub-info">
+          <span
+            >Total: <strong>{{ pre_booking }}</strong></span
+          >
+        </div>
+      </div>
+
+      <!-- <div class="col-8 box pre-bookings">
+                <h3>Pre Bookings</h3>
+                <div class="growth">
+                    <span class="arrow">⬆</span>
+                    <span>15%</span>
+                </div>
+                <div class="sub-info">
+                    <span>Today Later: <strong>120</strong></span>
+                    <span>Schedule: <strong>120</strong></span>
+                </div>
+            </div> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1097 @@
+<div class="container-own">
+  <app-modal *ngIf="showAddUserModal">
+    <div
+      style="display: flex; padding: 25px; flex-direction: column; gap: 20px"
+    >
+      <div style="border-bottom: 1px solid gray">
+        <h4
+          style="
+            color: #000;
+            font-family: 'DM Sans';
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 42px; /* 123.529% */
+            letter-spacing: -0.68px;
+            margin-bottom: 5px;
+          "
+        >
+          Invite New User
+        </h4>
+        <p
+          style="
+            color: #707eae;
+            font-family: 'DM Sans';
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px; /* 141.176% */
+            letter-spacing: -0.34px;
+            margin-bottom: 10px;
+          "
+        >
+          Assign roles and send invitation via email
+        </p>
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding-top: 20px;
+          padding-bottom: 40px;
+        "
+      >
+        <div>
+          <p
+            style="
+              color: #1c1c1c;
+
+              /* Texi */
+              font-family: Nunito;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+              margin-bottom: 5px;
+            "
+          >
+            Full Name
+          </p>
+          <input
+            placeholder="Enter full name"
+            style="
+              display: flex;
+              height: 50px;
+              padding: 11.131px 17.124px;
+              justify-content: space-between;
+              align-items: center;
+              align-content: center;
+              row-gap: 8.562px;
+              align-self: stretch;
+              flex-wrap: wrap;
+              border-radius: 9.418px;
+              border: 0.856px solid #d9d9d9;
+              width: 350px;
+            "
+          />
+        </div>
+
+        <div>
+          <p
+            style="
+              color: #1c1c1c;
+
+              /* Texi */
+              font-family: Nunito;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+              margin-bottom: 5px;
+            "
+          >
+            Email Address
+          </p>
+          <input
+            placeholder="Enter Email Address"
+            style="
+              display: flex;
+              height: 50px;
+              padding: 11.131px 17.124px;
+              justify-content: space-between;
+              align-items: center;
+              align-content: center;
+              row-gap: 8.562px;
+              align-self: stretch;
+              flex-wrap: wrap;
+              border-radius: 9.418px;
+              border: 0.856px solid #d9d9d9;
+              width: 350px;
+            "
+          />
+        </div>
+
+        <div>
+          <p
+            style="
+              color: #1c1c1c;
+
+              /* Texi */
+              font-family: Nunito;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+              margin-bottom: 5px;
+            "
+          >
+            Role Assignment
+          </p>
+          <select
+            placeholder="Enter full name"
+            style="
+              display: flex;
+              height: 50px;
+              padding: 11.131px 17.124px;
+              justify-content: space-between;
+              align-items: center;
+              align-content: center;
+              row-gap: 8.562px;
+              align-self: stretch;
+              flex-wrap: wrap;
+              border-radius: 9.418px;
+              border: 0.856px solid #d9d9d9;
+              width: 350px;
+              background: white;
+            "
+          ></select>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: space-between">
+        <button
+          style="
+            color: #737791;
+
+            /* Texi */
+            font-family: Nunito;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.54px;
+            padding: 10px 25px;
+            background: none;
+            border: 0;
+          "
+          (click)="showAddUserModal = false"
+        >
+          Cancel
+        </button>
+        <button
+          style="
+            display: flex;
+            height: 52px;
+            padding: 10px 25px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            border-radius: 8px;
+            background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+            box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+            color: #fff;
+
+            /* Texi */
+            font-family: Nunito;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.54px;
+            border: 0;
+          "
+        >
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 30 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M8.75 3.4375C6.73129 3.4375 4.90581 3.94204 3.58082 5.17237C2.24327 6.4144 1.5625 8.25881 1.5625 10.625V19.375C1.5625 21.7412 2.24327 23.5856 3.58082 24.8276C4.90581 26.058 6.73129 26.5625 8.75 26.5625H21.25C23.2687 26.5625 25.0942 26.058 26.4191 24.8276C27.7567 23.5856 28.4375 21.7412 28.4375 19.375V10.625C28.4375 8.25881 27.7567 6.4144 26.4191 5.17237C25.0942 3.94204 23.2687 3.4375 21.25 3.4375H8.75ZM24.0356 10.4529C24.4452 10.1363 24.5207 9.54752 24.2041 9.13782C23.8876 8.72811 23.2989 8.65262 22.8891 8.96921L15.9552 14.327C15.3926 14.7619 14.6072 14.7619 14.0445 14.327L7.11075 8.96921C6.70104 8.65262 6.11227 8.72811 5.79569 9.13782C5.4791 9.54752 5.55459 10.1363 5.9643 10.4529L12.8981 15.8107C14.1361 16.7672 15.8637 16.7672 17.1017 15.8107L24.0356 10.4529Z"
+              fill="white"
+            />
+          </svg>
+          Send Invite
+        </button>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal *ngIf="showBookingModal">
+    <div style="background: white; padding: 10px; border: 5px">
+      <p style="font-weight: 600">
+        Please enter the time in seconds after which you don’t want to allow
+        booking cancellations .
+      </p>
+      <div>
+        <input
+          style="padding: 10px; margin-right: 10px; width: 100%"
+          type="text"
+          (keypress)="allowOnlyNumbers($event)"
+          [(ngModel)]="bookingCancelTime"
+        />
+        <div style="display: flex; gap: 10px; margin-top: 10px">
+          <button
+            style="
+              background: green;
+              color: white;
+              padding: 10px;
+              border: none;
+              border-radius: 5px;
+              width: 100%;
+            "
+            (click)="updateBookingCancelTime()"
+          >
+            Save
+          </button>
+          <button
+            style="
+              background: red;
+              color: white;
+              padding: 10px;
+              border: none;
+              border-radius: 5px;
+              width: 100%;
+            "
+            (click)="cancelBookingCancelTime()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+  <div *ngIf="currentTab.name !== 'Profile'" class="left">
+    <div
+      class="item"
+      style="width: fit-content"
+      *ngFor="let item of tabs"
+      (click)="setCurrentTab(item)"
+      [class.active]="item.name === currentTab?.name"
+    >
+      <img [src]="item.icon" style="width: 20px; height: 20px" alt="" />
+      <span style="font-size: 10px; white-space: nowrap">{{ item.name }}</span>
+    </div>
+  </div>
+  <div class="right">
+    <!-- <div class="top">
+      Settings / <strong>{{ currentTab?.name }}</strong>
+    </div> -->
+
+    <!-- smsm settings -->
+    <ng-container *ngIf="currentTab.name === 'SMS Settings'">
+      <div *ngIf="haveWabaDevice" class="h">Outgoing WhatsApp settings</div>
+      <div *ngIf="haveWabaDevice" class="toggles">
+        <div
+          *ngFor="let toggle of toggles; let i = index"
+          class="toggle"
+          [class.enabled]="toggle.enabled"
+          [ngStyle]="{
+            backgroundColor:
+              i === 1 && toggles[0].enabled ? 'lightgrey' : 'initial'
+          }"
+          style="position: relative"
+        >
+          <div
+            style="
+              position: absolute;
+              z-index: 9;
+              width: 100px;
+              top: 36px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: transparent;
+
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+            "
+            class="tooltip-l"
+          >
+            <svg
+              width="17"
+              height="19"
+              viewBox="0 0 26 23"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g filter="url(#filter0_d_3995_927)">
+                <path
+                  d="M13 0L21.6603 15L4.33975 15L13 0Z"
+                  fill="#010101"
+                  fill-opacity="0.6"
+                  shape-rendering="crispEdges"
+                />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_d_3995_927"
+                  x="0.339722"
+                  y="0"
+                  width="25.3206"
+                  height="23"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha"
+                  />
+                  <feOffset dy="4" />
+                  <feGaussianBlur stdDeviation="2" />
+                  <feComposite in2="hardAlpha" operator="out" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in2="BackgroundImageFix"
+                    result="effect1_dropShadow_3995_927"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="effect1_dropShadow_3995_927"
+                    result="shape"
+                  />
+                </filter>
+              </defs>
+            </svg>
+            <div
+              style="
+                border-radius: 5px;
+                background: rgba(1, 1, 1, 0.6);
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                position: relative;
+                top: -7px;
+                width: 186px;
+                padding: 14px 9px;
+
+                color: #fff;
+                text-align: center;
+                font-family: 'DM Sans';
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 16px;
+                letter-spacing: -0.28px;
+              "
+            >
+              Enabling the toggle will block the SMS messages.
+            </div>
+          </div>
+          <span>{{ toggle.label }}</span>
+
+          <!-- Prevent interaction if second toggle is disabled -->
+          <label
+            class="switch_box"
+            (click)="firstToggleSwitch(i, $event)"
+            [class.disabled]="i === 0 && toggles[1].enabled"
+            [class.active]="toggles[i].enabled"
+            [style.pointer-events]="
+              i === 1 && toggles[0].enabled ? 'none' : 'auto'
+            "
+          >
+            <input
+              type="checkbox"
+              [checked]="toggle.enabled"
+              [disabled]="i === 0 && toggles[1].enabled"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="h">Booking Cancellation and Driver Message settings</div>
+      <div class="r-a-c-p">
+        <div
+          class="r-a-c-p-left"
+          style="display: flex; flex-direction: column; gap: 2rem"
+        >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              width: 100%;
+            "
+          >
+            <div
+              style="display: flex; flex-direction: row; width: 100%; gap: 10px"
+            >
+              <div
+                class="f-con"
+                style="
+                  width: 50%;
+                  display: flex;
+                  justify-content: start;
+                  border: 1px solid #f2f2f2;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  class="toggle"
+                  style="
+                    border: none;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 15px">
+                    <span class="f-heading"
+                      >Allow New Booking Cancellation</span
+                    >
+                  </div>
+
+                  <!-- Use (change) event to handle the toggle -->
+
+                  <div
+                    style="display: flex; align-items: center; gap: 15px"
+                    [class.active]="booking_confirmation"
+                  >
+                    <label
+                      class="switch_box"
+                      [class.active]="booking_confirmation"
+                    >
+                      <input
+                        type="checkbox"
+                        [class.active]="booking_confirmation"
+                        (change)="bookingConfirmation()"
+                        [checked]="booking_confirmation"
+                      />
+                      <span
+                        class="slider"
+                        [class.active]="booking_confirmation"
+                      ></span>
+                    </label>
+
+                    <p class="helping-text">
+                      Enable or disable the ability for users to cancel new
+                      (unassigned) bookings.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="f-con"
+                style="
+                  width: 50%;
+                  display: flex;
+                  justify-content: start;
+                  border: 1px solid #f2f2f2;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  class="toggle"
+                  style="
+                    border: none;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="display: flex; align-items: center; gap: 15px"
+                    [class.active]="bookingCancelAllow"
+                  >
+                    <span class="f-heading" [class.active]="bookingCancelAllow">
+                      Allow Dispatched Booking Cancellation
+                      <ng-container *ngIf="bookingCancelAllow">
+                        ({{ bookingCancelTime }} seconds)
+                      </ng-container>
+                    </span>
+                  </div>
+                  <!-- Use (change) event to handle the toggle -->
+                  <div
+                    style="display: flex; align-items: center; gap: 15px"
+                    [class.active]="bookingCancelAllow"
+                  >
+                    <label
+                      class="switch_box"
+                      [class.active]="bookingCancelAllow"
+                    >
+                      <input
+                        type="checkbox"
+                        [checked]="bookingCancelAllow"
+                        [class.active]="bookingCancelAllow"
+                        (change)="onBookingToggle($event)"
+                      />
+                      <span
+                        class="slider"
+                        [class.active]="bookingCancelAllow"
+                      ></span>
+                    </label>
+
+                    <p class="helping-text">
+                      Enable or disable the ability for users to cancel a
+                      booking after it has been dispatched to a driver.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="display: flex; flex-direction: row; width: 100%; gap: 10px"
+            >
+              <div
+                class="f-con"
+                style="
+                  width: 50%;
+                  display: flex;
+                  justify-content: start;
+                  border: 1px solid #f2f2f2;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  class="toggle"
+                  style="
+                    border: none;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 15px">
+                    <span class="f-heading"
+                      >Allow Customer to Message Driver on Dispatch</span
+                    >
+                  </div>
+
+                  <!-- Use (change) event to handle the toggle -->
+                  <div
+                    style="display: flex; align-items: center; gap: 15px"
+                    [class.active]="track_driver_msg"
+                  >
+                    <label class="switch_box" [class.active]="track_driver_msg">
+                      <input
+                        type="checkbox"
+                        [class.active]="track_driver_msg"
+                        (change)="trackDriverMsg()"
+                        [checked]="track_driver_msg"
+                      />
+                      <span
+                        class="slider"
+                        [class.active]="track_driver_msg"
+                      ></span>
+                    </label>
+
+                    <p class="helping-text">
+                      Enable or disable the option for customers to send a
+                      message to the driver when their ride is dispatched.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="f-con"
+                style="
+                  width: 50%;
+                  display: flex;
+                  justify-content: start;
+                  border: 1px solid #f2f2f2;
+                  margin-top: 10px;
+                "
+              >
+                <div
+                  class="toggle"
+                  style="
+                    border: none;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 15px">
+                    <span class="f-heading"
+                      >Allow Customer to Message Driver on Arrival</span
+                    >
+                  </div>
+
+                  <!-- Use (change) event to handle the toggle -->
+                  <div
+                    style="display: flex; align-items: center; gap: 15px"
+                    [class.active]="arrived_driver_msg"
+                  >
+                    <label
+                      class="switch_box"
+                      [class.active]="arrived_driver_msg"
+                    >
+                      <input
+                        type="checkbox"
+                        [class.active]="arrived_driver_msg"
+                        (change)="arrivedDriverMsg()"
+                        [checked]="arrived_driver_msg"
+                      />
+                      <span
+                        class="slider"
+                        [class.active]="arrived_driver_msg"
+                      ></span>
+                    </label>
+
+                    <p class="helping-text">
+                      Enable or disable the option for customers to send a
+                      message to the driver when the driver has arrived at the
+                      pickup location.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="h">SMS App/Gateway Configuration</div>
+      <div class="toggles">
+        <div
+          *ngFor="let toggle of togglesData; let i = index"
+          class="toggle"
+          [class.enabled]="toggle.enabled"
+          style="position: relative"
+        >
+          <div
+            style="
+              position: absolute;
+              z-index: 9;
+              width: 100px;
+              top: 36px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: transparent;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+            "
+            class="tooltip-l"
+          >
+            <svg
+              width="17"
+              height="19"
+              viewBox="0 0 26 23"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g filter="url(#filter0_d_3995_927)">
+                <path
+                  d="M13 0L21.6603 15L4.33975 15L13 0Z"
+                  fill="#010101"
+                  fill-opacity="0.6"
+                  shape-rendering="crispEdges"
+                />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_d_3995_927"
+                  x="0.339722"
+                  y="0"
+                  width="25.3206"
+                  height="23"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha"
+                  />
+                  <feOffset dy="4" />
+                  <feGaussianBlur stdDeviation="2" />
+                  <feComposite in2="hardAlpha" operator="out" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in2="BackgroundImageFix"
+                    result="effect1_dropShadow_3995_927"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="effect1_dropShadow_3995_927"
+                    result="shape"
+                  />
+                </filter>
+              </defs>
+            </svg>
+            <div
+              style="
+                border-radius: 5px;
+                background: rgba(1, 1, 1, 0.6);
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                position: relative;
+                top: -7px;
+                width: 186px;
+                padding: 14px 9px;
+
+                color: #fff;
+                text-align: center;
+                font-family: 'DM Sans';
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 16px;
+                letter-spacing: -0.28px;
+              "
+            >
+              Activate toggle to send SMS for this message type
+            </div>
+          </div>
+          <span>{{ toggle.label }}</span>
+
+          <!-- Use (change) event to handle the toggle -->
+          <label class="switch_box" [class.active]="togglesData[i].enabled">
+            <input
+              type="checkbox"
+              [checked]="toggle.enabled"
+              (change)="toggleColor(i, $event)"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- <div class="h">SMS App/Gateway Configuration</div>
+      <div class="credentials_tabs">
+        <label>
+          <input type="radio" name="tab" id="tab" />
+          <span>SMS Gateway Credentials</span>
+        </label>
+        <label class="active">
+          <input type="radio" name="tab" id="tab" />
+          <span>Icabbi App Credentials</span>
+        </label>
+      </div>
+      <div class="credentials">
+        <div class="inp_con">
+          <label for="">SMS App API</label>
+          <input type="text" readonly disabled value="https://api.accabi.com" />
+        </div>
+        <div class="inp_con">
+          <label for="">App Key</label>
+          <input type="text" readonly disabled value="https://api.accabi.com" />
+        </div>
+      </div> -->
+    </ng-container>
+
+    <!-- profile Settings -->
+    <ng-container *ngIf="currentTab.name === 'Profile'">
+      <div class="profile-imgs-con">
+        <div class="cover-img">
+          <img src="../../../assets/default_cover_img.png" />
+        </div>
+        <div class="under-cover-img">
+          <div class="profile-img-con">
+            <div class="profile-img"></div>
+            <p>User Name</p>
+          </div>
+          <button>Edit Profile</button>
+        </div>
+      </div>
+
+      <div class="profile-details-settings">
+        <div>
+          <strong>Name</strong>
+          <p>your name</p>
+        </div>
+        <div>
+          <strong>User Name</strong>
+          <p>your name</p>
+        </div>
+        <div>
+          <strong>User ID</strong>
+          <p>your name</p>
+        </div>
+        <div>
+          <strong>Password</strong>
+          <p>your name</p>
+        </div>
+        <div>
+          <strong>Email account</strong>
+          <p>your name</p>
+        </div>
+        <div>
+          <strong>Mobile number </strong>
+          <p>your name</p>
+        </div>
+      </div>
+      <!-- <div class="h">Profile Settings</div>
+      <div class="profile-settings">
+        <div class="ps-left">
+          <div class="field">
+            <label>Name</label>
+
+            <div class="input">
+              <input type="text" placeholder="Enter your name" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M20.9338 1.98586C20.6171 1.6705 20.2411 1.42101 19.8274 1.25181C19.4137 1.08261 18.9706 0.997052 18.5236 1.00008C18.0767 1.0031 17.6348 1.09465 17.2234 1.26944C16.8121 1.44422 16.4394 1.69878 16.127 2.0184L2.64566 15.4998L1 21.9197L7.41992 20.2731L20.9013 6.79173C21.221 6.47946 21.4756 6.10692 21.6505 5.69563C21.8253 5.28434 21.9169 4.84248 21.9199 4.39558C21.9229 3.94869 21.8374 3.50562 21.6681 3.09201C21.4988 2.67839 21.2493 2.30243 20.9338 1.98586V1.98586Z"
+                  stroke="#615E83"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="field">
+            <label>Username</label>
+
+            <div class="input">
+              <input type="text" placeholder="Enter your username" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M20.9338 1.98586C20.6171 1.6705 20.2411 1.42101 19.8274 1.25181C19.4137 1.08261 18.9706 0.997052 18.5236 1.00008C18.0767 1.0031 17.6348 1.09465 17.2234 1.26944C16.8121 1.44422 16.4394 1.69878 16.127 2.0184L2.64566 15.4998L1 21.9197L7.41992 20.2731L20.9013 6.79173C21.221 6.47946 21.4756 6.10692 21.6505 5.69563C21.8253 5.28434 21.9169 4.84248 21.9199 4.39558C21.9229 3.94869 21.8374 3.50562 21.6681 3.09201C21.4988 2.67839 21.2493 2.30243 20.9338 1.98586V1.98586Z"
+                  stroke="#615E83"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="field">
+            <label>Password</label>
+
+            <div class="input">
+              <input type="password" placeholder="Password" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M20.9338 1.98586C20.6171 1.6705 20.2411 1.42101 19.8274 1.25181C19.4137 1.08261 18.9706 0.997052 18.5236 1.00008C18.0767 1.0031 17.6348 1.09465 17.2234 1.26944C16.8121 1.44422 16.4394 1.69878 16.127 2.0184L2.64566 15.4998L1 21.9197L7.41992 20.2731L20.9013 6.79173C21.221 6.47946 21.4756 6.10692 21.6505 5.69563C21.8253 5.28434 21.9169 4.84248 21.9199 4.39558C21.9229 3.94869 21.8374 3.50562 21.6681 3.09201C21.4988 2.67839 21.2493 2.30243 20.9338 1.98586V1.98586Z"
+                  stroke="#615E83"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="field">
+            <label>User ID</label>
+
+            <div class="input">
+              <input type="text" placeholder="Enter your user id" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M20.9338 1.98586C20.6171 1.6705 20.2411 1.42101 19.8274 1.25181C19.4137 1.08261 18.9706 0.997052 18.5236 1.00008C18.0767 1.0031 17.6348 1.09465 17.2234 1.26944C16.8121 1.44422 16.4394 1.69878 16.127 2.0184L2.64566 15.4998L1 21.9197L7.41992 20.2731L20.9013 6.79173C21.221 6.47946 21.4756 6.10692 21.6505 5.69563C21.8253 5.28434 21.9169 4.84248 21.9199 4.39558C21.9229 3.94869 21.8374 3.50562 21.6681 3.09201C21.4988 2.67839 21.2493 2.30243 20.9338 1.98586V1.98586Z"
+                  stroke="#615E83"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="ps-right">
+          <img src="../../../assets/profile-settings.png" alt="" />
+        </div>
+      </div> -->
+      <!-- <div
+        class="imp-banner"
+        style="
+          display: flex;
+          justify-content: start;
+          gap: 5px;
+          align-items: start;
+        "
+      >
+        <span
+          style="
+            font-weight: 500;
+            font-family: 'DM Sans';
+            color: black;
+            width: fit-content;
+            white-space: nowrap;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          "
+          ><img src="../../../assets/info-icon.png" /> Important Note:</span
+        >
+        <p
+          style="
+            margin-bottom: 0;
+            font-family: 'DM Sans';
+            font-size: 14px;
+            color: black;
+          "
+        >
+          Please note that “not sent” , might be because target is not valid
+          mobile or international number or your settings are configured not be
+          send this Message type by SMS. Device sending is limited to avoid bans
+          , these limits are gradually reduced to mitigate that risk.
+        </p>
+      </div> -->
+    </ng-container>
+
+    <ng-container *ngIf="currentTab.name === 'Role Management'">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          margin-bottom: 10px;
+        "
+      >
+        <h4
+          style="
+            color: #000;
+            font-family: 'DM Sans';
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 42px; /* 123.529% */
+            letter-spacing: -0.68px;
+          "
+        >
+          Role management
+        </h4>
+        <button
+          style="
+            display: flex;
+            height: 52px;
+            padding: 10px 15px;
+            align-items: center;
+            gap: 10px;
+
+            border-radius: 8px;
+            background: linear-gradient(0deg, #2ebc96 0%, #1a9096 100%);
+            box-shadow: 0px 5px 22px 0px rgba(238, 238, 238, 0.5);
+            color: white;
+            border: none;
+          "
+          (click)="showAddUserModal = true"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.689941 1.22273L1.56767 0.345001H8.58949L9.46721 1.22273V8.24455L8.58949 9.12227H1.56767L0.689941 8.24455V1.22273ZM2.4454 2.10046V7.36682H7.71176V2.10046H2.4454ZM12.1004 0.345001L11.2227 1.22273V8.24455L12.1004 9.12227H19.1222L19.9999 8.24455V1.22273L19.1222 0.345001H12.1004ZM12.9781 7.36682V2.10046H18.2445V7.36682H12.9781ZM16.489 19.655H14.7336V16.1441H11.2227V14.3886H14.7336V10.8777H16.489V14.3886H19.9999V16.1441H16.489V19.655ZM1.56767 10.8777L0.689941 11.7555V18.7773L1.56767 19.655H8.58949L9.46721 18.7773V11.7555L8.58949 10.8777H1.56767ZM2.4454 17.8995V12.6332H7.71176V17.8995H2.4454Z"
+              fill="white"
+            />
+          </svg>
+          Add New
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 25px; height: 70vh">
+        <div
+          style="
+            height: 100%;
+            width: 70%;
+            box-shadow: 0 0 10px lightgray;
+            padding: 15px;
+            border-radius: 12px;
+          "
+          class="role-management-table"
+        >
+          <div
+            class="role-head"
+            style="
+              background: rgba(46, 188, 150, 0.05);
+              display: flex;
+              justify-content: space-around;
+              box-shadow: 0 0 10px lightgray;
+            "
+          >
+            <div></div>
+            <div>User Name</div>
+            <div>Role</div>
+            <div>Last Active</div>
+            <div>Action</div>
+          </div>
+        </div>
+        <div
+          style="
+            height: 100%;
+            width: 30%;
+            box-shadow: 0 0 10px lightgray;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(46, 188, 150, 0.05);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+          "
+        >
+          <div>
+            <img style="width: 80px" src="../../../assets/role-user.png" />
+          </div>
+          <h4
+            style="
+              color: #000;
+              font-family: 'DM Sans';
+              font-size: 22px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 42px; /* 123.529% */
+              letter-spacing: -0.68px;
+            "
+          >
+            Select a user
+          </h4>
+          <p
+            style="
+              color: #707eae;
+              text-align: center;
+              font-family: 'DM Sans';
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 24px; /* 171.429% */
+              letter-spacing: -0.28px;
+            "
+          >
+            Choose a usar from the table to manage their rola and permissions
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,464 @@
+<div style="box-shadow: 0 0 10px lightgray; border-radius: 13px">
+  <main>
+    <app-loader *ngIf="showMainLoader"></app-loader>
+    <div *ngIf="!showMainLoader">
+      <div
+        class="contacts"
+        style="overflow: scroll"
+        (scroll)="handleScrollAndLoad($event)"
+      >
+        <div class="devices">
+          <div class="device-name-con">
+            <div>
+              <p style="margin-bottom: 5px; color: white; font-size: 12px">
+                Total Devices: {{ deviceList.length }}
+              </p>
+              <h1>
+                {{ selectedDevice.device_name }}
+              </h1>
+            </div>
+            <button
+              *ngIf="deviceList.length > 1"
+              (click)="showDeviceList = !showDeviceList"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: transparent;
+                border: none;
+              "
+            >
+              <img
+                *ngIf="!showDeviceList"
+                style="width: 20px"
+                src="../../../assets/hamburger.png"
+              />
+              <img
+                *ngIf="showDeviceList"
+                style="width: 20px"
+                src="../../../assets/close-select.png"
+              />
+            </button>
+          </div>
+          <div style="display: flex; flex-direction: column; height: 110%">
+            <div
+              [ngStyle]="{ maxHeight: showDeviceList ? '700px' : '0px' }"
+              class="devices-drop-down"
+            >
+              <div
+                style="cursor: pointer"
+                *ngFor="let device of deviceList; let i = index"
+              >
+                <div
+                  (click)="selectDevice(i)"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    justify-content: start;
+                    padding: 20px;
+                  "
+                >
+                  <div
+                    style="
+                      height: 30px;
+                      width: 30px;
+                      border-radius: 50%;
+                      background: white;
+                      box-shadow: 0 0 10px lightgray;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <img
+                      style="width: 15px"
+                      src="../../../assets/androidlogo.png"
+                    />
+                  </div>
+                  <p style="margin-bottom: 0">{{ device.device_name }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngFor="let contact of contactList; let i = index">
+          <div
+            (click)="selectContact(i); chatLoader = false"
+            [ngStyle]="{
+              'background-color':
+                selectedContactIndex === i ? 'lightgray' : 'white',
+              padding: '20px 30px',
+              'border-bottom': '1px solid lightgray',
+              cursor: 'pointer',
+              display: 'flex',
+              gap: '15px',
+              height: '85px'
+            }"
+          >
+            <div
+              style="
+                display: flex;
+                /* flex-direction: column; */
+                gap: 5px;
+                width: 100%;
+                justify-content: space-between;
+              "
+            >
+              <div style="display: flex; flex-direction: column">
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <p
+                    *ngIf="
+                      selectedDevice.device_name !== 'Official WhatsApp Account'
+                    "
+                    style="
+                      font-weight: 600;
+                      font-family: 'DM Sans';
+                      margin-bottom: 0;
+                      width: 100%;
+                      padding-right: 10px;
+                      font-size: 14px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                      width: 150px;
+                    "
+                  >
+                    {{ contact?.senderName || contact?.chatId.split("@")[0] }}
+                  </p>
+
+                  <p
+                    *ngIf="
+                      selectedDevice.device_name == 'Official WhatsApp Account'
+                    "
+                    style="
+                      font-weight: 600;
+                      font-family: 'DM Sans';
+                      margin-bottom: 0;
+                      width: 100%;
+                      padding-right: 10px;
+                      font-size: 14px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                      width: 150px;
+                    "
+                  >
+                    {{ contact }}
+                  </p>
+                  <!-- <span class="badge" *ngIf="newMsgCounts[contact.chatId] > 0">
+                    {{ newMsgCounts[contactList[i]?.chatId] }}
+                  </span> -->
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <p
+                    *ngIf="
+                      selectedDevice.device_name !== 'Official WhatsApp Account'
+                    "
+                    style="
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                      height: 20px;
+                      color: #888;
+                      margin: 0;
+                      font-size: 13px;
+                      width: 150px;
+                    "
+                  >
+                    {{ contact?.textMessage }}
+                  </p>
+                </div>
+              </div>
+              <span
+                style="
+                  display: flex;
+                  align-items: end;
+                  flex-direction: column;
+                  gap: 4px;
+                  min-width: 70px;
+                  justify-content: space-between;
+                "
+                *ngIf="
+                  selectedDevice.device_name !== 'Official WhatsApp Account'
+                "
+              >
+                <span style="font-size: 11px; color: #aaa">
+                  {{ getTimeFromTimestamp(contact.timestamp) }}
+                </span>
+                <img
+                  *ngIf="contact.statusMessage === 'sent'"
+                  style="width: 13px; margin-left: 2px"
+                  src="../../../assets/whatsapp-single-tick.png"
+                />
+                <img
+                  *ngIf="contact.statusMessage === 'delivered'"
+                  style="width: 13px; margin-left: 2px"
+                  src="../../../assets/whatsapp-double-tick.png"
+                />
+                <img
+                  *ngIf="contact.statusMessage === 'read'"
+                  style="width: 13px; margin-left: 2px"
+                  src="../../../assets/whatsapp-double-tick-blue.png"
+                />
+              </span>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="showContactLoader" class="loader"></div>
+      </div>
+      <div
+        style="
+          width: 65%;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 0 10px lightgray;
+          border-radius: 12px;
+          overflow: hidden;
+        "
+      >
+        <div
+          style="
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+              "
+            >
+              <div
+                style="
+                  height: 40px;
+                  width: 40px;
+                  overflow: hidden;
+                  display: flex;
+                  align-items: center;
+                  border-radius: 50%;
+                  border: 1px solid lightgray;
+                  background: white;
+                "
+              >
+                <img style="width: 100%" [src]="selectedContactInfo?.avatar" />
+              </div>
+              <p
+                style="
+                  font-weight: 600;
+                  font-family: 'DM Sans';
+                  margin-bottom: 0;
+                "
+              >
+                <ng-container
+                  *ngIf="selectedContactInfo?.name; else showNumber"
+                >
+                  {{ selectedContactInfo.name }}
+                </ng-container>
+                <ng-template #showNumber>
+                  {{ contactList[selectedContactIndex]?.chatId.split("@")[0] }}
+                </ng-template>
+              </p>
+            </div>
+            <span
+              style="font-weight: 600; font-family: 'DM Sans'; margin-bottom: 0"
+              *ngIf="selectedContactInfo?.name"
+            >
+              ({{
+                contactList[selectedContactIndex]?.chatId.split("@")[0]
+              }})</span
+            >
+          </div>
+        </div>
+        <div style="flex: 1" *ngIf="!chatLoader">
+          <app-loader></app-loader>
+        </div>
+        <div
+          class="chats-con"
+          *ngIf="
+            chatLoader &&
+            selectedDevice.device_name !== 'Official WhatsApp Account'
+          "
+        >
+          <div
+            *ngFor="let chat of chatList"
+            class="chat-bubble"
+            [ngClass]="chat.type === 'outgoing' ? 'outgoing' : 'incoming'"
+          >
+            <p
+              *ngIf="chat?.textMessage || chat?.extendedTextMessage?.text"
+              style="font-size: 16px; margin-bottom: 0"
+              [innerHTML]="
+                formatBoldStars(
+                  chat?.textMessage || chat?.extendedTextMessage?.text
+                )
+              "
+            ></p>
+
+            <img
+              *ngIf="chat.imageMessage?.url"
+              [src]="chat.imageMessage.url"
+              style="max-width: 200px; border-radius: 6px; margin-top: 5px"
+            />
+            <div
+              [ngStyle]="{
+                left: chat.type === 'incoming' ? '60px' : 'auto',
+                right: chat.type === 'outgoing' ? '20px' : 'auto',
+                display: 'flex',
+                justifyContent: 'end',
+                fontSize: '12px',
+                color: 'gray',
+                position: 'absolute',
+                bottom: '-20px',
+                whiteSpace: 'nowrap',
+                width: '100%'
+              }"
+            >
+              {{ getTimeFromTimestamp(chat.timestamp) }}
+              <div
+                style="
+                  width: 10px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+                *ngIf="chat.type === 'outgoing'"
+              ></div>
+              <img
+                *ngIf="chat.statusMessage === 'sent'"
+                style="width: 10px"
+                src="../../../assets/whatsapp-single-tick.png"
+              />
+              <img
+                *ngIf="chat.statusMessage === 'delivered'"
+                style="width: 10px"
+                src="../../../assets/whatsapp-double-tick.png"
+              />
+              <img
+                *ngIf="chat.statusMessage === 'read'"
+                style="width: 10px"
+                src="../../../assets/whatsapp-double-tick-blue.png"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="chats-con"
+          *ngIf="selectedDevice.device_name === 'Official WhatsApp Account'"
+        >
+          <div
+            *ngIf="!officialChatList?.length"
+            style="padding: 20px; color: gray"
+          >
+            No chats available
+          </div>
+          <div
+            *ngFor="let chat of officialChatList"
+            [ngClass]="chat.from_me ? 'outgoing' : 'incoming'"
+            class="chat-bubble"
+          >
+            {{ chat.interactive.body?.text }}
+          </div>
+        </div>
+
+        <div
+          style="
+            background: #eff6fc;
+            height: 80px;
+            width: 100%;
+            padding: 5px 15px;
+            display: flex;
+            gap: 10px;
+            position: relative;
+          "
+        >
+          <div style="display: flex; align-items: center">
+            <img
+              style="width: 15px; height: 15px"
+              src="../../../assets/attach-icon.png"
+            />
+          </div>
+          <input
+            style="
+              height: 100%;
+              width: 100%;
+              background: #eff6fc;
+              border: none;
+              border-radius: 10px;
+              padding: 0 10px;
+              outline: none;
+            "
+            [style.background]="isFocused ? '#ffffff' : '#eff6fc'"
+            [style.boxShadow]="isFocused ? '0 0 10px lightgray' : 'none'"
+            (focus)="isFocused = true"
+            (blur)="isFocused = false"
+            placeholder="Type a message"
+            [(ngModel)]="textMessage"
+            (keydown.enter)="sendTextMessage()"
+          />
+          <button
+            *ngIf="isFocused"
+            style="
+              height: 30px;
+              aspect-ratio: 1/1;
+              background: #eff6fc;
+              border: none;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              outline: none;
+              position: absolute;
+              right: 80px;
+              top: 50%;
+              transform: translateY(-50%);
+            "
+            [disabled]="textMessage.trim() == ''"
+            (click)="sendTextMessage()"
+            (mousedown)="onMouseDown($event)"
+          >
+            <img
+              src="../../../assets/whatsapp-send.png"
+              style="width: 15px"
+              [style.filter]="
+                textMessage.trim() == ''
+                  ? 'grayscale(100%)'
+                  : 'invert(36%) sepia(95%) saturate(545%) hue-rotate(76deg) brightness(97%) contrast(87%)'
+              "
+            />
+          </button>
+          <button style="border: none; background: none; margin-left: 10px">
+            <img style="width: 20px" src="../../../assets/emoji-icon.png" />
+          </button>
+          <button style="border: none; background: none">
+            <img
+              style="width: 20px"
+              src="../../../assets/camera-icon (2).png"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

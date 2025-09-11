@@ -1,0 +1,75 @@
+<div *ngIf="interactionList.length" class="pagination">
+  <a class="active" *ngIf="page >= 1" (click)="previousPage()">&laquo; Prev
+  </a>
+  <a *ngIf="interactionList.length == 50" class="active" (click)="nextPage()">Next &raquo;</a>
+</div>
+<div class="a_table_wrapper">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Created Date</th>
+        <th>Phone</th>
+        <th>Source</th>
+        <th>Status</th>
+        <th>Booking Date/Time</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngIf="interactionList.length === 0">
+        <td colspan="3">No data found</td>
+      </tr>
+      <tr *ngFor="let item of interactionList; let i = index">
+        <td style="text-transform: uppercase">
+          {{ item.createdAt | date : "dd/MM/y, h:mma" }}
+        </td>
+        <td>{{ item.phone }}</td>
+        <td>
+          <span *ngIf="item.flow == 'direct'">User Initiated</span>
+          <span *ngIf="item.flow == 'followup'">Follow Up</span>
+          <span *ngIf="item.flow == 'arrived'">Arrived</span>
+          <span *ngIf="item.flow == 'qrscan'">QR Scan</span>
+          <span *ngIf="item.flow == 'location_qrscan'">Location QR Scan</span>
+        </td>
+        <td>
+          <span class="status-badge" [ngClass]="{
+              active: item.status === 'completed',
+              inactive: item.status !== 'completed'
+            }">
+            <span *ngIf="item.status === 'completed'">Completed</span>
+            <span *ngIf="item.status !== 'completed'">Incomplete</span>
+          </span>
+        </td>
+        <td>{{ item?.time?.split("T")[0] }} {{ item?.time?.split("T")[1] }}</td>
+
+        <div class="msg_cell">
+          <div>
+            <a class="btn btn-outline-secondary" (click)="openModal(item)">
+              <img style="width: 15px" src="../../../assets/see-qr.png" />
+            </a>
+          </div>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="interactionList.length" class="pagination">
+  <a class="active" *ngIf="page >= 1" (click)="previousPage()">&laquo; Prev
+  </a>
+  <a *ngIf="interactionList.length == 50" class="active" (click)="nextPage()">Next &raquo;</a>
+</div>
+<div class="interaction-flow-layer" *ngIf="interactionDetails"></div>
+<div class="interaction-flow-container col-md-12" *ngIf="interactionDetails" (click)="closeInteractionFlow()">
+  <div class="interaction-flow-box col-xl-4 col-lg-5 col-md-6 col-sm-12 col-xs-12" (click)="stopPropagation($event)">
+    <div class="interaction-flow-header">
+      <div>
+        <h1>Interaction Flow</h1>
+        <h6 class="interaction-flow-header-phone">
+          <span>Phone:</span> {{ interactionDetails.phone }}
+        </h6>
+      </div>
+      <a (click)="closeInteractionFlow()" class="close-interaction-flow">x</a>
+    </div>
+    <app-interaction-flow [interactionDetails]="interactionDetails"></app-interaction-flow>
+  </div>
+</div>

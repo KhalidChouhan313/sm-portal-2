@@ -1,0 +1,527 @@
+<div style="flex: 1" *ngIf="isLoading">
+  <app-loader></app-loader>
+</div>
+
+<main *ngIf="!isLoading">
+  <app-modal *ngIf="isModalOpen">
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 80vw;
+        padding: 10px;
+        position: relative;
+      "
+    >
+      <button
+        style="
+          background: white;
+          border: none;
+          position: absolute;
+          right: 20px;
+          top: 20px;
+        "
+        (click)="isModalOpen = !isModalOpen"
+      >
+        <img
+          style="display: flex; align-items: center; justify-content: center"
+          src="../../../assets/close-icon.png"
+        />
+      </button>
+      <div
+        style="
+          padding: 10px 20px;
+          box-shadow: 0 0 10px lightgray;
+          width: 58%;
+          border-radius: 20px;
+          height: 90vh;
+          overflow: scroll;
+        "
+      >
+        <div>
+          <h3 class="r-b-h">What is the Review Template?</h3>
+          <p class="r-b-p">
+            Your Review Template helps you collect valuable feedback from your
+            customers in a simple, user-friendly way. Once enabled, it becomes
+            your branded review page — complete with your logo, custom banner,
+            and personalized title and description.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="r-b-h">How It Works:</h3>
+          <strong class="r-b-s">1-3 Stars:</strong>
+          <p class="r-b-p">
+            We understand negative feedback is sensitive. For low ratings, the
+            review message box is disabled to avoid collecting harsh comments
+            directly. You can handle these cases manually. These reviews are
+            posted to the iCabbi record of the driver who completed the booking.
+          </p>
+          <strong class="r-b-s">4-5 Stars:</strong>
+          <p class="r-b-p">
+            Happy customers? Great! The message box opens, allowing them to
+            leave a comment. Once submitted, they are redirected to your Google
+            Reviews page, helping you build public trust and credibility. Google
+            prevent users adding more than one review.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="r-b-h">What You Can Edit:</h3>
+          <ul class="r-b-p">
+            <li>Title: Add a custom message like “How was your ride?”</li>
+            <li>Description: Give users context or instructions</li>
+            <li>Logo: Upload your brand's profile image</li>
+            <li>Banner: Upload a custom banner for a personalized look</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="r-b-h">How to Activate</h3>
+          <p class="r-b-p">
+            Use the toggle in the header to enable your review template. Once
+            it's on, the right side will show a live preview and the left side
+            will allow you to customize your content easily.
+          </p>
+        </div>
+      </div>
+      <div
+        style="
+          padding: 20px;
+          box-shadow: 0 0 10px lightgray;
+          width: 58%;
+          border-radius: 20px;
+          height: 90vh;
+        "
+      >
+        <img style="width: 100%" src="../../../assets/review-banner.png" />
+      </div>
+    </div>
+  </app-modal>
+  <div class="heading">
+    Review Page
+    <div style="display: flex; align-items: center; gap: 10px">
+      <div class="toggle-field">
+        <div
+          style="display: flex; align-items: center; gap: 15px"
+          [class.active]="reviewEnable"
+        >
+          <label class="switch_box" [class.active]="reviewEnable">
+            <input
+              type="checkbox"
+              [class.active]="reviewEnable"
+              [checked]="reviewEnable"
+              (change)="updateReviewStatus()"
+            />
+            <span class="slider" [class.active]="reviewEnable"></span>
+          </label>
+        </div>
+        <p>Review Enable / Disable</p>
+      </div>
+
+      <button
+        style="
+          display: flex;
+          /* height: 50px; */
+          padding: 10px 20px;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          align-self: stretch;
+
+          border-radius: 8px;
+          border: none;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+
+          color: #fff;
+
+          /* Texi */
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+        "
+        (click)="isEditable = !isEditable; isModalOpen = true"
+        *ngIf="!isEditable"
+      >
+        Edit Page
+      </button>
+      <div
+        *ngIf="isEditable"
+        style="display: flex; align-items: center; gap: 10px"
+      >
+        <button
+          style="
+            display: flex;
+            /* height: 50px; */
+            padding: 10px 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            align-self: stretch;
+
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+
+            color: #fff;
+
+            /* Texi */
+            font-family: Nunito;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.54px;
+          "
+          (click)="updateDetails()"
+          [disabled]="title.length == 0 || !profilePreview || !coverPreview"
+        >
+          Save
+        </button>
+        <button
+          style="
+            display: flex;
+            /* height: 50px; */
+            padding: 10px 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            align-self: stretch;
+
+            border-radius: 8px;
+            border: none;
+            background: red;
+
+            color: #fff;
+
+            /* Texi */
+            font-family: Nunito;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.54px;
+          "
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="settings">
+      <div class="settings-heading">Edit Page</div>
+      <div class="settings-main">
+        <div class="setting">
+          <div>
+            <strong>Title*</strong>
+            <p>{{ title.length }}/50</p>
+          </div>
+          <input
+            [disabled]="!isEditable"
+            [(ngModel)]="title"
+            (ngModelChange)="liveTitle()"
+            placeholder="How was your experience"
+            maxlength="50"
+            [ngStyle]="{ border: isEditable ? '2px solid green' : 'none' }"
+          />
+        </div>
+
+        <div class="setting">
+          <div>
+            <strong>Description</strong>
+            <p>{{ description.length }}/80</p>
+          </div>
+          <input
+            [disabled]="!isEditable"
+            [(ngModel)]="description"
+            (ngModelChange)="liveDescription()"
+            placeholder="We’d be glad for a review, please select stars below"
+            maxlength="80"
+            [ngStyle]="{ border: isEditable ? '2px solid green' : 'none' }"
+          />
+        </div>
+
+        <div class="setting">
+          <div>
+            <strong>Profile*</strong>
+          </div>
+          <input
+            [disabled]="!isEditable"
+            style="display: none"
+            type="file"
+            id="profile-img"
+            name="profile-img"
+            (change)="onProfileSelected($event)"
+            accept="image/*"
+          />
+          <label
+            style="position: relative"
+            for="profile-img"
+            [ngStyle]="{ border: isEditable ? '2px solid green' : 'none' }"
+            class="img-in"
+          >
+            <label
+              for="profile-img"
+              style="
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #3b323258;
+              "
+              *ngIf="isEditable"
+              class="img-in-up"
+            >
+              <p style="color: white">Upload Image</p>
+            </label>
+            <img
+              style="width: 70%"
+              *ngIf="!profilePreview"
+              src="../../../assets/dummy-img.png"
+            />
+            <img
+              [src]="profilePreview"
+              *ngIf="profilePreview"
+              style="width: 100%"
+            />
+          </label>
+        </div>
+
+        <div class="setting">
+          <div>
+            <strong>Cover Photo*</strong>
+          </div>
+          <input
+            [disabled]="!isEditable"
+            style="display: none"
+            type="file"
+            id="cover-img"
+            name="cover-img"
+            (change)="onCoverSelected($event)"
+            accept="image/*"
+          />
+          <label
+            for="cover-img"
+            [ngStyle]="{ border: isEditable ? '2px solid green' : 'none' }"
+            style="position: relative"
+            class="img-in"
+          >
+            <label
+              *ngIf="isEditable"
+              for="cover-img"
+              class="img-in-up"
+              style="
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #3b323258;
+              "
+            >
+              <p style="color: white">Upload Image</p>
+            </label>
+            <img
+              style="width: 70%"
+              *ngIf="!coverPreview"
+              src="../../../assets/dummy-img.png"
+            />
+            <img
+              [src]="coverPreview"
+              *ngIf="coverPreview"
+              style="width: 100%"
+            />
+          </label>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <!-- <button
+            style="
+              display: flex;
+              /* height: 50px; */
+              width: 100%;
+              padding: 10px 20px;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              align-self: stretch;
+
+              border-radius: 8px;
+              border: none;
+              background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+
+              color: #fff;
+
+              /* Texi */
+              font-family: Nunito;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+            "
+            (click)="updateDetails()"
+          >
+            Save Changes
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        flex: 1;
+      "
+    >
+      <!-- <div style="width: 353px; transform: translateY(-12%)" class="preview"> -->
+      <div style="aspect-ratio: 372/759" class="preview">
+        <div class="preview-con">
+          <div class="preview-imgs-con">
+            <label
+              for="cover-img"
+              class="cover-preview"
+              style="overflow: hidden"
+            >
+              <img
+                style="width: 100%"
+                *ngIf="!coverPreview"
+                src="../../../assets/default-cover.png"
+              />
+              <img
+                src="../../../assets/cover-hover.png"
+                style="width: 100%; position: absolute"
+                class="cover-hover"
+              />
+              <img
+                [src]="coverPreview"
+                *ngIf="coverPreview"
+                style="width: 100%"
+              />
+            </label>
+            <label
+              class="profile-img-preview"
+              style="
+                overflow: hidden;
+                background: white;
+                box-shadow: 0 0 10px lightgray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+              for="profile-img"
+            >
+              <img
+                [src]="profilePreview"
+                *ngIf="profilePreview"
+                style="width: 100%"
+              />
+              <img
+                src="../../../assets/profile-hover.png"
+                style="position: absolute; width: 100%"
+                class="profile-hover"
+              />
+              <img
+                *ngIf="!profilePreview"
+                style="width: 50%"
+                src="../../../assets/texi-msg-logo.png"
+              />
+            </label>
+            <p>{{ currentUser.name }}</p>
+          </div>
+          <div style="width: 100%">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                top: 10vh;
+              "
+            >
+              <p
+                style="
+                  color: #030303;
+                  text-align: center;
+                  font-family: Poppins;
+                  font-size: 14.163px;
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: normal;
+                  letter-spacing: 0.665px;
+                  min-width: 90%;
+                  max-width: 230px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: wrap;
+                "
+              >
+                {{ previewTitle }}
+              </p>
+              <p
+                style="
+                  color: #636364;
+                  text-align: center;
+                  font-family: Poppins;
+                  font-size: 12.323px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: normal;
+                  letter-spacing: 0.49px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  min-width: 90%;
+                  max-width: 230px;
+                  white-space: wrap;
+                "
+              >
+                {{ previewDescription }}
+              </p>
+            </div>
+            <div
+              style="
+                width: 75%;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 30px;
+              "
+            >
+              <img
+                style="width: 100%"
+                src="../../../assets/review mobile bg.png"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-con">
+          <img src="../../../assets/mobile-frame.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

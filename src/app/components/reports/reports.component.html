@@ -1,0 +1,127 @@
+<div class="container-own">
+  <!-- <div class="top">
+        <div class="left">
+            <h4>Reports</h4>
+            <span>Summary</span>
+        </div>
+        <div class="legends">
+            <div class="legend" style="--color: #FF515C; --bg: rgba(255, 81, 92, 0.15);">
+                <div class="circle" style="color: #FF515C">.</div>
+                <span>Total Sent</span>
+            </div>
+            <div class="legend" style="--color: #6A55FF; --bg: rgba(106, 85, 255, 0.15);">
+                <div class="circle" style="color: #6A55FF;">.</div>
+                <span>Total SMS Sent</span>
+            </div>
+            <div class="legend" style="--color: #2EBC96; --bg: rgba(46, 188, 150, 0.15);">
+                <div class="circle" style="color: #2EBC96;">.</div>
+                <span>Total WhatsApp Sent</span>
+            </div>
+        </div>
+        <button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12.633 5.9345L9.61923 3.35159C9.47852 3.22824 9.30089 3.16513 9.12232 3.16504C9.00014 3.16498 8.87753 3.19441 8.766 3.25424C8.7163 3.28083 8.66908 3.31331 8.62542 3.35159L5.61168 5.9345C5.29514 6.20579 5.25845 6.68233 5.52975 6.99887C5.80104 7.31541 6.27757 7.35209 6.59411 7.0808L8.36743 5.56098V11.407C8.36743 11.8239 8.70539 12.1618 9.12227 12.1618C9.53917 12.1618 9.87712 11.8239 9.87712 11.407L9.87712 5.5609L11.6505 7.0808C11.9671 7.35209 12.4436 7.31541 12.7149 6.99887C12.9862 6.68233 12.9495 6.20579 12.633 5.9345ZM4.59319 10.7135C4.59319 10.2966 4.93114 9.95865 5.34803 9.95865H6.4803C6.89719 9.95865 7.23515 9.6207 7.23515 9.20381C7.23515 8.78692 6.89719 8.44896 6.4803 8.44896H5.34803C4.09736 8.44896 3.0835 9.46283 3.0835 10.7135V12.978C3.0835 14.2287 4.09736 15.2426 5.34803 15.2426H12.8965C14.1472 15.2426 15.161 14.2287 15.161 12.978V10.7135C15.161 9.46283 14.1472 8.44896 12.8965 8.44896H11.7642C11.3473 8.44896 11.0094 8.78692 11.0094 9.20381C11.0094 9.6207 11.3473 9.95865 11.7642 9.95865H12.8965C13.3134 9.95865 13.6513 10.2966 13.6513 10.7135V12.978C13.6513 13.3949 13.3134 13.7329 12.8965 13.7329H5.34803C4.93114 13.7329 4.59319 13.3949 4.59319 12.978V10.7135Z"
+                    fill="#030303" />
+            </svg>
+            <span>Export</span>
+        </button>
+    </div> -->
+  <div style="height: 100%; width: 100%" *ngIf="!isUpdated">
+    <app-loader></app-loader>
+  </div>
+  <div class="bot" *ngIf="isUpdated">
+    <div class="btn-con">
+      <button
+        *ngFor="let btn of buttons; let i = index"
+        [ngClass]="{ active: activeIndex === i }"
+        (click)="setActive(i)"
+        style="white-space: nowrap; padding-left: 10px; padding-right: 10px"
+      >
+        {{ btn }}
+      </button>
+    </div>
+    <div class="chart_con">
+      <div class="message-count">
+        <h5>
+          {{
+            activeIndex === 0
+              ? "Total Messages"
+              : activeIndex === 1
+              ? "Total WhatsApp"
+              : activeIndex === 2
+              ? "Total SMS"
+              : "Not Sent"
+          }}
+        </h5>
+        <p>
+          {{
+            activeIndex === 0
+              ? totalMsg
+              : activeIndex === 1
+              ? totalWhatsapp
+              : activeIndex === 2
+              ? totalSms
+              : notSent
+          }}
+        </p>
+      </div>
+
+      <!-- <div
+        style="
+          position: absolute;
+          right: 20px;
+          top: 50px;
+          color: #a3aed0;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 12px;
+          z-index: 10;
+        "
+      >
+        <span
+          style="
+            color: #0aaf60;
+            background: #cff1e0;
+            padding: 5px 10px;
+            border-radius: 15px;
+          "
+        >
+          {{ percentChange }}%
+        </span>
+        vs yesterday
+      </div> -->
+
+      <div
+        style="
+          position: absolute;
+          right: 20px;
+          top: 20px;
+          display: flex;
+          gap: 15px;
+          font-size: 12px;
+        "
+      >
+        <span style="white-space: nowrap">
+          <img style="width: 18px" src="../../../assets/l1.png" />
+          Total Messages
+        </span>
+        <span style="white-space: nowrap">
+          <img style="width: 18px" src="../../../assets/l2.png" />
+          WhatsApp
+        </span>
+        <span style="white-space: nowrap">
+          <img style="width: 18px" src="../../../assets/l3.png" />
+          SMS
+        </span>
+        <span style="white-space: nowrap">
+          <img style="width: 18px" src="../../../assets/l4.png" />
+          Not Sent
+        </span>
+      </div>
+
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+</div>

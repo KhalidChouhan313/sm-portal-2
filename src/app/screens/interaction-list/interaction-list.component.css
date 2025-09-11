@@ -1,0 +1,148 @@
+.a_table_wrapper {
+  overflow-x: auto;
+  background: #fff;
+  box-shadow: 0px 5px 22px 0px rgba(238, 238, 238, 0.25);
+}
+
+.a_table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.a_table tr {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* .a_table tr th {
+    width: 100px;
+} */
+
+.at_item {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 6.201px;
+  border-bottom: 1px solid rgba(238, 238, 238, 0.93);
+  background: #fff;
+}
+
+/* .at_item div {
+    padding: 1rem;
+} */
+
+.table th {
+  white-space: nowrap;
+  flex: 1;
+  color: #333540;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.table * {
+  font-size: 12px;
+}
+
+tr {
+  border-bottom: 2px solid lightgrey;
+}
+
+.interaction-flow-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1010;
+}
+
+.interaction-flow-layer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0e0e0e;
+  z-index: 1000;
+  filter: opacity(0.5);
+}
+
+.interaction-flow-box {
+  background: #ece5dd;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 9px 1px #626262;
+}
+
+.interaction-flow-header {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.close-interaction-flow {
+  font-size: 2rem;
+  font-family: monospace;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+  height: fit-content;
+}
+
+.interaction-flow-header-phone {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 10px;
+}
+
+.interaction-flow-header-phone span {
+  font-weight: bold;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.active {
+  background-color: #008000;
+}
+
+.inactive {
+  background-color: #ff0000;
+}
+.pagination {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: end;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 10px;
+  color: white;
+  background: #2ebc96;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,0 +1,147 @@
+<div class="data_table" (click)="toggleShowSearch($event)">
+    <h4>Messages</h4>
+    <div class="dt_header">
+        <div class="buttons_group">
+            <button *ngIf="!showSearch" class="search_toggle_btn">
+                Target
+            </button>
+            <input type="search" placeholder="Search here.." *ngIf="showSearch" id="search_input"
+                class="search_toggle_btn">
+            <select>
+                <option value="">Target Types</option>
+                <option value="One">One</option>
+                <option value="Two">Two</option>
+                <option value="Three">Three</option>
+            </select>
+            <select>
+                <option value="">Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="blocked">Blocked</option>
+            </select>
+            <select>
+                <option value="">Send Via</option>
+                <option value="Whatsapp">Whatsapp</option>
+                <option value="SMS">SMS</option>
+            </select>
+        </div>
+        <div class="search_and_date" *ngIf="!showSearch">
+            <div class="search">
+                <input type="search" placeholder="Search Messages">
+                <img src="../../assets/icons/search.svg" alt="s">
+            </div>
+            <button>
+                <label for="date_input">
+                    <img src="../../assets/icons/calendar.svg" alt="c">
+                </label>
+            </button>
+            <input type="text" ngxDaterangepickerMd [(ngModel)]="selected" class="form-control" id="date_input" />
+        </div>
+    </div>
+    <div class="table_wrapper pc_view">
+        <table>
+            <thead>
+                <tr>
+                    <th>Created Date</th>
+                    <th>Target Type</th>
+                    <th>Target</th>
+                    <th>Message Type</th>
+                    <th>Sent Via</th>
+                    <th>Status</th>
+                    <th>Messages</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Created Date</td>
+                    <td>Target Type</td>
+                    <td>Target</td>
+                    <td>Message Type</td>
+                    <td>Sent Via</td>
+                    <td>Status</td>
+                    <td>Messages</td>
+                </tr>
+                <tr>
+                    <td>Created Date</td>
+                    <td>Target Type</td>
+                    <td>Target</td>
+                    <td>Message Type</td>
+                    <td>Sent Via</td>
+                    <td>Status</td>
+                    <td>Messages</td>
+                </tr>
+                <tr>
+                    <td>Created Date</td>
+                    <td>Target Type</td>
+                    <td>Target</td>
+                    <td>Message Type</td>
+                    <td>Sent Via</td>
+                    <td>Status</td>
+                    <td>Messages</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table_wrapper mobile_view">
+        <div class="item" [class.open]="currentItem === 1">
+            <div class="top" (click)="setCurrentItem(currentItem===1 ? 0 : 1)">
+                <div class="left">
+                    <h5>Message Here.</h5>
+                    <span>19/03/2024 03:15PM</span>
+                </div>
+                <div class="right">
+                    <div class="badge">Done</div>
+                    <span class="chevron" [class.rotate]="currentItem === 1">{{">"}}</span>
+                </div>
+            </div>
+            <div class="bottom">
+                <div>
+                    <span>Target</span>
+                    <strong>Abc</strong>
+                </div>
+                <div>
+                    <span>Target Type</span>
+                    <strong>Abc</strong>
+                </div>
+                <div>
+                    <span>Message Type</span>
+                    <strong>Abc</strong>
+                </div>
+                <div>
+                    <span>Sent Via</span>
+                    <strong>Abc</strong>
+                </div>
+            </div>
+        </div>
+        <div class="item" [class.open]="currentItem === 2">
+            <div class="top" (click)="setCurrentItem(currentItem===2 ? 0 : 2)">
+                <div class="left">
+                    <h5>Message Here.</h5>
+                    <span>29/03/2024 03:25PM</span>
+                </div>
+                <div class="right">
+                    <div class="badge">Done</div>
+                    <span class="chevron" [class.rotate]="currentItem === 2">{{">"}}</span>
+                </div>
+            </div>
+            <div class="bottom">
+                <div>
+                    <span>Target</span>
+                    <strong>Abc</strong>
+                </div>
+                <div>
+                    <span>Target Type</span>
+                    <strong>Abc</strong>
+                </div>
+                <div>
+                    <span>Message Type</span>
+                    <strong>Abc</strong>
+                </div>
+                <div>
+                    <span>Sent Via</span>
+                    <strong>Abc</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

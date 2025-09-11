@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="21" viewBox="0 0 12 21" fill="none">
+<mask id="mask0_1430_11451" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="9" width="12" height="12">
+<rect y="9" width="12" height="12" fill="url(#pattern0_1430_11451)"/>
+</mask>
+<g mask="url(#mask0_1430_11451)">
+<rect y="9" width="12" height="12" fill="#737791"/>
+</g>
+<mask id="mask1_1430_11451" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="12" height="12">
+<rect x="12" y="12" width="12" height="12" transform="rotate(-180 12 12)" fill="url(#pattern1_1430_11451)"/>
+</mask>
+<g mask="url(#mask1_1430_11451)">
+<rect x="12" y="12" width="12" height="12" transform="rotate(-180 12 12)" fill="#737791"/>
+</g>
+<defs>
+<pattern id="pattern0_1430_11451" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_1430_11451" transform="scale(0.0111111)"/>
+</pattern>
+<pattern id="pattern1_1430_11451" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_1430_11451" transform="scale(0.0111111)"/>
+</pattern>
+<image id="image0_1430_11451" width="90" height="90" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAABHklEQVR4nO3avWkDURCF0Yksd67ASO7FgZiKHFjq4RmBIsfeeX/nwC1gPhaWhY0AAAAAAAAAAAAAAICDvUXENSIeEdE22yMiLq8Gh/sc4ODWec8H7XA7Psntz+4Voe8DHNo676ci9GWAQ1vnfVSEPkXEbYBjW6fdXg1KPN+6XwMc3YqXEfFeFXnX2Nkj8m6xs2fkXWLnCJFXj50jRV41do4YebXYOXLkVWLnDJFnj50zRZ41ds4YebbYOXPkWWLnCpFHj50rRR419pKRR4u9dORRYm8RuXfsrSL3ir1l5OrYW0euii1yQWyRC2KLXBBb5ILYIhfEFrkgtsgFsUUuiJ0+Ro6PnSL/v1NEnCPi+7Vz5V+dAAAAAAAAAMT4fgGiaU0MfHvCDAAAAABJRU5ErkJggg=="/>
+</defs>
+</svg>

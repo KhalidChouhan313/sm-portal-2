@@ -1,0 +1,532 @@
+<main class="content d-flex">
+  <!-- Left Section -->
+  <div
+    class="tabs-container"
+    style="
+      width: 15%;
+      box-shadow: 0px 4px 20px 0px rgba(112, 144, 128, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+    "
+  >
+    <div class="tabs" style="min-width: fit-content">
+      <div class="heading fs-6">Message Types</div>
+      <div
+        class="tab"
+        [class.active]="tab === 'booking'"
+        (click)="openMessageList('booking')"
+      >
+        Booking
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'tracking'"
+        (click)="openMessageList('tracking')"
+      >
+        Tracking
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'arrived'"
+        (click)="openMessageList('arrived')"
+      >
+        Arrived
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'paylink'"
+        (click)="openMessageList('paylink')"
+      >
+        Paylink
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'prepay'"
+        (click)="openMessageList('prepay')"
+      >
+        PrePay
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'review'"
+        (click)="openMessageList('review')"
+      >
+        Review
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'review2'"
+        (click)="openMessageList('review2')"
+      >
+        Review 2
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'dreview'"
+        (click)="openMessageList('dreview')"
+      >
+        Driver
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'noshow'"
+        (click)="openMessageList('noshow')"
+      >
+        No Show
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'preauth'"
+        (click)="openMessageList('preauth')"
+      >
+        Pre Auth
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'custom1'"
+        (click)="openMessageList('custom1')"
+      >
+        Custom 1
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'custom2'"
+        (click)="openMessageList('custom2')"
+      >
+        Custom 2
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'chatbot'"
+        (click)="openMessageList('chatbot')"
+      >
+        Chatbot
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'missedcall'"
+        (click)="openMessageList('missedcall')"
+      >
+        Missed Calls
+      </div>
+      <div
+        class="tab"
+        [class.active]="tab === 'late'"
+        (click)="openMessageList('late')"
+      >
+        Late
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="right" style="width: 85%">
+    <div class="imp-banner" style="display: flex; gap: 5px; align-items: start">
+      <span
+        style="
+          width: fit-content;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          height: fit-content;
+          font-size: 15px;
+
+          font-weight: 600;
+          color: black;
+          font-family: 'DM Sans';
+        "
+        ><svg
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9 5.5H11V7.5H9V5.5ZM10 15.5C10.55 15.5 11 15.05 11 14.5V10.5C11 9.95 10.55 9.5 10 9.5C9.45 9.5 9 9.95 9 10.5V14.5C9 15.05 9.45 15.5 10 15.5ZM10 0.5C4.48 0.5 0 4.98 0 10.5C0 16.02 4.48 20.5 10 20.5C15.52 20.5 20 16.02 20 10.5C20 4.98 15.52 0.5 10 0.5ZM10 18.5C5.59 18.5 2 14.91 2 10.5C2 6.09 5.59 2.5 10 2.5C14.41 2.5 18 6.09 18 10.5C18 14.91 14.41 18.5 10 18.5Z"
+            fill="#181818"
+          />
+        </svg>
+        Important Note:</span
+      >
+      <p style="font-size: 14px; color: black">
+        For all message types there are three versions that are used for
+        WhatsApp and one for SMS fall-over, all four must be edited accordingly.
+        Where you see @ in the message content, this is data collected from your
+        dispatch system, if you remove or edit these, the content from dispatch
+        system will not be sent to the passenger.
+      </p>
+    </div>
+    <div class="top" style="margin-top: 0">
+      <h1>
+        <span style="text-transform: capitalize">{{ currentList }}</span>
+        Messages For WhatsApp
+      </h1>
+      <p
+        *ngIf="
+          tab == 'custom1' ||
+          tab == 'custom2' ||
+          tab == 'review' ||
+          tab == 'preauth'
+        "
+        style="
+          border-radius: 8px;
+          background: linear-gradient(0deg, #2ebc96 0%, #1a9096 100%);
+          box-shadow: 0px 5px 22px 0px rgba(238, 238, 238, 0.5);
+          display: flex;
+          height: 52px;
+          padding: 10px 15px;
+          align-items: center;
+          gap: 10px;
+
+          color: #fff;
+
+          /* Text/Text Regular 1 */
+          font-family: Poppins;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+        "
+      >
+        Message Limit
+        <span
+          style="
+            display: flex;
+            padding: 5px 10px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border-radius: 5px;
+            border: 1px solid #fff;
+            background: #fff;
+            color: #737791;
+            text-align: center;
+            font-family: Nunito;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.48px;
+          "
+        >
+          <div *ngIf="!isMessageLimitEditable">
+            {{
+              tab === "review"
+                ? currentUser.review_limit
+                : tab === "preauth"
+                ? currentUser.preAuth_limit
+                : tab === "custom1"
+                ? currentUser.custom1_limit
+                : currentUser.custom2_limit
+            }}
+          </div>
+          <input
+            style="width: 20px; outline: none; border: none"
+            *ngIf="isMessageLimitEditable"
+            [(ngModel)]="messageLimit"
+          />
+
+          <button
+            style="
+              background: none;
+              border: none;
+              border-radius: 0px;
+              border-left: 1px solid lightgray;
+              height: fit-content;
+              width: fit-content;
+              box-shadow: none;
+            "
+          >
+            <svg
+              *ngIf="!isMessageLimitEditable"
+              (click)="isMessageLimitEditable = !isMessageLimitEditable"
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M-0.00012207 8.03363V9.7223C-0.00012207 9.87783 0.122084 10 0.27762 10H1.96629C2.0385 10 2.11072 9.97227 2.16071 9.91672L8.2266 3.85639L6.14353 1.77332L0.0832006 7.83365C0.0276522 7.8892 -0.00012207 7.95586 -0.00012207 8.03363ZM9.8375 2.24548C10.0541 2.02884 10.0541 1.67889 9.8375 1.46225L8.53767 0.162418C8.32103 -0.0542207 7.97107 -0.0542207 7.75443 0.162418L6.7379 1.17895L8.82096 3.26202L9.8375 2.24548Z"
+                fill="#737791"
+              />
+            </svg>
+
+            <svg
+              *ngIf="isMessageLimitEditable"
+              (click)="editMessageLimit()"
+              width="15"
+              height="12"
+              viewBox="0 0 15 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.0477 0.306458L4.98185 8.37232L1.66062 5.05108L0 6.7117L4.98185 11.6936L14.7083 1.96707"
+                fill="#737791"
+              />
+            </svg>
+          </button>
+        </span>
+      </p>
+    </div>
+    <div class="msg-boxes-container">
+      <div
+        class="msg-box"
+        *ngFor="
+          let instance of currentMessageList.slice(
+            0,
+            currentMessageList.length - 1
+          );
+          let i = index;
+          trackBy: trackByIndex
+        "
+      >
+        <div
+          style="
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+          "
+        >
+          <div class="ic_top d-flex justify-content-between align-items-center">
+            <h4 class="fw-semibold">{{ currentList }} Message {{ i + 1 }}</h4>
+            <div class="ict_right">
+              <span class="limit_text" *ngIf="instanceData[i].isEditable">
+                {{ currentMessageList[i]?.length }} / 1024
+              </span>
+              <button
+                *ngIf="!instanceData[i].isEditable"
+                class="edit btn btn-primary btn-sm"
+                style="background-color: transparent; box-shadow: none"
+                (click)="toggleEdit(instance, i)"
+              >
+                <img
+                  src="../../assets/edit-pen.png"
+                  style="height: 15px; width: 15px"
+                  alt="e"
+                />
+              </button>
+            </div>
+          </div>
+
+          <!-- Editable Textarea -->
+          <textarea
+            class="form-control"
+            placeholder="Type here..."
+            [(ngModel)]="currentMessageList[i]"
+            *ngIf="instanceData[i].isEditable"
+            maxlength="1024"
+          ></textarea>
+
+          <!-- Non-Editable Textarea -->
+          <textarea
+            class="form-control"
+            placeholder="Type here..."
+            [(ngModel)]="currentMessageList[i]"
+            *ngIf="!instanceData[i].isEditable"
+            disabled
+          ></textarea>
+
+          <!-- Show Emoji Picker only for the active textarea -->
+          <div
+            *ngIf="isExpanded && instanceData[i].isEditable"
+            class="emoji-list"
+          >
+            <emoji-mart
+              (emojiSelect)="addEmoji($event)"
+              [darkMode]="false"
+            ></emoji-mart>
+          </div>
+
+          <!-- Emoji Button -->
+          <button
+            *ngIf="instanceData[i].isEditable"
+            class="emoji-tab"
+            (click)="toggleEmojiTab(i)"
+            [ngClass]="{ 'active-tab': activeIndex === i }"
+          >
+            Add 😀 :
+            <div>&#123;.&#125;</div>
+          </button>
+
+          <!-- Action Buttons -->
+          <div class="msg-btn-container" *ngIf="instanceData[i].isEditable">
+            <button class="msg-btn" (click)="toggleEdit(instance, i)">
+              Cancel
+            </button>
+            <button class="msg-btn" (click)="setMessage(i)">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="imp-banner"
+      style="display: flex; gap: 5px; align-items: start"
+      *ngIf="
+        instanceData[0].isEditable ||
+        instanceData[1].isEditable ||
+        instanceData[2].isEditable
+      "
+    >
+      <span
+        style="
+          font-weight: 600;
+          color: black;
+          white-space: nowrap;
+          width: fit-content;
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          height: fit-content;
+          font-family: 'DM Sans';
+          font-size: 15px;
+        "
+        ><svg
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9 5.5H11V7.5H9V5.5ZM10 15.5C10.55 15.5 11 15.05 11 14.5V10.5C11 9.95 10.55 9.5 10 9.5C9.45 9.5 9 9.95 9 10.5V14.5C9 15.05 9.45 15.5 10 15.5ZM10 0.5C4.48 0.5 0 4.98 0 10.5C0 16.02 4.48 20.5 10 20.5C15.52 20.5 20 16.02 20 10.5C20 4.98 15.52 0.5 10 0.5ZM10 18.5C5.59 18.5 2 14.91 2 10.5C2 6.09 5.59 2.5 10 2.5C14.41 2.5 18 6.09 18 10.5C18 14.91 14.41 18.5 10 18.5Z"
+            fill="#181818"
+          />
+        </svg>
+        Important Note:</span
+      >
+      <p style="font-size: 14px; color: black">
+        Sending too many URLs can increase the risk of a WhatsApp account ban
+        due to spam-detection policies. Ensure all messages are relevant and
+        provide clear value to recipients. Avoid repetitive or promotional
+        messages with excessive links to reduce the risk.
+      </p>
+    </div>
+
+    <div class="top">
+      <h1>
+        <span style="text-transform: capitalize">{{ currentList }}</span>
+        Messages For SMS
+      </h1>
+    </div>
+    <div class="imp-banner" *ngIf="instanceData[3].isEditable">
+      <p
+        style="
+          display: flex;
+          gap: 5px;
+          font-size: 14px;
+          color: black;
+          align-items: start;
+        "
+      >
+        <span
+          style="
+            font-weight: 600;
+            color: black;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 15px;
+            font-family: 'DM Sans';
+            white-space: nowrap;
+          "
+          ><svg
+            width="20"
+            height="21"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 5.5H11V7.5H9V5.5ZM10 15.5C10.55 15.5 11 15.05 11 14.5V10.5C11 9.95 10.55 9.5 10 9.5C9.45 9.5 9 9.95 9 10.5V14.5C9 15.05 9.45 15.5 10 15.5ZM10 0.5C4.48 0.5 0 4.98 0 10.5C0 16.02 4.48 20.5 10 20.5C15.52 20.5 20 16.02 20 10.5C20 4.98 15.52 0.5 10 0.5ZM10 18.5C5.59 18.5 2 14.91 2 10.5C2 6.09 5.59 2.5 10 2.5C14.41 2.5 18 6.09 18 10.5C18 14.91 14.41 18.5 10 18.5Z"
+              fill="#181818"
+            />
+          </svg>
+          Important Note:</span
+        >
+        Keep your SMS text within 160 characters to ensure it is sent as a
+        single message. Messages over 160 characters may not be delivered
+        successfully.
+      </p>
+    </div>
+    <div class="instance_grid">
+      <div
+        class="instance_card"
+        style="height: 200px"
+        *ngFor="
+          let instance of currentMessageList.slice(
+            currentMessageList.length - 1,
+            currentMessageList.length
+          );
+          let i = index;
+          trackBy: trackByIndex
+        "
+      >
+        <div class="ic_top">
+          <h4 class="fw-semibold">{{ instance.name }}Messages</h4>
+
+          <div class="ict_right">
+            <span class="limit_text" *ngIf="instanceData[3].isEditable">
+              {{ currentMessageList[3].length }} / 160
+            </span>
+            <button
+              *ngIf="!instance.isEditable"
+              class="edit"
+              (click)="toggleEdit(instance, 3)"
+              style="box-shadow: none"
+            >
+              <img
+                src="../../assets/edit-pen.png"
+                alt="e"
+                style="height: 15px; width: 15px"
+              />
+            </button>
+          </div>
+        </div>
+        <div *ngIf="isExpanded" class="emoji-list"></div>
+        <textarea
+          style="height: 40px"
+          rows="10"
+          [(ngModel)]="currentMessageList[3]"
+          *ngIf="instanceData[3].isEditable"
+          placeholder="Type here..."
+          maxlength="160"
+        ></textarea>
+        <textarea
+          style="height: 40px"
+          disabled
+          *ngIf="!instanceData[3].isEditable"
+          [(ngModel)]="currentMessageList[3]"
+          placeholder="Type here..."
+        ></textarea>
+
+        <!-- <textarea
+        class="form-control"
+        placeholder="Type here..."
+        [(ngModel)]="currentMessageList[i]"
+        *ngIf="instanceData[i].isEditable"
+        maxlength="1024"
+      ></textarea>
+      <textarea
+        class="form-control"
+        placeholder="Type here..."
+        [(ngModel)]="currentMessageList[i]"
+        *ngIf="!instanceData[i].isEditable"
+        disabled
+      ></textarea> -->
+        <div class="msg-btn-container" *ngIf="instanceData[3].isEditable">
+          <button class="msg-btn" (click)="toggleEdit(instance, 3)">
+            Cancel
+          </button>
+          <button class="msg-btn" (click)="setMessage(3)">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,215 @@
+<main>
+  <div class="filter-bar">
+    <div style="display: flex; gap: 15px">
+      <div class="filter">
+        <p>Name:</p>
+        <input [(ngModel)]="fName" placeholder="Search by Name" />
+      </div>
+      <div class="filter">
+        <p>Driver ID:</p>
+        <input [(ngModel)]="fDriverId" placeholder="Search by Driver ID" />
+      </div>
+
+      <div class="filter">
+        <p>Review ID:</p>
+        <input [(ngModel)]="fReviewId" placeholder="Search by Review ID" />
+      </div>
+
+      <!-- <div class="filter">
+      <p>Sort by:</p>
+      <input placeholder="More Recent" />
+    </div> -->
+
+      <div class="filter">
+        <p>Filter by Rating:</p>
+        <div class="stars">
+          <span *ngFor="let star of stars; let i = index" (click)="setRating(i + 1)" (mouseenter)="hoverRating(i + 1)"
+            (mouseleave)="hoverRating(0)" [class.filled]="i + 1 <= (hovered || rating)">
+            &#9733;
+          </span>
+        </div>
+        <input type="hidden" id="rating" />
+      </div>
+    </div>
+    <button (click)="clear()">
+      <img src="../../../assets/d-refresh.png" />
+      Clear
+    </button>
+  </div>
+  <!-- <div class="reviews">
+    <div class="review" *ngFor="let review of reviews; let i = index">
+      <div class="review-1">
+        <div class="review-1-1">
+          <div style="display: flex; gap: 10px; align-items: start">
+            <div class="review-1-1-profile">T</div>
+            <div class="review-1-1-info">
+              <p
+                style="
+                  color: #1c1c1c;
+                  font-family: Poppins;
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 700;
+                  line-height: 16.8px; /* 120% */
+                  letter-spacing: -0.154px;
+                "
+              >
+                {{ review.booking_name }}
+              </p>
+
+              <p
+                style="
+                  color: #737791;
+                  font-family: Poppins;
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: normal;
+                  letter-spacing: -0.28px;
+                  width: 232px;
+                  white-space: nowrap;
+                "
+              >
+                <span
+                  style="
+                    color: #1c1c1c;
+                    font-family: Poppins;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 16.8px; /* 140% */
+                    letter-spacing: -0.154px;
+                  "
+                  >Review ID</span
+                >
+                {{ review.review_id }}
+              </p>
+
+              <p
+                style="
+                  color: #737791;
+                  font-family: Poppins;
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: normal;
+                  letter-spacing: -0.28px;
+                  width: 232px;
+                  white-space: nowrap;
+                "
+              >
+                <span
+                  style="
+                    color: #1c1c1c;
+                    font-family: Poppins;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 16.8px; /* 140% */
+                    letter-spacing: -0.154px;
+                  "
+                  >Driver ID</span
+                >
+                {{ review.driver_id }}
+              </p>
+            </div>
+          </div>
+          <p
+            style="
+              color: #636364;
+              font-family: Nunito;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.42px;
+            "
+          >
+            {{ review.createdAt | date : "EEE, MMM d, y" }}
+          </p>
+        </div>
+      </div>
+      <div class="review-2">
+       
+        <div class="r-star">
+          <span
+            *ngFor="let star of stars; let i = index"
+            class="my-star"
+            [ngClass]="getStarClass(review.rating, i)"
+            >★</span
+          >
+        </div>
+      </div>
+      <div
+        class="review-3"
+        style="
+          color: #1c1c1c;
+          font-family: Poppins;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 19.2px; /* 137.143% */
+          letter-spacing: 0.176px;
+        "
+      >
+        {{ review.review }}
+      </div>
+    </div>
+  </div> -->
+
+  <div class="review-list-con">
+    <div class="list-head">
+      <p>User Name</p>
+      <p>Date/Time</p>
+      <p>Booking ID</p>
+      <p>Review ID</p>
+      <p>Driver ID</p>
+      <p>Rating</p>
+      <p>Review</p>
+    </div>
+    <div class="list-body-con">
+      <div class="list-body" *ngFor="let review of reviews; let i = index">
+        <p>
+          <span></span>
+          {{review.name}}
+        </p>
+
+        <p *ngIf="review.date">{{ review.date | date : "hh:mm, MMM dd, yy" }}</p>
+        <p *ngIf="!review.date">{{ review.createdAt | date : "hh:mm, MMM dd, yy" }}</p>
+        <p>{{review.booking_id}}</p>
+        <p>{{ review.review_id }}</p>
+        <p>{{ review.driver_id }}</p>
+        <div class="r-star">
+          <span *ngFor="let star of stars; let i = index" class="my-star"
+            [ngClass]="getStarClass(review.rating, i)">★</span>
+        </div>
+
+        <p>{{ review.review }}</p>
+      </div>
+    </div>
+    <!-- Pagination Buttons -->
+    <div class="pagination">
+      <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="nav">
+        ◀
+      </button>
+
+      <ng-container *ngIf="totalPages > 1">
+        <button class="page" *ngIf="currentPage > 1" (click)="goToPage(currentPage - 1)">
+          {{ currentPage - 1 }}
+        </button>
+
+        <button class="page active" disabled>
+          {{ currentPage }}
+        </button>
+
+        <button class="page" *ngIf="currentPage < totalPages" (click)="goToPage(currentPage + 1)">
+          {{ currentPage + 1 }}
+        </button>
+      </ng-container>
+
+      <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="nav">
+        ▶
+      </button>
+    </div>
+  </div>
+</main>

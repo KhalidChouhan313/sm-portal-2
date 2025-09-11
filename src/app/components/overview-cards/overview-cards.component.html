@@ -1,0 +1,10 @@
+<div class="overview-cards">
+  <div class="card" *ngFor="let card of overviewCards; let i = index">
+    <h3>{{ card.title }}</h3>
+    <p>
+      {{ formatCurrency(card.value) }}{{ i === 2 ? "%" : "" }}
+      <img src="../../../assets/img/graph.png" />
+    </p>
+    <small>{{ card.description }}</small>
+  </div>
+</div>

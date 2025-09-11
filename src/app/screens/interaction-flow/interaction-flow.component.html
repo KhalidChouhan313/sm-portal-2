@@ -1,0 +1,21 @@
+<div class="chat-container">
+    <div *ngFor="let message of messages" class="chat-message"
+        [ngClass]="{ 'user': message.sender === 'user', 'bot': message.sender === 'bot' }">
+        <div *ngIf="message.sender === 'user'" class="message-bubble-container-user">
+            <div class="message-bubble">
+                {{ message.text }}
+            </div>
+            <!-- <div class="message-time">
+                {{ message.timestamp | date:'shortTime' }}
+            </div> -->
+        </div>
+        <div *ngIf="message.sender === 'bot'" class="message-bubble-container-bot">
+            <div class="message-bubble">
+                {{ message.text }}
+            </div>
+            <!-- <div class="message-time">
+                {{ message.timestamp | date:'shortTime' }}
+            </div> -->
+        </div>
+    </div>
+</div>

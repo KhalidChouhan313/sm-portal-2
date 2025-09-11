@@ -1,0 +1,277 @@
+<div class="container-own">
+  <div class="header">
+    <!-- <div class="kanban">Chatbot <strong> / Customers</strong></div> -->
+    <div class="header_more">
+      <!-- <button class="filter" style="opacity: 0; cursor: none; pointer-events: none;">
+                Filters
+            </button> -->
+      <div class="hm_right">
+        <div class="pagination">
+          <button (click)="previousPage()" *ngIf="currentPage !== 1">
+            &larr;
+          </button>
+
+          <!-- Loop through pages dynamically -->
+          <!-- <button
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            [class.active]="currentPage === i + 1"
+            (click)="setPage(i + 1)"
+          >
+            {{ i + 1 }}
+          </button> -->
+          <button
+            *ngFor="let page of paginationRange"
+            [class.active]="currentPage === page"
+            (click)="setPage(page)"
+          >
+            {{ page }}
+          </button>
+
+          <button (click)="nextPage()" *ngIf="currentPage !== totalPages">
+            &rarr;
+          </button>
+        </div>
+        <button>Total: {{ totalCustomers }}</button>
+        <button (click)="ngOnInit()">Refresh</button>
+      </div>
+    </div>
+  </div>
+  <div class="table_wrapper">
+    <div class="table">
+      <div class="table_header">
+        <div class="th_item">
+          <input type="checkbox" />
+        </div>
+        <div class="th_item searchable" *ngIf="!searchByJoin">
+          <span> Joined At </span>
+          <img
+            src="../../../assets/icons/sort.svg"
+            style="height: 21px; width: 12px; margin-right: -0.25rem"
+          />
+          <img
+            src="../../../assets/icons/search.svg"
+            style="height: 25px; width: 25px"
+            (click)="searchByJoin = true"
+          />
+        </div>
+        <div class="th_item searchable active" *ngIf="searchByJoin">
+          <input type="text" />
+          <img
+            src="../../../assets/icons/search.svg"
+            style="height: 25px; width: 25px"
+            (click)="searchByJoin = false"
+          />
+        </div>
+        <div class="th_item searchable" *ngIf="!searchByWP">
+          <span> WhatsApp Profile Name </span>
+          <img
+            src="../../../assets/icons/sort.svg"
+            style="height: 21px; width: 12px; margin-right: -0.25rem"
+          />
+          <img
+            src="../../../assets/icons/search.svg"
+            style="height: 25px; width: 25px"
+            (click)="searchByWP = true"
+          />
+        </div>
+        <div class="th_item searchable active" *ngIf="searchByWP">
+          <img
+            src="../../../assets/icons/search.svg"
+            style="height: 25px; width: 25px"
+            class="tsa_search"
+            (click)="searchByWP = false"
+          />
+          <input type="text" placeholder="WhatsApp Profile Name" />
+          <img
+            src="../../../assets/icons/sort.svg"
+            style="height: 21px; width: 12px; margin-right: -0.25rem"
+          />
+        </div>
+        <div class="th_item searchable" *ngIf="!searchByWN">
+          <span> WhatsApp Number </span>
+          <img
+            src="../../../assets/icons/sort.svg"
+            style="height: 21px; width: 12px; margin-right: -0.25rem"
+          />
+          <img
+            src="../../../assets/icons/search.svg"
+            style="height: 25px; width: 25px"
+            (click)="searchByWN = true"
+          />
+        </div>
+        <div class="th_item searchable active" *ngIf="searchByWN">
+          <img
+            src="../../../assets/icons/search.svg"
+            style="height: 25px; width: 25px"
+            class="tsa_search"
+            (click)="searchByWN = false"
+          />
+          <input type="text" placeholder="WhatsApp Number" />
+          <img
+            src="../../../assets/icons/sort.svg"
+            style="height: 21px; width: 12px; margin-right: -0.25rem"
+          />
+        </div>
+        <div class="th_item"><span> Total Bookings </span></div>
+        <div class="th_item">
+          <span> Actions </span>
+        </div>
+        <div class="th_item">
+          <span style="opacity: 0">view</span>
+        </div>
+      </div>
+      <div
+        *ngIf="loading"
+        style="
+          height: 100px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <app-loader></app-loader>
+      </div>
+      <ng-container *ngFor="let customer of customers">
+        <div *ngIf="!loading" class="table_body">
+          <div class="th_item">
+            <input type="checkbox" />
+          </div>
+          <div class="th_item">12-12-2012 at 3:45pm</div>
+          <div class="th_item">
+            {{ customer?.user_name }}
+          </div>
+          <div class="th_item">
+            {{ customer?.phone }}
+          </div>
+          <div class="th_item">Total Bookings</div>
+          <div class="th_item">
+            <div class="icons_badge">
+              <button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M11.8078 13.9616H4.26931C3.98369 13.9616 3.70977 13.8482 3.50781 13.6462C3.30584 13.4442 3.19238 13.1703 3.19238 12.8847V3.19238H12.8847V12.8847C12.8847 13.1703 12.7712 13.4442 12.5693 13.6462C12.3673 13.8482 12.0934 13.9616 11.8078 13.9616Z"
+                    stroke="white"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.42285 10.7305V6.42285"
+                    stroke="white"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9.65381 10.7305V6.42285"
+                    stroke="white"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M1.03809 3.19238H15.0381"
+                    stroke="white"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9.6534 1.03809H6.42263C6.13701 1.03809 5.86309 1.15155 5.66113 1.35351C5.45916 1.55547 5.3457 1.82939 5.3457 2.11501V3.19193H10.7303V2.11501C10.7303 1.82939 10.6169 1.55547 10.4149 1.35351C10.2129 1.15155 9.93901 1.03809 9.6534 1.03809Z"
+                    stroke="white"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <!-- <button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                >
+                  <path
+                    d="M13.3529 1.64713C13.1572 1.45231 12.9249 1.29818 12.6693 1.19365C12.4137 1.08912 12.14 1.03626 11.8639 1.03813C11.5878 1.04 11.3148 1.09656 11.0607 1.20454C10.8065 1.31252 10.5763 1.46978 10.3833 1.66724L2.05474 9.9958L1.03809 13.9619L5.0042 12.9447L13.3328 4.61612C13.5303 4.42321 13.6876 4.19305 13.7956 3.93897C13.9036 3.68488 13.9602 3.41191 13.9621 3.13582C13.9639 2.85974 13.9111 2.58602 13.8065 2.33049C13.7019 2.07497 13.5477 1.84271 13.3529 1.64713V1.64713Z"
+                    stroke="white"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button> -->
+            </div>
+          </div>
+          <div class="th_item">
+            <button class="toggle_more" (click)="selectCustomer(customer)">
+              {{ selectedCustomer === customer.user_name ? "˄" : "˅" }}
+            </button>
+          </div>
+        </div>
+        <div
+          class="booking_dets_wrapper"
+          [class.active]="selectedCustomer === customer.user_name"
+        >
+          <div class="customer-details">
+            <div class="left">
+              <div class="user-details">
+                <div class="ud-user">
+                  <div class="dp">{{customer?.user_name?.[0]}}</div>
+                  <div class="udu-dets">
+                    <span>{{ customer?.user_name }}</span>
+                    <span>{{ customer?.user_name }}</span>
+                  </div>
+                </div>
+                <div class="ud_other">
+                  <div>
+                    <span>Total Bookings</span>
+                    <span>123</span>
+                  </div>
+                  <div>
+                    <span>Recent Booking</span>
+                    <span>Yesterday</span>
+                  </div>
+                  <div>
+                    <span>Account Status</span>
+                    <span>Active</span>
+                  </div>
+                  <div>
+                    <span>Last Login</span>
+                    <span>Just Now</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="r_item">
+                <strong>WhatsApp Profile Name</strong>
+                <span>{{ customer?.user_name }}</span>
+              </div>
+              <div class="r_item">
+                <strong>WhatsApp Number</strong>
+                <span>{{ customer?.phone }}</span>
+              </div>
+              <div class="r_item">
+                <strong>Recent Booking</strong>
+                <span>Test Booking Name</span>
+              </div>
+              <div class="r_item">
+                <strong>Favorite Locations</strong>
+                <span>BTT, KTT, TBT,KTT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

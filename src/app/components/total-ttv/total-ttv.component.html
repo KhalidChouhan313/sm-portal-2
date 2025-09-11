@@ -1,0 +1,71 @@
+<div class="main-body">
+  <div>
+    <h3>Total Trip Value</h3>
+  </div>
+  <div class="canvas-box">
+    <canvas id="ttvChart" style="margin: 0; padding: 0px; width: 100%"></canvas>
+  </div>
+  <div>
+    <strong
+      style="
+        color: var(--light-type-high, #070a13);
+        font-family: Nunito;
+        font-size: 40.152px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      "
+    >
+      £{{ formatCurrency(bookingData.totalTripValue) }}
+    </strong>
+  </div>
+  <div class="stats">
+    <!-- <h3>£12,700</h3> -->
+    <!-- <div *ngFor="let bkng of priceBaseStats;">
+            <p style="text-transform: capitalize;">{{bkng.status}} Booking Fare</p>
+            <span>£{{bkng.value}}</span>
+        </div> -->
+    <div
+      style="display: flex; align-items: center; justify-content: space-between"
+    >
+      <div style="display: flex; align-items: center; gap: 10px">
+        <div
+          style="
+            height: 36px;
+            width: 45px;
+            border-radius: 4px;
+            background: #e2fff3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <img style="width: 80%" src="../../../assets/ttv-2.png" />
+        </div>
+        <p>Average Fare</p>
+      </div>
+      <span>£{{ bookingData.averageFareValue }}</span>
+    </div>
+    <div
+      style="display: flex; align-items: center; justify-content: space-between"
+    >
+      <div style="display: flex; align-items: center; gap: 10px">
+        <div
+          style="
+            height: 36px;
+            width: 45px;
+            border-radius: 4px;
+            background: #fff4de;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <img style="width: 60%" src="../../../assets/ttv-1.png" />
+        </div>
+        <p>Total Trip Value</p>
+      </div>
+      <span>£{{ formatCurrency(bookingData.totalTripValue) }}</span>
+    </div>
+  </div>
+</div>

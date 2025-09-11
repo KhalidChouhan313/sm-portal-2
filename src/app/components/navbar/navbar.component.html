@@ -1,0 +1,265 @@
+<header *ngIf="token" class="navbar">
+  <div class="left">
+    <!-- <div class="kanban" style="text-transform: capitalize">
+      {{ currentUrl }}
+    </div> -->
+    <h1 style="text-transform: capitalize">{{ title }}</h1>
+  </div>
+  <!-- <div class="middle">
+        <div class="search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <path
+                    d="M23.414 21.0861L18.337 16.0091C19.386 14.4281 20 12.5351 20 10.5001C20 4.98612 15.514 0.500122 10 0.500122C4.486 0.500122 0 4.98612 0 10.5001C0 16.0141 4.486 20.5001 10 20.5001C12.035 20.5001 13.928 19.8861 15.509 18.8371L20.586 23.9141C21.366 24.6951 22.634 24.6951 23.414 23.9141C24.195 23.1331 24.195 21.8671 23.414 21.0861ZM3 10.5001C3 6.64012 6.14 3.50012 10 3.50012C13.86 3.50012 17 6.64012 17 10.5001C17 14.3601 13.86 17.5001 10 17.5001C6.14 17.5001 3 14.3601 3 10.5001Z"
+                    fill="url(#paint0_linear_1355_6441)" />
+                <defs>
+                    <linearGradient id="paint0_linear_1355_6441" x1="11.9999" y1="24.4999" x2="11.9999" y2="0.500122"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#2EBC96" />
+                        <stop offset="1" stop-color="#1A9096" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <input type="search" placeholder="Search here..." />
+        </div>
+    </div> -->
+  <div *ngIf="loading" style="margin-left: auto">
+    <app-loader></app-loader>
+  </div>
+  <!-- <div class="search-bar">
+    <img src="assets/searchicon.png" alt="" />
+    <input placeholder="Search here..." />
+  </div> -->
+  <div class="right" *ngIf="!loading">
+    <div class="user-details">
+      <h2>{{ user?.name }}</h2>
+      <span>Admin</span>
+    </div>
+    <div class="dp">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="41"
+        height="41"
+        viewBox="0 0 41 41"
+        fill="none"
+      >
+        <circle cx="20.5" cy="20.5" r="20.5" fill="#2EBC96" />
+        <mask
+          id="mask0_1355_6455"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="4"
+          y="5"
+          width="32"
+          height="32"
+        >
+          <rect
+            x="4"
+            y="5"
+            width="32"
+            height="32"
+            fill="url(#pattern0_1355_6455)"
+          />
+        </mask>
+        <g mask="url(#mask0_1355_6455)">
+          <rect x="4" y="5" width="32" height="32" fill="white" />
+        </g>
+        <defs>
+          <pattern
+            id="pattern0_1355_6455"
+            patternContentUnits="objectBoundingBox"
+            width="1"
+            height="1"
+          >
+            <use xlink:href="#image0_1355_6455" transform="scale(0.01)" />
+          </pattern>
+          <image
+            id="image0_1355_6455"
+            width="100"
+            height="100"
+            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEg0lEQVR4nO2dbcieYxjHf48ZM4kxs5lZDJtpfFhbCgmF8pKX9oEvvtHKyzZvxRchL/GBSMgn8p7M0KQsklFbCSlRFi0ve/GEzWPGDp11rB6X+7ye3c99vRzXcxy/+tfT09N9P+fxv1+u8ziv839CEARBEARBEOSYBhwHLALmAYcDQ9m/DipjCFgCrAReBb4A/gAko03Ac8C1wNHhQ3XMAR4Avisp/ljaDTwLzA5jxs904Clg1wBGFLUNOCdM6Z9LgZ8rNGK0dgC3AieHMfvGzcA/NZlR1FfA1cB+YU5vbmrIiKI2AnPDlP9yQYPvjF76Sa/iAuBg4NsWzRhtSlyJAQ8bMGOvPvA+sTwM+N2AEaN1FY5ZZcAAKehTHPORAQOkh07FaWPwbwPFlx5agUMuMVB4yWgNDrnFQOElo8045GkDhZeM0kfpJJzxpoHCS4lm4Yz3DBRdSjQfZ3xioOhSohNwxnoDRZcSHY8z3jFQdCnRDJzxioGiS0a7PDYZnzBQeMnoexxieWK4DodcbqDwktFjOGSRgcJLRtfhkMlj3H0oLWohTvnYQPGloK0er7D28qgBA6Sg13DMXQYMkILSTRcuOVJv7RRj2uFxlo4uk4pRrcQhLxgovGSU/jd3vG2g8JLRWzjkZQOFl4xexCH3Gii8ZHQbDrnYQOElo7Nxetf7LwaKLwUNA1Nxyv0GDJCC0iZTt8zQm9LEiH4AZuKcJdrQa9uMtEv39LaLYYVZwK8tmvFbBAz8nzdaNCQ9d1Dg+hYNSc8dFJgJ/NWCGSl6IzZ7GmqnrI63Rp6zWjAk7ZEPSljToBnvhxNjM7/iFKCcUnJEpDfsI8sbMCSt5wd9sLrmwJlIAeqTR2o05PV4a/TP42GILZ4MQ2zxTBhii3tqNMTlmvmgHAp8U4MZnwFT2h5clyeJmys0IyXXRb7igByjW8wGNeNd4KhqXie+OKLH79IkbpmGi/VrxAbgssyej2MbGE9nOUBvnhsBrij5u4X6pZxa9V9qeOWI6kf93UsamLyg5HGu1PWXFIJzSA3j6SyTgGs0QH90Gs/tNbU30mPeUYilTUnaNwIH4pj0eX6n7gmXjD4ETqvwORePEemxBbhPDwFwwxnA83202Pdo7+nCcWZY7Q9cpOsse/pY1k1b286dqPsNUxzsDXruxyBXSlv0uyM91vma2DNNd/RO1p9P0lXAFVrUbRVkxK/KXGx0jgXak9pZ4VxCWtKItnNOoYMs1sS4NvPcpSalj721wFI6wFw9iGUiGiE9lF50J2KQIT1u4k8DRZKGtVuXg82EZs6pqLUhHdd6PSmuVZbWeDyRdFDbgTPbnE9Y3PgvLWun1qbxtviwgcGLUQ03GTN7UAUTPA/6vKmFsDqXVmWCqfab8WY7vbSVAWb3tR79+pCBQUrH9GBdZqSuaVziMq6GaKpd5Zxn4NUmHVUtZ/DebWBg0lHV8uW+1sDApKNKUVSV87WBgUlHlRa5KmciLDJJS0otpkqZamBQ0nGlDkel0RdtD0g6LvehNkEQBEEQBEEQYIp/AWPwju2gablrAAAAAElFTkSuQmCC"
+          />
+        </defs>
+      </svg>
+      <h5>
+        {{ user?.name }}
+        <br />
+        <span
+          style="
+            font-size: 16px;
+            color: grey;
+            font-family: Nunito;
+            font-weight: 700;
+          "
+        >
+          Admin
+        </span>
+      </h5>
+    </div>
+    <svg
+      class="svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="25"
+      viewBox="0 0 24 25"
+      fill="none"
+    >
+      <g clip-path="url(#clip0_1355_6446)">
+        <path
+          d="M19.2901 17.79L18.0001 16.5V11.5C18.0001 8.43 16.3601 5.86 13.5001 5.18V4.5C13.5001 3.67 12.8301 3 12.0001 3C11.1701 3 10.5001 3.67 10.5001 4.5V5.18C7.63005 5.86 6.00005 8.42 6.00005 11.5V16.5L4.71005 17.79C4.08005 18.42 4.52005 19.5 5.41005 19.5H18.5801C19.4801 19.5 19.9201 18.42 19.2901 17.79ZM16.0001 17.5H8.00005V11.5C8.00005 9.02 9.51005 7 12.0001 7C14.4901 7 16.0001 9.02 16.0001 11.5V17.5ZM12.0001 22.5C13.1001 22.5 14.0001 21.6 14.0001 20.5H10.0001C10.0001 21.6 10.8901 22.5 12.0001 22.5Z"
+          fill="#A3AED0"
+        />
+        <path
+          d="M20.3333 8.28781C22.1743 8.28781 23.6667 6.80681 23.6667 4.9799C23.6667 3.153 22.1743 1.672 20.3333 1.672C18.4924 1.672 17 3.153 17 4.9799C17 6.80681 18.4924 8.28781 20.3333 8.28781Z"
+          fill="#EB5757"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1355_6446">
+          <rect
+            width="24"
+            height="24"
+            fill="white"
+            transform="translate(0 0.5)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+    <svg
+      class="svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="25"
+      viewBox="0 0 24 25"
+      fill="none"
+    >
+      <g clip-path="url(#clip0_1355_6450)">
+        <path
+          d="M11 7.5H13V9.5H11V7.5ZM12 17.5C12.55 17.5 13 17.05 13 16.5V12.5C13 11.95 12.55 11.5 12 11.5C11.45 11.5 11 11.95 11 12.5V16.5C11 17.05 11.45 17.5 12 17.5ZM12 2.5C6.48 2.5 2 6.98 2 12.5C2 18.02 6.48 22.5 12 22.5C17.52 22.5 22 18.02 22 12.5C22 6.98 17.52 2.5 12 2.5ZM12 20.5C7.59 20.5 4 16.91 4 12.5C4 8.09 7.59 4.5 12 4.5C16.41 4.5 20 8.09 20 12.5C20 16.91 16.41 20.5 12 20.5Z"
+          fill="#A3AED0"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1355_6450">
+          <rect
+            width="24"
+            height="24"
+            fill="white"
+            transform="translate(0 0.5)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+
+    <div
+      class="menu"
+      style="background: white !important; position: absolute; z-index: 9999"
+    >
+      <div class="menu-item">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="25"
+          viewBox="0 0 24 25"
+          fill="none"
+        >
+          <g clip-path="url(#clip0_1355_6446)">
+            <path
+              d="M19.2901 17.79L18.0001 16.5V11.5C18.0001 8.43 16.3601 5.86 13.5001 5.18V4.5C13.5001 3.67 12.8301 3 12.0001 3C11.1701 3 10.5001 3.67 10.5001 4.5V5.18C7.63005 5.86 6.00005 8.42 6.00005 11.5V16.5L4.71005 17.79C4.08005 18.42 4.52005 19.5 5.41005 19.5H18.5801C19.4801 19.5 19.9201 18.42 19.2901 17.79ZM16.0001 17.5H8.00005V11.5C8.00005 9.02 9.51005 7 12.0001 7C14.4901 7 16.0001 9.02 16.0001 11.5V17.5ZM12.0001 22.5C13.1001 22.5 14.0001 21.6 14.0001 20.5H10.0001C10.0001 21.6 10.8901 22.5 12.0001 22.5Z"
+              fill="#A3AED0"
+            />
+            <path
+              d="M20.3333 8.28781C22.1743 8.28781 23.6667 6.80681 23.6667 4.9799C23.6667 3.153 22.1743 1.672 20.3333 1.672C18.4924 1.672 17 3.153 17 4.9799C17 6.80681 18.4924 8.28781 20.3333 8.28781Z"
+              fill="#EB5757"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_1355_6446">
+              <rect
+                width="24"
+                height="24"
+                fill="white"
+                transform="translate(0 0.5)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+        <span>Notifications</span>
+      </div>
+      <div class="menu-item">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="25"
+          viewBox="0 0 24 25"
+          fill="none"
+        >
+          <g clip-path="url(#clip0_1355_6450)">
+            <path
+              d="M11 7.5H13V9.5H11V7.5ZM12 17.5C12.55 17.5 13 17.05 13 16.5V12.5C13 11.95 12.55 11.5 12 11.5C11.45 11.5 11 11.95 11 12.5V16.5C11 17.05 11.45 17.5 12 17.5ZM12 2.5C6.48 2.5 2 6.98 2 12.5C2 18.02 6.48 22.5 12 22.5C17.52 22.5 22 18.02 22 12.5C22 6.98 17.52 2.5 12 2.5ZM12 20.5C7.59 20.5 4 16.91 4 12.5C4 8.09 7.59 4.5 12 4.5C16.41 4.5 20 8.09 20 12.5C20 16.91 16.41 20.5 12 20.5Z"
+              fill="#A3AED0"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_1355_6450">
+              <rect
+                width="24"
+                height="24"
+                fill="white"
+                transform="translate(0 0.5)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+        <span>Help & Support</span>
+      </div>
+      <div class="menu-item" (click)="logoutHandler()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+        >
+          <mask
+            id="mask0_1375_5743"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="20"
+            height="21"
+          >
+            <rect
+              y="0.5"
+              width="20"
+              height="20"
+              fill="url(#pattern0_1375_5743)"
+            />
+          </mask>
+          <g mask="url(#mask0_1375_5743)">
+            <rect y="0.5" width="20" height="20" fill="#333540" />
+          </g>
+          <defs>
+            <pattern
+              id="pattern0_1375_5743"
+              patternContentUnits="objectBoundingBox"
+              width="1"
+              height="1"
+            >
+              <use xlink:href="#image0_1375_5743" transform="scale(0.01)" />
+            </pattern>
+            <image
+              id="image0_1375_5743"
+              width="100"
+              height="100"
+              xlink:href="data:image/png;base64,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"
+            />
+          </defs>
+        </svg>
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+</header>

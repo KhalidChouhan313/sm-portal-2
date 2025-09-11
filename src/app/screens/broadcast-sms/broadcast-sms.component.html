@@ -1,0 +1,295 @@
+<div class="container-own">
+  <div class="header">
+    <!-- <div class="kanban">Broadcast <strong> / SMS</strong></div> -->
+    <button (click)="this.addMode = true" *ngIf="!addMode">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0 1.2227L0.877727 0.344971H7.89955L8.77727 1.2227V8.24452L7.89955 9.12224H0.877727L0 8.24452V1.2227ZM1.75545 2.10043V7.36679H7.02182V2.10043H1.75545ZM11.4105 0.344971L10.5327 1.2227V8.24452L11.4105 9.12224H18.4323L19.31 8.24452V1.2227L18.4323 0.344971H11.4105ZM12.2882 7.36679V2.10043H17.5545V7.36679H12.2882ZM15.7991 19.655H14.0436V16.1441H10.5327V14.3886H14.0436V10.8777H15.7991V14.3886H19.31V16.1441H15.7991V19.655ZM0.877727 10.8777L0 11.7554V18.7772L0.877727 19.655H7.89955L8.77727 18.7772V11.7554L7.89955 10.8777H0.877727ZM1.75545 17.8995V12.6332H7.02182V17.8995H1.75545Z"
+          fill="white"
+        />
+      </svg>
+      <span>Add New Broadcast</span>
+    </button>
+  </div>
+
+  <ng-container *ngIf="addMode">
+    <div class="add-top">
+      <h1>SMS Create Broadcast</h1>
+      <div class="btns">
+        <button
+          [disabled]="isLoad"
+          (click)="setBroadcast()"
+          style="min-width: 6rem"
+        >
+          Send
+        </button>
+        <!-- <button (click)="showDateAndTimeModal = true">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"
+            viewBox="0 0 32 32" fill="none">
+            <mask id="mask0_1220_7888" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
+              height="32">
+              <rect width="32" height="32" fill="url(#pattern0_1220_7888)" />
+            </mask>
+            <g mask="url(#mask0_1220_7888)">
+              <rect width="32" height="32" fill="white" />
+            </g>
+            <defs>
+              <pattern id="pattern0_1220_7888" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_1220_7888" transform="scale(0.01)" />
+              </pattern>
+              <image id="image0_1220_7888" width="100" height="100"
+                xlink:href="data:image/png;base64,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" />
+            </defs>
+          </svg>
+        </button> -->
+      </div>
+    </div>
+
+    <div class="setup">
+      <div class="left">
+        <div class="left-main-head">Setup Broadcast</div>
+        <div class="fields">
+          <div class="inp-con">
+            <label for="">Broadcast Name</label>
+            <input
+              type="text"
+              [(ngModel)]="name"
+              placeholder="Enter in English"
+            />
+          </div>
+          <div class="inp-con">
+            <label for="">Delay Time (seconds)</label>
+            <input
+              type="number"
+              [(ngModel)]="delay"
+              placeholder="Enter in English"
+            />
+          </div>
+          <div class="inp-con">
+            <label for="">Update Excel Sheet</label>
+            <input
+              type="file"
+              (change)="onFileChange($event)"
+              accept=".xlsx, .xls, .csv"
+            />
+          </div>
+          <div class="inp-con">
+            <label for="">Contacts Column</label>
+            <select [(ngModel)]="column">
+              <option
+                *ngFor="let col of excelHeaders; let i = index"
+                [value]="i + 1"
+              >
+                {{ col }}
+              </option>
+            </select>
+          </div>
+          <div class="inp-con message">
+            <div>
+              <label for=""
+                >Message
+                <img style="width: 20px" src="../../../assets/warning.png"
+              /></label>
+              <span>{{ newBroadcastDesc.length }}/160</span>
+            </div>
+            <textarea
+              [(ngModel)]="messageBody"
+              maxlength="160"
+              placeholder=" Type message here"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-con">
+        <div class="mobile-wrapper">
+          <img src="../../../assets/mobile.png" alt="" class="mobile" />
+          <div class="mobile-text">{{ messageBody }}</div>
+        </div>
+      </div>
+      <div *ngIf="excelData.length" class="contacts">
+        <table>
+          <thead>
+            <tr>
+              <th>Contacts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of excelData">
+              <td>{{ row[column - 1] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!addMode">
+    <div class="g-bg-head">My Broadcast</div>
+
+    <div class="table-wrapper">
+      <div class="table">
+        <div class="t-item t-item-h">
+          <div class="ti-item">Date & Time</div>
+          <div class="ti-item">Name</div>
+          <div class="ti-item">Contacts</div>
+          <div class="ti-item">Delay</div>
+          <div class="ti-item">Messages</div>
+          <div class="ti-item">Status</div>
+          <div class="ti-item">Action</div>
+        </div>
+        <div
+          class="t-item"
+          *ngFor="let broadcast of broadcastList; let i = index"
+        >
+          {{ broadcast.createdAt | date : "dd/MM/yyyy hh:mm a" }}
+          <div class="ti-item">
+            <div class="refresh-msg-tooltip">
+              <span class="forspan">{{ broadcast.broadcast_name }}</span>
+              <span class="refresh-msg-tooltiptext">{{
+                broadcast.broadcast_name
+              }}</span>
+            </div>
+          </div>
+          <div class="ti-item">
+            <div class="refresh-msg-tooltip">
+              <span class="forspan">Contacts</span>
+              <span class="refresh-msg-tooltiptext">
+                <p>
+                  <span
+                    *ngFor="let contact of broadcast.contacts; let j = index"
+                  >
+                    [{{ contact }}]
+                  </span>
+                </p>
+              </span>
+            </div>
+          </div>
+          <div class="ti-item">{{ broadcast.delay_time }}</div>
+          <div class="ti-item">
+            <div class="refresh-msg-tooltip">
+              <span class="forspan">{{ broadcast.message_body }}</span>
+              <span class="refresh-msg-tooltiptext">{{
+                broadcast.message_body
+              }}</span>
+            </div>
+          </div>
+          <div class="ti-item special">
+            <p
+              [ngClass]="
+                broadcast.status === 'complete' ? 's_dot_g' : 's_dot_r'
+              "
+            ></p>
+            {{ broadcast.status }}
+          </div>
+          <div class="ti-item">
+            <button
+              class="btn-secondary"
+              (click)="terminateBroadcast(i, broadcast)"
+            >
+              Terminate
+            </button>
+            <button class="btn-danger" (click)="deleteBroadcast(i, broadcast)">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="g-bg-head">History</div> -->
+
+    <!-- <div class="no-history">Nothing is here</div> -->
+  </ng-container>
+</div>
+
+<app-modal *ngIf="showDateAndTimeModal">
+  <div class="m-header">
+    <div class="mh-d">
+      <h1>Set Schedule</h1>
+      <button (click)="showDateAndTimeModal = false">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="21"
+          height="19"
+          viewBox="0 0 21 19"
+          fill="none"
+        >
+          <path
+            d="M18.8887 17.3363L2.16671 1.96289M18.8887 1.96289L2.16671 17.3363"
+            stroke="#2EBC96"
+            stroke-width="2.38885"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="mh-d">
+      <h1>Enter Date & Time</h1>
+      <div class="mhd-btns">
+        <button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M13.7111 27.711C6.13867 27.711 0 21.5724 0 13.9999C0 6.42749 6.13867 0.288818 13.7111 0.288818C21.2835 0.288818 27.4222 6.42749 27.4222 13.9999C27.4222 21.5724 21.2835 27.711 13.7111 27.711ZM17.6408 7.64636L7.35754 17.9297C6.68822 18.599 6.68822 19.6842 7.35754 20.3535C8.02686 21.0228 9.11203 21.0228 9.78135 20.3535L20.0647 10.0702C20.7339 9.40085 20.7339 8.31568 20.0647 7.64636C19.3954 6.97704 18.3102 6.97704 17.6408 7.64636Z"
+              fill="#333540"
+            />
+          </svg>
+          <span> Cancel </span>
+        </button>
+        <button>
+          <img src="../../../assets/save.png" alt="" />
+          <span> Save & Exit </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="m-body">
+    <div class="mb-left">
+      <div class="mbl-inp">
+        <label for="">Enter Date</label>
+        <input type="date" />
+      </div>
+      <div class="mbl-inp">
+        <label for="">Enter Time</label>
+        <input type="time" />
+      </div>
+    </div>
+    <div class="mb-right">
+      <img src="../../../assets/schedule-clock.png" alt="" />
+    </div>
+  </div>
+</app-modal>
+
+<app-modal *ngIf="isVisible">
+  <div class="modal-backdrop-custom">
+    <div class="modal-custom">
+      <h3>Are you sure?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="buttons">
+        <button
+          class="btn-secondary"
+          (click)="confirm(broadcastList[currentBroadcastIndex])"
+        >
+          Confirm
+        </button>
+        <button class="btn-danger" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</app-modal>

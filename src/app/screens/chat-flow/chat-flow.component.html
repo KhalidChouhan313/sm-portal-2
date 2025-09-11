@@ -1,0 +1,226 @@
+<div class="container-own" style="background: rgba(46, 188, 150, 0.1)">
+  <!-- <div class="fixed_menu" (click)="fixedMenuToggled = !fixedMenuToggled" [class.fm_active]="fixedMenuToggled">
+        <button class="fm_toggle">
+            <div></div>
+            <div></div>
+        </button>
+        <button [class.show_fms]="fixedMenuToggled" class="fm_sub">+</button>
+        <button [class.show_fms]="fixedMenuToggled" class="fm_sub">-</button>
+    </div> -->
+  <!-- <div class="header">
+        <div class="kanban">Chatbot <strong> / Chat Flow</strong></div>
+        <button>
+            <img src="../../../assets/save.png">
+            <span>Save Changes</span>
+        </button>
+    </div> -->
+  <div class="canvas_wrapper">
+    <div *ngIf="selectedCard" class="edit_card">
+      <textarea
+        class="e_card_title"
+        rows="1"
+        [value]="selectedCard?.title"
+      ></textarea>
+      <div class="e_others">
+        <textarea
+          [value]="selectedCard?.message"
+          class="e_card_message"
+        ></textarea>
+        <div class="btns">
+          <button
+            (click)="selectButton(buttonText)"
+            *ngFor="let buttonText of selectedCard?.buttons"
+          >
+            {{ buttonText }}
+            <img src="../../../assets/icons/edit.svg" alt="" />
+          </button>
+          <button (click)="selectButton('Title')" class="add">
+            + Add Button
+          </button>
+        </div>
+      </div>
+      <img src="../../../assets/img/warning.png" alt="" />
+      <button>Save Changes</button>
+    </div>
+    <div *ngIf="selectedButton" class="edit_btn">
+      <div class="eb_top">
+        <p><img src="../../../assets/icons/edit.svg" alt="" />Edit button</p>
+        <svg
+          style="cursor: pointer"
+          (click)="selectButton('')"
+          xmlns="http://www.w3.org/2000/svg"
+          width="13"
+          height="13"
+          viewBox="0 0 13 13"
+          fill="none"
+        >
+          <path
+            d="M12.0278 11.6573L0.808298 1.34253M12.0278 1.34253L0.808298 11.6573"
+            stroke="#2EBC96"
+            stroke-width="1.60279"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <div class="inp_con">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          [value]="selectedButton"
+          placeholder="Button Title"
+        />
+      </div>
+      <div class="inp_con">
+        <label for="key">Button Key</label>
+        <input type="text" placeholder="e.g A stands for (Any Vehicle)" />
+      </div>
+      <div class="ab_bot">
+        <button class="trs">
+          <img src="../../../assets/icons/trash_red.png" alt="" />
+          Remove
+        </button>
+        <button (click)="selectButton('')">Done</button>
+      </div>
+    </div>
+    <div *ngIf="isEdit" class="message-edit">
+      <div class="message-edit-box">
+        <input
+          type="text"
+          readonly
+          class="e_card_title"
+          [value]="currMessage.msg_name"
+        />
+        <!-- <input class="edit-input"> -->
+        <div class="e_others">
+          <textarea
+            class="e_card_message"
+            placeholder="Type message.."
+            [(ngModel)]="normal_msg"
+            rows="20"
+          ></textarea>
+          <div class="btns">
+            <button
+              (click)="selectButton(buttonText)"
+              *ngFor="let buttonText of selectedCard?.buttons"
+            >
+              {{ buttonText }}
+              <img src="../../../assets/icons/edit.svg" alt="" />
+            </button>
+            <button (click)="selectButton('Title')" class="add">
+              + Add Button
+            </button>
+          </div>
+        </div>
+        <img src="../../../assets/img/warning.png" alt="" />
+        <button
+          [disabled]="isSaving"
+          class="save-button"
+          (click)="setMessage()"
+        >
+          Save
+        </button>
+        <button
+          [disabled]="isSaving"
+          class="cancel-button"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+    <div class="cards-tree">
+      <div
+        class="card"
+        [ngClass]="card.type"
+        *ngFor="let card of cards; let i = index"
+        [id]="card.id"
+        style="max-width: 25%"
+      >
+        <div class="card_top">
+          <svg
+            *ngIf="card.type === 'simple' || card.type === 'simple-input'"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 30 30"
+            fill="none"
+          >
+            <circle cx="15" cy="15" r="15" fill="#24CC63" />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M20.1084 18.5676C19.8899 19.186 19.0216 19.6975 18.3292 19.8471C17.8552 19.9477 17.237 20.0273 15.1543 19.1642C12.815 18.195 9.56664 14.7428 9.56664 12.4454C9.56664 11.2758 10.241 9.91398 11.4201 9.91398C11.9875 9.91398 12.1126 9.92505 12.2993 10.3729C12.5177 10.9006 13.0506 12.2006 13.1141 12.3339C13.376 12.8805 12.8476 13.2006 12.4642 13.6766C12.3419 13.8198 12.2032 13.9747 12.3582 14.2413C12.5123 14.5024 13.0452 15.3709 13.8283 16.0681C14.8398 16.9693 15.66 17.257 15.9537 17.3794C16.1721 17.4701 16.4331 17.4489 16.5926 17.2785C16.7947 17.06 17.0458 16.6975 17.3014 16.3403C17.4818 16.0846 17.7111 16.0527 17.9513 16.1433C18.1135 16.1996 20.1754 17.1571 20.2624 17.3104C20.3268 17.4219 20.3268 17.9493 20.1084 18.5676ZM14.8343 5.76904H14.8298C9.83309 5.76904 5.76904 9.83432 5.76904 14.8325C5.76904 16.8144 6.40802 18.6531 7.49473 20.1445L6.36542 23.5123L9.84851 22.3993C11.2814 23.3476 12.9917 23.896 14.8343 23.896C19.831 23.896 23.896 19.8307 23.896 14.8325C23.896 9.83432 19.831 5.76904 14.8343 5.76904Z"
+              fill="white"
+            />
+          </svg>
+          <img
+            src="../../../assets/icons/main-card.png"
+            *ngIf="card.type === 'main'"
+            alt=""
+          />
+          <img
+            src="../../../assets/icons/condition-card.png"
+            *ngIf="card.type === 'conditional'"
+            alt=""
+          />
+          <div class="top_dets">
+            <span *ngIf="card.type === 'simple' || card.type === 'simple-input'"
+              >WhatsApp</span
+            >
+            <h1>{{ card.title }}</h1>
+          </div>
+        </div>
+        <div class="card_bottom">
+          <p *ngIf="card.desc">{{ card.desc }}</p>
+
+          <button *ngIf="card.type === 'main'" class="add-btn">
+            + New Trigger
+          </button>
+          <!-- <div class="btns" *ngIf="card.buttons.length > 0">
+                        <button *ngFor="let button of card.buttons">{{button?.name}}</button>
+                    </div> -->
+
+          <!-- <div class="triggers" *ngIf="card.triggers.length > 0">
+                        <div *ngFor="let trigger of card.triggers" class="trigger">
+                            {{trigger.name}}
+                        </div>
+                    </div> -->
+        </div>
+        <div *ngIf="card.bottomText" class="bottom-text">
+          <a
+            *ngIf="i != currIndex"
+            style="cursor: pointer"
+            (click)="openMessage(i)"
+            >Edit</a
+          >
+          <a
+            *ngIf="i == currIndex"
+            style="cursor: pointer"
+            (click)="cancelEdit()"
+            >Cancel</a
+          >
+        </div>
+        <div
+          *ngIf="card.linkedTo.length > 0"
+          class="link-line"
+          [attr.data-linkTo]="card.linkedTo[0]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="115"
+            height="124"
+            viewBox="0 0 115 124"
+            fill="none"
+          >
+            <path
+              class="path"
+              d="M0.333333 120.5C0.333333 121.973 1.52724 123.167 3 123.167C4.47276 123.167 5.66667 121.973 5.66667 120.5C5.66667 119.027 4.47276 117.833 3 117.833C1.52724 117.833 0.333333 119.027 0.333333 120.5ZM109.333 3C109.333 4.47276 110.527 5.66667 112 5.66667C113.473 5.66667 114.667 4.47276 114.667 3C114.667 1.52724 113.473 0.333333 112 0.333333C110.527 0.333333 109.333 1.52724 109.333 3ZM3.17207 120.969L11.7763 117.816L11.4322 116.877L2.82793 120.031L3.17207 120.969ZM109.257 3.5H112V2.5H109.257V3.5ZM50.7831 61.9743C50.7831 29.6798 76.9629 3.5 109.257 3.5V2.5C76.4106 2.5 49.7831 29.1275 49.7831 61.9743H50.7831ZM11.7763 117.816C35.2058 109.228 50.7831 86.928 50.7831 61.9743H49.7831C49.7831 86.5084 34.4677 108.434 11.4322 116.877L11.7763 117.816Z"
+              fill="#5A677D"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

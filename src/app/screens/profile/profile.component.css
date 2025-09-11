@@ -1,0 +1,210 @@
+.ng-container {
+  display: flex;
+  width: 1515px;
+  height: 866px;
+  padding: 40px 35px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  border: 1px solid #e4e4e7;
+  background: #fff;
+  box-shadow: 0 4px 20px 0 rgba(112, 144, 128, 0.2);
+}
+
+.profile-imgs-con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.cover-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+.cover-img img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  
+}
+
+.covericon {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  background-color: white;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex;
+  padding: 5px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.profile-img {
+  background-color: black;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+.profile-img-con {
+  position: relative;
+  left: 20px;
+  top: -90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+.profile-img-con p {
+  color: var(--Gray---Tailwind-800, #1f2937);
+  /* Paragraph 2/Regular */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+.under-cover-img {
+  display: flex;
+  align-items: start;
+  height: 50px;
+}
+
+.upload {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  font-family: "Nunito" sans-serif;
+}
+.editIcon {
+  position: relative;
+  top: 10px;
+  left: 0px;
+  right: 100px;
+  background: white;
+  filter: drop-shadow(0 2.143px 8.571px rgba(26, 15, 1, 0.12));
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-details-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-details-settings div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 150px;
+  /* border-bottom: 1px solid #e4e4e7;  */
+}
+
+
+.profile-details-settings div strong {
+  color: var(--Gray---Tailwind-800, #1f2937);
+
+  /* Paragraph 2/Regular */
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+.profile-Btn {
+  width: 88%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  margin-right: 20px !important;
+}
+.editbutton {
+  display: flex;
+  /* height: 50px; */
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  border-radius: 8px;
+  margin-right: 10px;
+  background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+  color: #fff;
+  border: none;
+  font-family: Nunito;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.54px;
+  position: relative;
+  top: 10px;
+  margin-right: 10px;
+}
+.profile-details-settings div p {
+  color: var(--Gray---Tailwind-600, #4b5563);
+
+  /* Paragraph 2/Regular */
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+.Canceltbutton {
+  display: flex;
+  padding: 10px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: #ff3c23;
+  color: #fff;
+  border: none;
+  font-family: Nunito;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.54px;
+}
+
+#text {
+  border-radius: 10px;
+  border: 1px solid #1a9096;
+  background: rgba(163, 174, 208, 0.28);
+  display: flex;
+  width: 439px;
+  padding: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: right;
+  gap: 10px;
+  outline: none;
+}

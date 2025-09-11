@@ -1,0 +1,63 @@
+<div>
+  <div class="top">
+    <div class="top-col1">
+      <div class="analytics-container">
+        <div class="header">
+          <p>Today : Wednesday</p>
+          <p>Date : 15 / 01 / 2025</p>
+        </div>
+        <h1>Chatbot Analytics</h1>
+        <p class="subtitle">Always stay updated in your Customer portal</p>
+
+        <div class="buttons">
+          <button class="time-button-outline">All Time</button>
+          <button class="time-button">Monthly</button>
+          <button class="time-button">Weekly</button>
+          <button class="time-button">Daily</button>
+        </div>
+      </div>
+    </div>
+    <div class="top-col2">
+      <img style="height: 16rem" src="../../../assets/img/file.png" />
+    </div>
+  </div>
+  <div *ngIf="data">
+    <div class="analytics-bar">
+      <app-overview-cards
+        *ngIf="data.booking_conversion_rate >= 0"
+        [totalInteractions]="data.interaction"
+        [totalBookings]="data.totalBookingCount"
+        [bookingConversionRate]="data.booking_conversion_rate"
+        [totalTripValue]="data.totalTripValue"
+        [averageFare]="data.averageFareValue"
+      ></app-overview-cards>
+    </div>
+    <div class="main-analytics-wrapper row">
+      <div class="col-md-3 first-col">
+        <app-total-bookings
+          *ngIf="data.booking_conversion_rate >= 0"
+          [bookingData]="data"
+        ></app-total-bookings>
+        <app-total-ttv
+          *ngIf="data.booking_conversion_rate >= 0"
+          [bookingData]="data"
+          [priceBaseStats]="price_base_stats"
+        ></app-total-ttv>
+      </div>
+      <div class="col-md-3 second-col">
+        <app-booking-details
+          *ngIf="data.booking_conversion_rate >= 0"
+          [asap]="data.asap"
+          [pre_booking]="data.pre_booking"
+        ></app-booking-details>
+        <app-vehicle-insights
+          *ngIf="vehicle_insights"
+          [data]="vehicle_insights"
+        ></app-vehicle-insights>
+      </div>
+      <div class="col-md-6">
+        <app-customer-details></app-customer-details>
+      </div>
+    </div>
+  </div>
+</div>

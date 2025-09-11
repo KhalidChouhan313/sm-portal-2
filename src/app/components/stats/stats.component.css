@@ -1,0 +1,250 @@
+.stats {
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 1px 2px 5px 0px rgba(165, 165, 165, 0.34);
+}
+
+.stats_header {
+    padding: 18px 25px;
+    border-radius: 5px;
+    background: #FFF;
+}
+
+.stats_header h4 {
+    color: #161616;
+    font-family: var(--jakarta);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.stats_body {
+    padding: 10px 20px 20px;
+}
+
+.cards {
+    display: flex;
+    gap: .7rem;
+}
+
+.card {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(23, 23, 23, 0.35);
+    container-name: card;
+    container-type: inline-size;
+}
+
+.card:nth-child(1) {
+    background: linear-gradient(109deg, #D4145A 8.81%, #FBB03B 98.75%);
+}
+
+.card:nth-child(2) {
+    background: linear-gradient(295deg, #08B6A8 5.67%, #38EF7D 97.25%);
+}
+
+.card:nth-child(3) {
+    background: linear-gradient(115deg, #3A3EB0 3.8%, #1BFFFF 100%);
+}
+
+.card img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+}
+
+.card p {
+    color: #FFF;
+    font-family: var(--jakarta);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.card h5 {
+    color: #FFF;
+    font-family: var(--jakarta);
+    font-size: 1.45rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: .75rem;
+}
+
+.table_wrapper {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    overflow: auto;
+    background: #FFF;
+    box-shadow: 1px 2px 5px 0px rgba(165, 165, 165, 0.34);
+}
+
+.table {
+    min-width: 470px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table thead {
+    border-radius: 5px;
+    background: #FFF;
+}
+
+.table tr {
+    border-bottom: 1px solid #E1E1E1;
+}
+
+.table tr th,
+.table tr td {
+    padding: .5rem;
+    text-align: center;
+}
+
+.card.row {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+}
+
+.card.row img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.card.row p {
+    font-size: 1rem;
+}
+
+.card.row h5 {
+    margin-top: 0;
+}
+
+@media screen and (max-width: 1500px) {
+    .stats_header {
+        padding: .7rem 1rem;
+    }
+
+    .stats_header h4 {
+        font-size: 1.25rem;
+    }
+
+    .stats_body {
+        padding: .5rem;
+    }
+
+    .card {
+        box-shadow: 1px 2px 5px 0px rgba(165, 165, 165, 0.34);
+        padding: .75rem;
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+    }
+
+    .card h5 {
+        font-size: 1rem;
+        margin-top: 0;
+    }
+
+    .card img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .card p {
+        font-size: .6rem;
+    }
+
+    .table th,
+    .table td {
+        font-size: .8rem;
+    }
+}
+.table_wrapper.mobile_view{
+    display: none;
+}
+@media screen and (max-width: 976px) {
+    .stats{
+        box-shadow: none;
+    }
+    .stats_header{
+        padding: 1rem 0;
+    }
+    .stats_body{
+        padding: 0;
+    }
+    .cards {
+        flex-wrap: wrap;
+    }
+
+    .card,
+    .card.row {
+        padding: 1rem;
+        width: 100%;
+        min-width: 270px;
+    }
+
+    .card img,
+    .card.row img {
+        height: 70px;
+        width: 70px;
+    }
+
+    .card p,
+    .card.row p {
+        font-size: .8rem;
+    }
+
+    .card h5,
+    .card.row h5 {
+        font-size: 1.3rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .cards {
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+    }
+
+    .card:nth-child(1) {
+        grid-column: span 2;
+    }
+
+    .card:nth-child(2),
+    .card:nth-child(3) {
+        grid-column: span 1;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0px;
+    }
+
+    .card:nth-child(2) p,
+    .card:nth-child(3) p {
+        font-size: .7rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .table_wrapper.pc_view{
+display: none;
+    }
+    .table_wrapper.mobile_view{
+        display: flex;
+        flex-direction: column;
+    }
+    .item{
+        padding: 1rem;
+        border-bottom: rgb(180, 180, 180);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .item span {
+        width: 70px;
+    }
+}

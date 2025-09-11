@@ -1,0 +1,24 @@
+.container-own {
+  display: flex;
+  /* background-color: #f1f1f1; */
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+.body-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.main {
+  padding: 10px;
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

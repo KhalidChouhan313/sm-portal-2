@@ -1,0 +1,114 @@
+.dashboard-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 2px 7px 0px #e2e2e2;
+  padding: 1rem;
+  font-family: "Arial", sans-serif;
+}
+
+.header {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.total {
+  font-size: 45px;
+  /* font-weight: bold; */
+  color: #000;
+}
+
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  height: 22px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #e0e0e0;
+  margin: 10px 0;
+}
+
+.progress-bookings {
+  display: flex;
+  height: 100%;
+  background: #4fc3f7;
+}
+
+.progress-cancels {
+  display: flex;
+  height: 100%;
+  background: #f44336;
+}
+
+.growth {
+  font-size: 14px;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0px 2px 7px 0px #f4f4f4;
+}
+
+.detail-item {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: #a3aed0;
+}
+
+.value {
+  font-size: 20px;
+  /* font-weight: bold; */
+  color: #000;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.bookings {
+  background: #4fc3f7;
+}
+
+.cancels {
+  background: #f44336;
+}
+
+.detail-item-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detail-item:first-child {
+  border-right: 1px solid #f4f4f4;
+}
+
+h3 {
+  color: #1b2559;
+  font-family: "DM Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; /* 160% */
+  letter-spacing: -0.4px;
+}

@@ -1,0 +1,111 @@
+.top {
+  display: flex;
+  background-color: rgb(30, 29, 69);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 24px;
+  margin-bottom: 1rem;
+  background: linear-gradient(0deg, #2ebc96 0%, #1a9096 100%);
+
+  .top-col1 {
+    flex: 1;
+  }
+  .top-col2 {
+    display: flex;
+    padding-top: 1rem;
+  }
+}
+
+.analytics-bar {
+}
+
+.main-analytics-wrapper {
+  margin: 0;
+  margin-top: 1rem;
+  flex-wrap: 0;
+}
+
+.first-col,
+.second-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.col-md-3 {
+  /* padding: 0; */
+}
+
+.col-md-6 {
+  /* padding: 0; */
+}
+
+/* chatbot-analytics.component.css */
+.analytics-container {
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  /* max-width: 400px; */
+  /* margin: auto; */
+  text-align: start;
+}
+
+.header {
+  color: #ffffffcc;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #ffffffcc;
+}
+
+.buttons {
+  display: flex;
+  /* justify-content: center; */
+  gap: 10px;
+}
+
+.time-button {
+  background-color: white;
+  color: #4d5952;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 25px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.time-button:hover {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.time-button-outline {
+  background: linear-gradient(0deg, #2ebc96 0%, #1a9096 100%);
+  color: #ffffff;
+  box-shadow: 2px 2px 7px #1b9396;
+  border-radius: 6px;
+  border: none;
+  padding: 10px 25px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.time-button-outline:hover {
+  background-color: #467a5c;
+  color: white;
+}
+
+p {
+  margin-bottom: 0;
+}

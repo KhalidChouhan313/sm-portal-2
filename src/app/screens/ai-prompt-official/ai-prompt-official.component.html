@@ -1,0 +1,232 @@
+<main>
+  <h1>Official WhatsApp Account</h1>
+  <div class="button-container">
+    <button
+      (click)="openMainPrompt()"
+      [ngClass]="{ active: isMainPromptActive }"
+    >
+      Main Prompt
+    </button>
+    <button
+      (click)="openFlightInfoPrompt()"
+      [ngClass]="{ active: isFlightInfoPromptActive }"
+    >
+      Flight Info Prompt
+    </button>
+  </div>
+  <div *ngIf="isMainPromptActive" class="textarea-con">
+    <div
+      style="
+        display: flex;
+        gap: 10px;
+        position: absolute;
+        top: -60px;
+        right: 20px;
+      "
+    >
+      <button
+        *ngIf="!isMainPromptTextareaEditable"
+        (click)="enableMainPromptEdit()"
+        style="
+          display: flex;
+          width: 150px;
+          height: 45px;
+          padding: 10px 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+          box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          white-space: nowrap;
+          box-shadow: 0 0 10px lightgray;
+          color: white;
+          border: none;
+        "
+      >
+        Edit
+      </button>
+      <button
+        *ngIf="isMainPromptTextareaEditable"
+        style="
+          display: flex;
+          width: 150px;
+          height: 45px;
+          padding: 10px 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+          box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          white-space: nowrap;
+          box-shadow: 0 0 10px lightgray;
+          color: white;
+          border: none;
+        "
+        (click)="saveMainPromptText()"
+      >
+        Save
+      </button>
+      <button
+        style="
+          display: flex;
+          width: 150px;
+          height: 45px;
+          padding: 10px 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          background: red;
+          box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          white-space: nowrap;
+          box-shadow: 0 0 10px lightgray;
+          color: white;
+          border: none;
+        "
+        *ngIf="isMainPromptTextareaEditable"
+        (click)="cancelMainPromptText()"
+      >
+        Cancel
+      </button>
+    </div>
+    <textarea
+      [(ngModel)]="mainPromptText"
+      [disabled]="!isMainPromptTextareaEditable"
+      placeholder="Write prompt here..."
+    ></textarea>
+  </div>
+
+  <div *ngIf="isFlightInfoPromptActive" class="textarea-con">
+    <div
+      style="
+        display: flex;
+        gap: 10px;
+        position: absolute;
+        top: -60px;
+        right: 20px;
+      "
+    >
+      <button
+        *ngIf="!isFlightInfoPromptTextareaEditable"
+        (click)="enableFlightInfoPromptEdit()"
+        style="
+          display: flex;
+          width: 150px;
+          height: 45px;
+          padding: 10px 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+          box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          white-space: nowrap;
+          box-shadow: 0 0 10px lightgray;
+          color: white;
+          border: none;
+        "
+      >
+        Edit
+      </button>
+      <button
+        *ngIf="isFlightInfoPromptTextareaEditable"
+        style="
+          display: flex;
+          width: 150px;
+          height: 45px;
+          padding: 10px 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+          box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          white-space: nowrap;
+          box-shadow: 0 0 10px lightgray;
+          color: white;
+          border: none;
+        "
+        (click)="saveFligthInfoPromptText()"
+      >
+        Save
+      </button>
+      <button
+        style="
+          display: flex;
+          width: 150px;
+          height: 45px;
+          padding: 10px 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          background: red;
+          box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          white-space: nowrap;
+          box-shadow: 0 0 10px lightgray;
+          color: white;
+          border: none;
+        "
+        *ngIf="isFlightInfoPromptTextareaEditable"
+        (click)="cancelFlightInfoPromptText()"
+      >
+        Cancel
+      </button>
+    </div>
+    <textarea
+      [(ngModel)]="flightInfoPromptText"
+      [disabled]="!isFlightInfoPromptTextareaEditable"
+      placeholder="Write prompt here..."
+    ></textarea>
+  </div>
+</main>

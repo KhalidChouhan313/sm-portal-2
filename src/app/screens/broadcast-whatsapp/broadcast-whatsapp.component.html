@@ -1,0 +1,480 @@
+<div class="container-own">
+  <div class="header">
+    <!-- <div class="kanban">Broadcast <strong> / WhatsApp {{showTemplates ? "/ Add New Template" : ""}}</strong></div> -->
+    <button
+      (click)="this.showTemplates = true"
+      *ngIf="!showTemplates && !addMode"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0 1.2227L0.877727 0.344971H7.89955L8.77727 1.2227V8.24452L7.89955 9.12224H0.877727L0 8.24452V1.2227ZM1.75545 2.10043V7.36679H7.02182V2.10043H1.75545ZM11.4105 0.344971L10.5327 1.2227V8.24452L11.4105 9.12224H18.4323L19.31 8.24452V1.2227L18.4323 0.344971H11.4105ZM12.2882 7.36679V2.10043H17.5545V7.36679H12.2882ZM15.7991 19.655H14.0436V16.1441H10.5327V14.3886H14.0436V10.8777H15.7991V14.3886H19.31V16.1441H15.7991V19.655ZM0.877727 10.8777L0 11.7554V18.7772L0.877727 19.655H7.89955L8.77727 18.7772V11.7554L7.89955 10.8777H0.877727ZM1.75545 17.8995V12.6332H7.02182V17.8995H1.75545Z"
+          fill="white"
+        />
+      </svg>
+      <span>Add New Broadcast</span>
+    </button>
+    <button
+      (click)="this.addMode = true; this.showTemplates = false"
+      *ngIf="!addMode && showTemplates"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0 1.2227L0.877727 0.344971H7.89955L8.77727 1.2227V8.24452L7.89955 9.12224H0.877727L0 8.24452V1.2227ZM1.75545 2.10043V7.36679H7.02182V2.10043H1.75545ZM11.4105 0.344971L10.5327 1.2227V8.24452L11.4105 9.12224H18.4323L19.31 8.24452V1.2227L18.4323 0.344971H11.4105ZM12.2882 7.36679V2.10043H17.5545V7.36679H12.2882ZM15.7991 19.655H14.0436V16.1441H10.5327V14.3886H14.0436V10.8777H15.7991V14.3886H19.31V16.1441H15.7991V19.655ZM0.877727 10.8777L0 11.7554V18.7772L0.877727 19.655H7.89955L8.77727 18.7772V11.7554L7.89955 10.8777H0.877727ZM1.75545 17.8995V12.6332H7.02182V17.8995H1.75545Z"
+          fill="white"
+        />
+      </svg>
+      <span>Create New Tempate</span>
+    </button>
+  </div>
+
+  <ng-container *ngIf="addMode">
+    <div class="add-top">
+      <h1>WhatsApp Create Template</h1>
+      <div class="btns">
+        <button>Send</button>
+        <button (click)="showDateAndTimeModal = true">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+          >
+            <mask
+              id="mask0_1220_7888"
+              style="mask-type: alpha"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width="32"
+              height="32"
+            >
+              <rect width="32" height="32" fill="url(#pattern0_1220_7888)" />
+            </mask>
+            <g mask="url(#mask0_1220_7888)">
+              <rect width="32" height="32" fill="white" />
+            </g>
+            <defs>
+              <pattern
+                id="pattern0_1220_7888"
+                patternContentUnits="objectBoundingBox"
+                width="1"
+                height="1"
+              >
+                <use xlink:href="#image0_1220_7888" transform="scale(0.01)" />
+              </pattern>
+              <image
+                id="image0_1220_7888"
+                width="100"
+                height="100"
+                xlink:href="data:image/png;base64,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"
+              />
+            </defs>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="setup">
+      <div class="left">
+        <div class="left-main-head">Setup Broadcast</div>
+        <div class="fields">
+          <div class="inp-con">
+            <label for="">Template Name</label>
+            <input type="text" placeholder="Enter in English" />
+          </div>
+          <p>
+            New templates require Meta approval. It usually takes a few minutes,
+            but can take up to 24 hours.
+          </p>
+          <div class="inp-con">
+            <select>
+              <option value="">Select Message Type</option>
+              <option value="">test</option>
+              <option value="">test</option>
+              <option value="">test</option>
+            </select>
+          </div>
+          <div class="inp-con">
+            <select>
+              <option value="">Select Message Language</option>
+              <option value="">test</option>
+              <option value="">test</option>
+              <option value="">test</option>
+            </select>
+          </div>
+          <div class="inp-con">
+            <label>Header <span>Optional</span></label>
+            <div class="icons">
+              <label class="icon" for="file">
+                <img src="../../../assets/broadcast-icons/file.svg" alt="" />
+                <input
+                  type="file"
+                  name="file"
+                  id="file"
+                  hidden
+                  accept=".pdf, .txt, .docx"
+                />
+                <div style="width: 130px">
+                  <img src="../../../assets/hover-1.png" />
+                </div>
+              </label>
+              <label class="icon" for="video">
+                <img src="../../../assets/broadcast-icons/video.svg" alt="" />
+                <input
+                  type="file"
+                  name="video"
+                  id="video"
+                  hidden
+                  accept=".mp4"
+                />
+                <div style="width: 150px">
+                  <img src="../../../assets/hover-2.png" />
+                </div>
+              </label>
+              <label class="icon" for="attachment">
+                <img
+                  src="../../../assets/broadcast-icons/attachment.svg"
+                  alt=""
+                />
+                <input
+                  type="file"
+                  name="attachment"
+                  id="attachment"
+                  hidden
+                  accept=""
+                />
+                <div style="width: 145px">
+                  <img src="../../../assets/hover-3.png" />
+                </div>
+              </label>
+              <label class="icon" for="img">
+                <img src="../../../assets/broadcast-icons/img.svg" alt="" />
+                <input
+                  type="file"
+                  name="img"
+                  id="img"
+                  hidden
+                  accept=".jpg, .png"
+                />
+                <div style="width: 140px">
+                  <img src="../../../assets/hover-4.png" />
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="inp-con message" style="position: relative">
+            <label for="">Message</label>
+            <textarea
+              [(ngModel)]="newBroadcastDesc"
+              placeholder="Type message here"
+            ></textarea>
+            <div
+              style="
+                display: none;
+                position: absolute;
+                left: -10%;
+                top: -100px;
+                color: white;
+                z-index: 10;
+              "
+            >
+              <img src="../../../assets/hover-5.png" />
+            </div>
+          </div>
+          <div class="inp-con">
+            <label>Footer <span>Optional</span></label>
+            <input type="text" placeholder="Footer Text" />
+          </div>
+          <div class="inp-con">
+            <label>Button <span>Optional</span></label>
+            <select>
+              <option value="">Select Button Type</option>
+              <option value="">test</option>
+              <option value="">test</option>
+              <option value="">test</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-con">
+        <div class="mobile-wrapper">
+          <img src="../../../assets/w-mobile.png" alt="" class="mobile" />
+          <div class="mobile-text">{{ newBroadcastDesc }}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!showTemplates && !addMode">
+    <div class="g-bg-head">Drafts</div>
+
+    <div class="table-wrapper">
+      <div class="table">
+        <div class="t-item t-item-h">
+          <div class="ti-item">Date & Time</div>
+          <div class="ti-item">Name</div>
+          <div class="ti-item">Contacts</div>
+          <div class="ti-item">Delay</div>
+          <div class="ti-item">Messages</div>
+          <div class="ti-item">Status</div>
+          <div class="ti-item">Action</div>
+        </div>
+        <div class="t-item" *ngFor="let draft of drafts">
+          <div class="ti-item">{{ draft.date }}</div>
+          <div class="ti-item">{{ draft.name }}</div>
+          <div class="ti-item">{{ draft.contacts }}</div>
+          <div class="ti-item">{{ draft.delay }}</div>
+          <div class="ti-item message">{{ draft.messages }}</div>
+          <div class="ti-item">
+            <div class="badge" [class]="draft.status.toLowerCase()">
+              {{ draft.status }}
+            </div>
+          </div>
+          <div class="ti-item">
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="23"
+                viewBox="0 0 24 23"
+                fill="none"
+              >
+                <path
+                  d="M17.9232 21.6538H6.07707C5.62825 21.6538 5.1978 21.4755 4.88043 21.1581C4.56306 20.8408 4.38477 20.4103 4.38477 19.9615V4.73071H19.6155V19.9615C19.6155 20.4103 19.4372 20.8408 19.1199 21.1581C18.8025 21.4755 18.3721 21.6538 17.9232 21.6538Z"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.46094 16.5761V9.80688"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.5391 16.5761V9.80688"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M1 4.73071H23"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.5388 1.3457H9.46184C9.01301 1.3457 8.58257 1.524 8.2652 1.84137C7.94783 2.15874 7.76953 2.58918 7.76953 3.03801V4.73032H16.2311V3.03801C16.2311 2.58918 16.0528 2.15874 15.7354 1.84137C15.418 1.524 14.9876 1.3457 14.5388 1.3457Z"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M20.9338 2.0259C20.6171 1.71053 20.2411 1.46105 19.8274 1.29185C19.4137 1.12265 18.9706 1.03709 18.5236 1.04012C18.0767 1.04314 17.6348 1.13469 17.2234 1.30948C16.8121 1.48426 16.4394 1.73882 16.127 2.05844L2.64566 15.5398L1 21.9597L7.41992 20.3131L20.9013 6.83177C21.221 6.5195 21.4756 6.14695 21.6505 5.73567C21.8253 5.32438 21.9169 4.88252 21.9199 4.43562C21.9229 3.98873 21.8374 3.54566 21.6681 3.13205C21.4988 2.71843 21.2493 2.34247 20.9338 2.0259V2.0259Z"
+                  stroke="#615E83"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-bg-head">History</div>
+
+    <div class="no-history">Nothing is here</div>
+  </ng-container>
+
+  <!-- templates  -->
+  <ng-container *ngIf="!addMode && showTemplates">
+    <div class="g-bg-head">All Templates</div>
+
+    <div class="table-wrapper">
+      <div class="table">
+        <div class="t-item template t-item-h">
+          <div class="ti-item">Date & Time</div>
+          <div class="ti-item">Template Name</div>
+          <div class="ti-item">Last Edit</div>
+          <div class="ti-item">Status</div>
+          <div class="ti-item">Action</div>
+        </div>
+        <div class="t-item template" *ngFor="let template of templates">
+          <div class="ti-item">{{ template.date }}</div>
+          <div class="ti-item">{{ template.name }}</div>
+          <div class="ti-item message">{{ template.lastEdit }}</div>
+          <div class="ti-item">
+            <div class="badge" [class]="template.status.toLowerCase()">
+              {{ template.status }}
+            </div>
+          </div>
+          <div class="ti-item">
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="23"
+                viewBox="0 0 24 23"
+                fill="none"
+              >
+                <path
+                  d="M17.9232 21.6538H6.07707C5.62825 21.6538 5.1978 21.4755 4.88043 21.1581C4.56306 20.8408 4.38477 20.4103 4.38477 19.9615V4.73071H19.6155V19.9615C19.6155 20.4103 19.4372 20.8408 19.1199 21.1581C18.8025 21.4755 18.3721 21.6538 17.9232 21.6538Z"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.46094 16.5761V9.80688"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.5391 16.5761V9.80688"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M1 4.73071H23"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.5388 1.3457H9.46184C9.01301 1.3457 8.58257 1.524 8.2652 1.84137C7.94783 2.15874 7.76953 2.58918 7.76953 3.03801V4.73032H16.2311V3.03801C16.2311 2.58918 16.0528 2.15874 15.7354 1.84137C15.418 1.524 14.9876 1.3457 14.5388 1.3457Z"
+                  stroke="#24CC63"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M20.9338 2.0259C20.6171 1.71053 20.2411 1.46105 19.8274 1.29185C19.4137 1.12265 18.9706 1.03709 18.5236 1.04012C18.0767 1.04314 17.6348 1.13469 17.2234 1.30948C16.8121 1.48426 16.4394 1.73882 16.127 2.05844L2.64566 15.5398L1 21.9597L7.41992 20.3131L20.9013 6.83177C21.221 6.5195 21.4756 6.14695 21.6505 5.73567C21.8253 5.32438 21.9169 4.88252 21.9199 4.43562C21.9229 3.98873 21.8374 3.54566 21.6681 3.13205C21.4988 2.71843 21.2493 2.34247 20.9338 2.0259V2.0259Z"
+                  stroke="#615E83"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<app-modal *ngIf="showDateAndTimeModal">
+  <div class="m-header">
+    <div class="mh-d">
+      <h1>Set Schedule</h1>
+      <button (click)="showDateAndTimeModal = false">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="21"
+          height="19"
+          viewBox="0 0 21 19"
+          fill="none"
+        >
+          <path
+            d="M18.8887 17.3363L2.16671 1.96289M18.8887 1.96289L2.16671 17.3363"
+            stroke="#2EBC96"
+            stroke-width="2.38885"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="mh-d">
+      <h1>Enter Date & Time</h1>
+      <div class="mhd-btns">
+        <button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M13.7111 27.711C6.13867 27.711 0 21.5724 0 13.9999C0 6.42749 6.13867 0.288818 13.7111 0.288818C21.2835 0.288818 27.4222 6.42749 27.4222 13.9999C27.4222 21.5724 21.2835 27.711 13.7111 27.711ZM17.6408 7.64636L7.35754 17.9297C6.68822 18.599 6.68822 19.6842 7.35754 20.3535C8.02686 21.0228 9.11203 21.0228 9.78135 20.3535L20.0647 10.0702C20.7339 9.40085 20.7339 8.31568 20.0647 7.64636C19.3954 6.97704 18.3102 6.97704 17.6408 7.64636Z"
+              fill="#333540"
+            />
+          </svg>
+          <span> Cancel </span>
+        </button>
+        <button>
+          <img src="../../../assets/save.png" alt="" />
+          <span> Save & Exit </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="m-body">
+    <div class="mb-left">
+      <div class="mbl-inp">
+        <label for="">Enter Date</label>
+        <input type="date" />
+      </div>
+      <div class="mbl-inp">
+        <label for="">Enter Time</label>
+        <input type="time" />
+      </div>
+    </div>
+    <div class="mb-right">
+      <img src="../../../assets/schedule-clock.png" alt="" />
+    </div>
+  </div>
+</app-modal>

@@ -1,0 +1,789 @@
+<div class="container-own">
+  <div class="content">
+    <div class="c-bg-heading">Price & Site ID Settings</div>
+    <div class="ap-si">
+      <div class="ap-si-c">
+        <h1>Additional Price</h1>
+        <input
+          type="number"
+          [(ngModel)]="additionalPrice"
+          value="0"
+          [disabled]="!btn1"
+        />
+        <!-- <button
+          [disabled]="additionalPrice < 0 || additionalPrice == null"
+          (click)="updateAdditionalPrice()"
+        >
+          Update
+        </button> -->
+        <div *ngIf="btn1" style="display: flex; gap: 10px">
+          <button
+            (click)="updateAdditionalPrice(); save('btn1')"
+            [disabled]="additionalPrice < 0 || additionalPrice == null"
+          >
+            Save
+          </button>
+          <button (click)="cancel('btn1')" class="danger">Cancel</button>
+        </div>
+        <button *ngIf="!btn1" (click)="startEdit('btn1')">Edit</button>
+      </div>
+      <div class="ap-si-c">
+        <h1>Site ID</h1>
+        <input
+          [(ngModel)]="siteId"
+          type="number"
+          value="0"
+          [disabled]="!btn2"
+        />
+        <!-- <button
+          [disabled]="siteId < 0 || additionalPrice == null"
+          (click)="updateSiteID()"
+        >
+          Update
+        </button> -->
+        <button *ngIf="!btn2" (click)="startEdit('btn2')">Edit</button>
+        <div *ngIf="btn2" style="display: flex; gap: 10px">
+          <button
+            [disabled]="siteId < 0 || additionalPrice == null"
+            (click)="updateSiteID(); save('btn2')"
+          >
+            Save
+          </button>
+          <button (click)="cancel('btn2')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-bg-heading">Vehicle Buttons Settings</div>
+    <div class="r-a-c-p">
+      <div
+        class="r-a-c-p-left"
+        style="display: flex; flex-direction: column; gap: 2rem"
+      >
+        <div style="display: flex; justify-content: space-between; width: 100%">
+          <div class="f-con" style="width: 40%">
+            <label class="f-heading">Display Name</label>
+            <div class="inp-con">
+              <input
+                style="width: 150px"
+                [(ngModel)]="vBSName1"
+                [disabled]="!btn3"
+                maxlength="20"
+                style="width: 280px"
+              />
+            </div>
+          </div>
+          <div class="f-con" style="gap: 25px; width: 40%">
+            <label class="f-heading">iCabbi Vehicle Attribute</label>
+            <div class="inp-con">
+              <input
+                style="width: 150px"
+                [(ngModel)]="vBSType1"
+                [disabled]="!btn3"
+                style="width: 280px"
+              />
+            </div>
+          </div>
+          <div class="r-a-c-p-field"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%">
+          <div class="f-con" style="width: 40%">
+            <label class="f-heading">Display Name</label>
+            <div class="inp-con">
+              <input
+                style="width: 150px"
+                [(ngModel)]="vBSName2"
+                [disabled]="!btn3"
+                maxlength="20"
+                style="width: 280px"
+              />
+            </div>
+          </div>
+          <div class="f-con" style="gap: 25px; width: 40%">
+            <label class="f-heading">iCabbi Vehicle Attribute</label>
+            <div class="inp-con">
+              <input
+                style="width: 150px"
+                [(ngModel)]="vBSType2"
+                [disabled]="!btn3"
+                style="width: 280px"
+              />
+            </div>
+          </div>
+          <div class="r-a-c-p-field"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%">
+          <div class="f-con" style="width: 40%">
+            <label class="f-heading">Display Name</label>
+            <div class="inp-con">
+              <input
+                style="width: 150px"
+                [(ngModel)]="vBSName3"
+                [disabled]="!btn3"
+                maxlength="20"
+                style="width: 280px"
+              />
+            </div>
+          </div>
+          <div class="f-con" style="gap: 25px; width: 40%">
+            <label class="f-heading">iCabbi Vehicle Attribute</label>
+            <div class="inp-con">
+              <input
+                style="width: 150px"
+                [(ngModel)]="vBSType3"
+                [disabled]="!btn3"
+                style="width: 280px"
+              />
+            </div>
+          </div>
+          <div class="r-a-c-p-field"></div>
+        </div>
+      </div>
+      <div class="r-a-c-p-right">
+        <!-- <button (click)="saveVehicalButtonsSetting()">Update</button> -->
+        <button *ngIf="!btn3" (click)="startEdit('btn3')">Edit</button>
+        <div *ngIf="btn3" style="display: flex; gap: 10px">
+          <button (click)="saveVehicalButtonsSetting(); save('btn3')">
+            Save
+          </button>
+          <button (click)="cancel('btn3')">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="c-bg-heading">Search Radius Settings</div>
+    <div class="r-a-c-p" style="position: relative">
+      <div class="r-a-c-p-left" style="column-gap: 0">
+        <div
+          style="
+            display: flex;
+            width: 100%;
+            gap: 50px;
+            justify-content: space-between;
+          "
+        >
+          <div class="f-con" style="width: 50%">
+            <label class="f-heading" style="width: 200px"
+              >Pickup Search Centre Point
+            </label>
+            <div class="inp-con">
+              <div style="width: fit-content; position: relative">
+                <p
+                  style="
+                    position: absolute;
+                    top: -20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: gray;
+                  "
+                >
+                  Latitude
+                </p>
+                <input
+                  [(ngModel)]="pickupLatitude"
+                  type="number"
+                  [disabled]="!btn4"
+                  style="width: 100px"
+                />
+              </div>
+              <span>:</span>
+              <div style="width: fit-content; position: relative">
+                <p
+                  style="
+                    position: absolute;
+                    top: -20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: gray;
+                  "
+                >
+                  Longitude
+                </p>
+                <input
+                  [(ngModel)]="pickupLongitude"
+                  type="number"
+                  [disabled]="!btn4"
+                  style="width: 100px"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="f-con" style="width: 50%; justify-content: center">
+            <label class="f-heading" style="width: 260px"
+              >Pickup Search Radius (in Kilometers)
+            </label>
+            <div class="inp-con">
+              <input
+                [(ngModel)]="pickupRadius"
+                type="number"
+                [disabled]="!btn4"
+                style="width: 100px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            width: 100%;
+            gap: 50px;
+            justify-content: space-between;
+          "
+        >
+          <div class="f-con" style="width: 50%">
+            <label class="f-heading" style="width: 200px"
+              >Destination Search Center Point</label
+            >
+            <div class="inp-con">
+              <div style="width: fit-content; position: relative">
+                <p
+                  style="
+                    position: absolute;
+                    top: -20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: gray;
+                  "
+                >
+                  Latitude
+                </p>
+                <input
+                  [(ngModel)]="destinationLatitude"
+                  type="number"
+                  [disabled]="!btn4"
+                  style="width: 100px"
+                />
+              </div>
+
+              <span>:</span>
+              <div style="width: fit-content; position: relative">
+                <p
+                  style="
+                    position: absolute;
+                    top: -20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: gray;
+                  "
+                >
+                  Longitude
+                </p>
+                <input
+                  [(ngModel)]="destinationLongitude"
+                  type="number"
+                  [disabled]="!btn4"
+                  style="width: 100px"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="f-con" style="width: 50%; justify-content: center">
+            <label class="f-heading" style="width: 260px"
+              >Destination Search Radius (in Kilometers)</label
+            >
+            <div class="inp-con">
+              <input
+                [(ngModel)]="destinationRadius"
+                type="number"
+                [disabled]="!btn4"
+                style="width: 100px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="r-a-c-p-right">
+        <!-- <button
+          [disabled]="
+            !pickupRadius ||
+            !pickupLongitude ||
+            !pickupLatitude ||
+            !destinationRadius ||
+            !destinationLongitude ||
+            !destinationLatitude
+          "
+          (click)="updateCenterPoint()"
+        >
+          Update
+        </button> -->
+        <button *ngIf="!btn4" (click)="startEdit('btn4')">Edit</button>
+        <div *ngIf="btn4" style="display: flex; gap: 10px">
+          <button
+            [disabled]="
+              !pickupRadius ||
+              !pickupLongitude ||
+              !pickupLatitude ||
+              !destinationRadius ||
+              !destinationLongitude ||
+              !destinationLatitude
+            "
+            (click)="updateCenterPoint(); save('btn4')"
+          >
+            Save
+          </button>
+          <button (click)="cancel('btn4')">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="c-bg-heading">Search Address Addition</div>
+    <div class="p-c-l saa">
+      <div style="display: flex; flex-direction: column; width: 100%">
+        <div>
+          <p>Pickup:</p>
+          <input [disabled]="!btn6" [(ngModel)]="sAAPickup" />
+        </div>
+        <div>
+          <p>Destination:</p>
+          <input [disabled]="!btn6" [(ngModel)]="sAADestination" />
+        </div>
+      </div>
+      <div class="btn-con">
+        <button *ngIf="!btn6" (click)="startEdit('btn6')">Edit</button>
+        <button *ngIf="btn6" (click)="save('btn6'); updateSearchAddress()">
+          Save
+        </button>
+        <button *ngIf="btn6" (click)="cancel('btn6')">Cancel</button>
+      </div>
+    </div>
+    <div class="c-bg-heading postcode-list-h" style="white-space: nowrap">
+      Postcode list
+      <img style="width: 20px" src="../../../assets/warning.png" />
+      <p style="padding-top: 2px" style="white-space: wrap">
+        You can add postcodes so that the system will allow searching if the
+        address is outside of the search radius. Postcodes can as just Outcode,
+        or Outcode & Sector or fully. <br />An example might be an
+        airport like Heathrow.
+      </p>
+    </div>
+    <div class="p-c-l">
+      <div class="p-c-l-i">
+        <div class="p-c-l-i-con">
+          <label for="">Outcode:</label>
+          <input
+            placeholder="CB1"
+            [(ngModel)]="outcode"
+            type="text"
+            [disabled]="!btn5"
+          />
+        </div>
+        <div class="p-c-l-i-con">
+          <label for="">Sector:</label>
+          <input
+            placeholder="3"
+            [(ngModel)]="sector"
+            type="text"
+            [disabled]="!btn5"
+          />
+        </div>
+        <div class="p-c-l-i-con">
+          <label for="">Unit:</label>
+          <input
+            placeholder="SD"
+            [(ngModel)]="unit"
+            type="text"
+            [disabled]="!btn5"
+          />
+        </div>
+      </div>
+      <div class="p-c-l-btns" style="flex-direction: column-reverse">
+        <!-- <button
+          class="new"
+          [disabled]="isEditCode || !outcode"
+          (click)="addZipcode()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0 1.22294L0.877727 0.345215H7.89955L8.77727 1.22294V8.24476L7.89955 9.12249H0.877727L0 8.24476V1.22294ZM1.75545 2.10067V7.36703H7.02182V2.10067H1.75545ZM11.4105 0.345215L10.5327 1.22294V8.24476L11.4105 9.12249H18.4323L19.31 8.24476V1.22294L18.4323 0.345215H11.4105ZM12.2882 7.36703V2.10067H17.5545V7.36703H12.2882ZM15.7991 19.6552H14.0436V16.1443H10.5327V14.3889H14.0436V10.8779H15.7991V14.3889H19.31V16.1443H15.7991V19.6552ZM0.877727 10.8779L0 11.7557V18.7775L0.877727 19.6552H7.89955L8.77727 18.7775V11.7557L7.89955 10.8779H0.877727ZM1.75545 17.8998V12.6334H7.02182V17.8998H1.75545Z"
+              fill="white"
+            />
+          </svg>
+          <span> Add New </span>
+        </button> -->
+        <button
+          *ngIf="!btn5"
+          style="width: fit-content; align-items: center"
+          (click)="startEdit('btn5')"
+        >
+          Edit
+        </button>
+        <div *ngIf="btn5" style="display: flex; gap: 10px">
+          <button
+            [disabled]="isEditCode || !outcode"
+            (click)="addZipcode(); save('btn5')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0 1.22294L0.877727 0.345215H7.89955L8.77727 1.22294V8.24476L7.89955 9.12249H0.877727L0 8.24476V1.22294ZM1.75545 2.10067V7.36703H7.02182V2.10067H1.75545ZM11.4105 0.345215L10.5327 1.22294V8.24476L11.4105 9.12249H18.4323L19.31 8.24476V1.22294L18.4323 0.345215H11.4105ZM12.2882 7.36703V2.10067H17.5545V7.36703H12.2882ZM15.7991 19.6552H14.0436V16.1443H10.5327V14.3889H14.0436V10.8779H15.7991V14.3889H19.31V16.1443H15.7991V19.6552ZM0.877727 10.8779L0 11.7557V18.7775L0.877727 19.6552H7.89955L8.77727 18.7775V11.7557L7.89955 10.8779H0.877727ZM1.75545 17.8998V12.6334H7.02182V17.8998H1.75545Z"
+                fill="white"
+              />
+            </svg>
+            <span> Add New </span>
+          </button>
+          <button
+            (click)="cancel('btn5'); outcode = ''; sector = ''; unit = ''"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="p-c-l-keywords">
+          <div *ngFor="let code of zipcodeList; let i = index" class="code">
+            <span (click)="selectCode(i)"
+              >{{ code.outcode }}{{ code.sector }}{{ code.unit }}</span
+            >
+            <svg
+              (click)="deleteCode(i)"
+              style="cursor: pointer"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="25"
+              viewBox="0 0 24 25"
+              fill="none"
+            >
+              <rect
+                x="0.5"
+                y="1"
+                width="23"
+                height="23"
+                rx="11.5"
+                stroke="white"
+              />
+              <path
+                d="M6.27748 16.8827C5.90751 17.2527 5.90751 17.8526 6.27748 18.2225C6.64745 18.5925 7.24729 18.5925 7.61726 18.2225L12 13.8398L16.3827 18.2225C16.7527 18.5925 17.3525 18.5925 17.7225 18.2225C18.0925 17.8526 18.0925 17.2527 17.7225 16.8827L13.3398 12.5L17.7225 8.11726C18.0925 7.74729 18.0925 7.14745 17.7225 6.77748C17.3525 6.40751 16.7527 6.40751 16.3827 6.77748L12 11.1602L7.61726 6.77748C7.24729 6.40751 6.64745 6.40751 6.27748 6.77748C5.90751 7.14745 5.90751 7.74729 6.27748 8.11726L10.6602 12.5L6.27748 16.8827Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-bg-heading address-search-h-c">
+      Address searching <img src="../../../assets/warning.png" width="20px" />
+      <!-- <span
+      >Customers might enter a location differently from how it is saved in your
+      dispatch system. For example, they might type "Vodka Revs," while your
+      system stores it as "Revolution."
+    </span> -->
+    </div>
+    <div class="top" style="display: flex; gap: 5px; justify-content: start">
+      <span
+        style="
+          font-weight: 500;
+          color: black;
+          width: fit-content;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-family: 'DM Sans';
+          font-size: 14px;
+        "
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="15"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M9 5H11V7H9V5ZM10 15C10.55 15 11 14.55 11 14V10C11 9.45 10.55 9 10 9C9.45 9 9 9.45 9 10V14C9 14.55 9.45 15 10 15ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z"
+            fill="#636364"
+          />
+        </svg>
+        Important Note:</span
+      >
+      <p
+        style="
+          font-size: 14px;
+          padding-top: 2px;
+          color: black;
+          font-weight: 400;
+          font-family: 'DM Sans';
+        "
+      >
+        Customers might type a location or commonly refer to it differently than
+        is saved in your dispatch system, an example might be Vodka Revs, but in
+        your dispatch system it's saved as Revolution. By adding alternatives
+        the chatbot knows to search for an address that the system recognises
+        when the user has not sent an address it recognises.
+      </p>
+      <!-- <button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="11"
+          height="11"
+          viewBox="0 0 11 11"
+          fill="none"
+        >
+          <path
+            d="M9.9751 9.675L0.892618 1.32498M9.9751 1.32498L0.892618 9.675"
+            stroke="#2EBC96"
+            stroke-width="1.2975"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button> -->
+    </div>
+    <div class="q-l">
+      <div class="q-l-tags">
+        <h1>Customer Enters</h1>
+        <div class="q-l-t-bot">
+          <button class="new" (click)="addToQuery()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="25"
+              viewBox="0 0 24 25"
+              fill="none"
+            >
+              <rect
+                x="0.5"
+                y="1"
+                width="23"
+                height="23"
+                rx="11.5"
+                stroke="white"
+              />
+              <path
+                d="M4.8545 11.5526C4.33128 11.5526 3.90713 11.9767 3.90713 12.4999C3.90713 13.0231 4.33128 13.4473 4.8545 13.4473L11.0526 13.4473L11.0526 19.6454C11.0526 20.1686 11.4768 20.5928 12 20.5928C12.5232 20.5928 12.9474 20.1686 12.9474 19.6454L12.9474 13.4473L19.1455 13.4473C19.6687 13.4473 20.0929 13.0231 20.0929 12.4999C20.0929 11.9767 19.6687 11.5526 19.1455 11.5526L12.9474 11.5526L12.9474 5.35443C12.9474 4.83121 12.5232 4.40706 12 4.40706C11.4768 4.40706 11.0526 4.83121 11.0526 5.35443L11.0526 11.5526L4.8545 11.5526Z"
+                fill="white"
+              />
+            </svg>
+            <span>Enter a new tag</span>
+          </button>
+          <div class="q-l-t-tag">
+            <input
+              type="text"
+              [(ngModel)]="userQueryString"
+              (keydown.enter)="addToQuery()"
+            />
+
+            <button
+              type="button"
+              class="btn btn-link p-0"
+              (click)="clearText()"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <rect
+                  x="0.5"
+                  y="1"
+                  width="23"
+                  height="23"
+                  rx="11.5"
+                  stroke="#333540"
+                />
+                <path
+                  d="M6.27748 16.8827C5.90751 17.2527 5.90751 17.8526 6.27748 18.2225C6.64745 18.5925 7.24729 18.5925 7.61726 18.2225L12 13.8398L16.3827 18.2225C16.7527 18.5925 17.3525 18.5925 17.7225 18.2225C18.0925 17.8526 18.0925 17.2527 17.7225 16.8827L13.3398 12.5L17.7225 8.11726C18.0925 7.74729 18.0925 7.14745 17.7225 6.77748C17.3525 6.40751 16.7527 6.40751 16.3827 6.77748L12 11.1602L7.61726 6.77748C7.24729 6.40751 6.64745 6.40751 6.27748 6.77748C5.90751 7.14745 5.90751 7.74729 6.27748 8.11726L10.6602 12.5L6.27748 16.8827Z"
+                  fill="#333540"
+                />
+              </svg>
+            </button>
+          </div>
+          <span *ngFor="let tag of userQuery; let j = index" class="q-l-t-tag"
+            >{{ tag }}
+            <button
+              type="button"
+              class="btn btn-link p-0"
+              (click)="removeTag(j)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <rect
+                  x="0.5"
+                  y="1"
+                  width="23"
+                  height="23"
+                  rx="11.5"
+                  stroke="#333540"
+                />
+                <path
+                  d="M6.27748 16.8827C5.90751 17.2527 5.90751 17.8526 6.27748 18.2225C6.64745 18.5925 7.24729 18.5925 7.61726 18.2225L12 13.8398L16.3827 18.2225C16.7527 18.5925 17.3525 18.5925 17.7225 18.2225C18.0925 17.8526 18.0925 17.2527 17.7225 16.8827L13.3398 12.5L17.7225 8.11726C18.0925 7.74729 18.0925 7.14745 17.7225 6.77748C17.3525 6.40751 16.7527 6.40751 16.3827 6.77748L12 11.1602L7.61726 6.77748C7.24729 6.40751 6.64745 6.40751 6.27748 6.77748C5.90751 7.14745 5.90751 7.74729 6.27748 8.11726L10.6602 12.5L6.27748 16.8827Z"
+                  fill="#333540"
+                />
+              </svg></button
+          ></span>
+        </div>
+      </div>
+
+      <div class="q-l-alt">
+        <h1>Address to Search</h1>
+        <div class="field">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+          >
+            <path
+              d="M23.869 2.13102C23.5056 1.76922 23.0742 1.483 22.5996 1.28889C22.125 1.09477 21.6167 0.996618 21.1039 1.00009C20.5912 1.00356 20.0842 1.10859 19.6123 1.30911C19.1403 1.50963 18.7128 1.80167 18.3544 2.16836L2.88797 17.6348L1 25L8.36522 23.111L23.8316 7.64454C24.1984 7.28629 24.4906 6.85888 24.6911 6.38704C24.8917 5.91519 24.9968 5.40827 25.0003 4.89557C25.0037 4.38287 24.9056 3.87456 24.7114 3.40005C24.5172 2.92553 24.2309 2.49421 23.869 2.13102V2.13102Z"
+              stroke="#615E83"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <input
+            type="text"
+            [(ngModel)]="botQuery"
+            placeholder="Enter alternative user query"
+          />
+        </div>
+        <div class="q-l-a-bot">
+          <div class="check">
+            <input
+              type="checkbox"
+              [(ngModel)]="isAirport"
+              name="airport"
+              id="airport"
+            />
+            <div class="airport-help-con">
+              <label for="airport"
+                >Airport Address
+                <img
+                  class="airport-help-img"
+                  src="../../../assets/warning.png"
+                />
+              </label>
+              <span
+                >By marking it as an airport address, the system will prompt for
+                a flight number when a booking is placed.</span
+              >
+            </div>
+          </div>
+          <button *ngIf="!isEditQuery" (click)="addAirport()">Add</button>
+
+          <div
+            *ngIf="isEditQuery"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 4px;
+            "
+          >
+            <button (click)="updateAirport()">Update</button>
+            <button (click)="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-l-table">
+        <div class="q-l-t-header">
+          <span>Address to search </span>
+          <span>Customer enters</span>
+        </div>
+        <div class="query-code-list">
+          <div
+            class="qry-list-item"
+            *ngFor="let qry of queryList; let i = index"
+          >
+            <div class="col-md-3" style="white-space: nowrap">
+              {{ qry.bot_query }}
+            </div>
+            <div
+              class="col-md-8"
+              style="
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+              "
+            >
+              <div *ngFor="let uQry of qry.user_query">{{ uQry }}</div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                "
+                (click)="selectAirport(i)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="23"
+                  height="23"
+                  viewBox="0 0 26 26"
+                  fill="none"
+                >
+                  <path
+                    d="M23.869 2.13102C23.5056 1.76922 23.0742 1.483 22.5996 1.28889C22.125 1.09477 21.6167 0.996618 21.1039 1.00009C20.5912 1.00356 20.0842 1.10859 19.6123 1.30911C19.1403 1.50963 18.7128 1.80167 18.3544 2.16836L2.88797 17.6348L1 25L8.36522 23.111L23.8316 7.64454C24.1984 7.28629 24.4906 6.85888 24.6911 6.38704C24.8917 5.91519 24.9968 5.40827 25.0003 4.89557C25.0037 4.38287 24.9056 3.87456 24.7114 3.40005C24.5172 2.92553 24.2309 2.49421 23.869 2.13102V2.13102Z"
+                    stroke="#615E83"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                "
+                (click)="deleteAirport(i)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="25"
+                  viewBox="0 0 24 25"
+                  fill="none"
+                >
+                  <rect
+                    x="0.5"
+                    y="1.42017"
+                    width="23"
+                    height="23"
+                    rx="11.5"
+                    stroke="#333540"
+                  />
+                  <path
+                    d="M6.27748 17.3029C5.90751 17.6729 5.90751 18.2727 6.27748 18.6427C6.64745 19.0127 7.24729 19.0127 7.61726 18.6427L12 14.2599L16.3827 18.6427C16.7527 19.0127 17.3525 19.0127 17.7225 18.6427C18.0925 18.2727 18.0925 17.6729 17.7225 17.3029L13.3398 12.9202L17.7225 8.53743C18.0925 8.16746 18.0925 7.56761 17.7225 7.19764C17.3525 6.82767 16.7527 6.82767 16.3827 7.19764L12 11.5804L7.61726 7.19765C7.24729 6.82767 6.64745 6.82767 6.27748 7.19765C5.90751 7.56762 5.90751 8.16746 6.27748 8.53743L10.6602 12.9202L6.27748 17.3029Z"
+                    fill="#333540"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

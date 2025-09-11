@@ -1,0 +1,5155 @@
+<main style="position: relative">
+  <button
+    *ngIf="showScrollButton"
+    style="
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      background: rgba(37, 231, 37, 0.847);
+      color: green;
+      border: none;
+      font-size: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+    "
+    (click)="scrollToTop()"
+  >
+    <img style="width: 20px" src="../../../assets/side-up-arrow.png" />
+  </button>
+
+  <app-modal *ngIf="isDeleteModalOpen">
+    <div class="cus-modal">
+      <h1>Are you sure you want to delete?</h1>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          justify-content: center;
+        "
+      >
+        <button
+          (click)="isDeleteModalOpen = false"
+          style="
+            color: white;
+            background: grey;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+          "
+        >
+          Cancel
+        </button>
+        <button
+          style="
+            color: white;
+            background: red;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+          "
+          (click)="deleteQr(); isDeleteModalOpen = false"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </app-modal>
+
+  <app-modal *ngIf="openUniversalQrCustomize">
+    <div
+      style="
+        width: 866px;
+        display: flex;
+        justify-content: center;
+        height: 568px;
+        overflow: scroll;
+      "
+    >
+      <div class="cus-modal">
+        <div class="cus-modal-1">
+          <h1>Design your QR <img src="../../../assets/warning.png" /></h1>
+          <div class="cus-modol-1-btn-con">
+            <!-- <button (click)="cSaveQr()">{{ saveBtnText }}</button> -->
+            <button
+              (click)="
+                openUniversalQrCustomize = !openUniversalQrCustomize; resetQr()
+              "
+              style="background: white !important"
+              [disabled]="saveBtnText === 'Saving...'"
+            >
+              <svg
+                width="22"
+                height="21"
+                viewBox="0 0 22 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20.975 19.675L1.0153 1.32495M20.975 1.32495L1.0153 19.675"
+                  stroke="#2EBC96"
+                  stroke-width="1.2975"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="cus-modal-2">
+          <svg
+            width="20"
+            height="21"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 5.5H11V7.5H9V5.5ZM10 15.5C10.55 15.5 11 15.05 11 14.5V10.5C11 9.95 10.55 9.5 10 9.5C9.45 9.5 9 9.95 9 10.5V14.5C9 15.05 9.45 15.5 10 15.5ZM10 0.5C4.48 0.5 0 4.98 0 10.5C0 16.02 4.48 20.5 10 20.5C15.52 20.5 20 16.02 20 10.5C20 4.98 15.52 0.5 10 0.5ZM10 18.5C5.59 18.5 2 14.91 2 10.5C2 6.09 5.59 2.5 10 2.5C14.41 2.5 18 6.09 18 10.5C18 14.91 14.41 18.5 10 18.5Z"
+              fill="#636364"
+            />
+          </svg>
+          <div
+            (click)="setModalActive(0)"
+            [class.active]="activeModalIndex === 0"
+          >
+            Shape
+          </div>
+          <div
+            (click)="setModalActive(1)"
+            [class.active]="activeModalIndex === 1"
+          >
+            Eyes
+          </div>
+          <div
+            (click)="setModalActive(2)"
+            [class.active]="activeModalIndex === 2"
+          >
+            Background
+          </div>
+          <div
+            (click)="setModalActive(3)"
+            [class.active]="activeModalIndex === 3"
+          >
+            Logo
+          </div>
+          <div
+            (click)="setModalActive(4)"
+            [class.active]="activeModalIndex === 4"
+          >
+            Error Level
+          </div>
+        </div>
+
+        <div class="cus-modal-3">
+          <div *ngIf="activeModalIndex == 1" class="cus-modal-3-settings">
+            <div style="display: flex; gap: 20px">
+              <div
+                style="
+                  border-right: 2px solid rgba(26, 144, 150, 0.5);
+                  padding-right: 20px;
+                "
+              >
+                <p
+                  style="
+                    color: #000;
+                    font-family: 'DM Sans';
+                    font-size: 20px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 42px; /* 210% */
+                    letter-spacing: -0.4px;
+                  "
+                >
+                  External Eye
+                </p>
+                <p class="cus-modal-setting-h">Choose a style</p>
+                <div class="cus-modal-3-0-shape">
+                  <div (click)="cEyeExternal('square')">
+                    <!-- Square -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeExternal === 'square'
+                      }"
+                      src="../../../assets/ee1.png"
+                    />
+                  </div>
+                  <div (click)="cEyeExternal('dot')">
+                    <!-- Doted -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeExternal === 'dot'
+                      }"
+                      src="../../../assets/ee2.png"
+                    />
+                  </div>
+                  <div (click)="cEyeExternal('extra-rounded')">
+                    <!-- Rounded -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape':
+                          selectedEyeExternal === 'extra-rounded'
+                      }"
+                      src="../../../assets/ee3.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p
+                  style="
+                    color: #000;
+                    font-family: 'DM Sans';
+                    font-size: 20px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 42px; /* 210% */
+                    letter-spacing: -0.4px;
+                  "
+                >
+                  Internal Eye
+                </p>
+                <p class="cus-modal-setting-h">Choose a style</p>
+                <div class="cus-modal-3-0-shape">
+                  <div (click)="cEyeInternal('square')">
+                    <!-- Square -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeInternal === 'square'
+                      }"
+                      src="../../../assets/ei2.png"
+                    />
+                  </div>
+                  <div (click)="cEyeInternal('dot')">
+                    <!-- Doted -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeInternal === 'dot'
+                      }"
+                      src="../../../assets/ei1.png"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 440px;
+              "
+            >
+              <p class="cus-modal-setting-h">Solid Colors</p>
+            </div>
+            <div class="cus-modal-3-0-color">
+              <!-- Row 1 -->
+              <div style="margin-bottom: 10px">
+                <div style="gap: 0">
+                  <span [style.background]="eyeColor">
+                    <label for="e-c">
+                      <svg
+                        width="21"
+                        height="22"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.0731 5.60711L15.9929 12.5269M1 15.9868L14.6314 2.35545C15.9053 1.08155 17.9707 1.08155 19.2446 2.35545C20.5185 3.62935 20.5185 5.69475 19.2446 6.96865L5.6132 20.6H1V15.9868Z"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </label>
+                  </span>
+                  <input
+                    type="color"
+                    name="e-c"
+                    id="e-c"
+                    [(ngModel)]="eyeColor"
+                    (change)="regenQr()"
+                    (input)="regenQr()"
+                  />
+                </div>
+                <span
+                  style="background: black"
+                  (click)="cEyeColor('black')"
+                ></span>
+                <span
+                  style="background: white"
+                  (click)="cEyeColor('white')"
+                ></span>
+                <span
+                  style="background: #f44336"
+                  (click)="cEyeColor('#f44336')"
+                ></span>
+                <span
+                  style="background: #e91e63"
+                  (click)="cEyeColor('#e91e63')"
+                ></span>
+                <span
+                  style="background: #9c27b0"
+                  (click)="cEyeColor('#9c27b0')"
+                ></span>
+                <span
+                  style="background: #673ab7"
+                  (click)="cEyeColor('#673ab7')"
+                ></span>
+                <span
+                  style="background: #3f51b5"
+                  (click)="cEyeColor('#3f51b5')"
+                ></span>
+                <span
+                  style="background: #2196f3"
+                  (click)="cEyeColor('#2196f3')"
+                ></span>
+              </div>
+
+              <!-- Row 2 -->
+              <div>
+                <span
+                  style="background: #00bcd4"
+                  (click)="cEyeColor('#00bcd4')"
+                ></span>
+                <span
+                  style="background: #009688"
+                  (click)="cEyeColor('#009688')"
+                ></span>
+                <span
+                  style="background: #8bc34a"
+                  (click)="cEyeColor('#8bc34a')"
+                ></span>
+                <span
+                  style="background: #cddc39"
+                  (click)="cEyeColor('#cddc39')"
+                ></span>
+                <span
+                  style="background: #ffeb3b"
+                  (click)="cEyeColor('#ffeb3b')"
+                ></span>
+                <span
+                  style="background: #ff9800"
+                  (click)="cEyeColor('#ff9800')"
+                ></span>
+                <span
+                  style="background: #ff5722"
+                  (click)="cEyeColor('#ff5722')"
+                ></span>
+                <span
+                  style="background: #795548"
+                  (click)="cEyeColor('#795548')"
+                ></span>
+                <span
+                  style="background: #607d8b"
+                  (click)="cEyeColor('#607d8b')"
+                ></span>
+              </div>
+            </div>
+            <p class="cus-modal-setting-h">Gradients</p>
+            <div class="cus-modal-3-0-gradients">
+              <div>
+                <label for="e-g-1" [style.background]="eyeGradient1">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="e-g-1"
+                  id="e-g-1"
+                  [(ngModel)]="eyeGradient1"
+                  (change)="pEyeGradient()"
+                  (input)="pEyeGradient()"
+                />
+                To
+
+                <label for="e-g-2" [style.background]="eyeGradient2">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="e-g-2"
+                  id="e-g-2"
+                  [(ngModel)]="eyeGradient2"
+                  (change)="pEyeGradient()"
+                  (input)="pEyeGradient()"
+                />
+              </div>
+              <div>
+                <!-- <span
+                  ><svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.3241 7.53589C14.5193 7.34063 14.5193 7.02405 14.3241 6.82878C14.1288 6.63352 13.8122 6.63352 13.617 6.82878L14.3241 7.53589ZM6.82875 13.617C6.63349 13.8123 6.63349 14.1289 6.82875 14.3241C7.02401 14.5194 7.34059 14.5194 7.53586 14.3241L6.82875 13.617ZM13.617 14.3241C13.8122 14.5194 14.1288 14.5194 14.3241 14.3241C14.5193 14.1289 14.5193 13.8123 14.3241 13.617L13.617 14.3241ZM7.53586 6.82878C7.34059 6.63352 7.02401 6.63352 6.82875 6.82878C6.63349 7.02405 6.63349 7.34063 6.82875 7.53589L7.53586 6.82878ZM17.0111 17.0111C13.4573 20.5649 7.69552 20.5649 4.14174 17.0111L3.43464 17.7182C7.37893 21.6625 13.7739 21.6625 17.7182 17.7182L17.0111 17.0111ZM4.14174 17.0111C0.587974 13.4573 0.587974 7.69555 4.14174 4.14178L3.43464 3.43467C-0.509658 7.37897 -0.509657 13.7739 3.43464 17.7182L4.14174 17.0111ZM4.14174 4.14178C7.69552 0.588007 13.4573 0.588007 17.0111 4.14178L17.7182 3.43467C13.7739 -0.509624 7.37893 -0.509624 3.43464 3.43467L4.14174 4.14178ZM17.0111 4.14178C20.5649 7.69555 20.5649 13.4573 17.0111 17.0111L17.7182 17.7182C21.6625 13.7739 21.6625 7.37897 17.7182 3.43467L17.0111 4.14178ZM13.617 6.82878L10.2229 10.2229L10.93 10.93L14.3241 7.53589L13.617 6.82878ZM10.2229 10.2229L6.82875 13.617L7.53586 14.3241L10.93 10.93L10.2229 10.2229ZM14.3241 13.617L10.93 10.2229L10.2229 10.93L13.617 14.3241L14.3241 13.617ZM10.93 10.2229L7.53586 6.82878L6.82875 7.53589L10.2229 10.93L10.93 10.2229Z"
+                      fill="black"
+                    />
+                  </svg>
+                </span> -->
+                <span
+                  (click)="cEyeGradient('#e91e63', '#f44336')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #e91e63 0%,
+                      #f44336 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#9c27b0', '#673ab7')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #9c27b0 0%,
+                      #673ab7 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#3f51b5', '#2196f3')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #3f51b5 0%,
+                      #2196f3 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#00bcd4', '#009688')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #00bcd4 0%,
+                      #009688 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#009688', '#8bc34a')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #009688 0%,
+                      #8bc34a 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#cddc39', '#ffeb3b')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #cddc39 0%,
+                      #ffeb3b 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#ff9800', '#ff5722')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #ff9800 0%,
+                      #ff5722 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#607d8b', '#df9d85')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #607d8b 0%,
+                      #df9d85 100%
+                    );
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="activeModalIndex == 0" class="cus-modal-3-settings">
+            <p class="cus-modal-setting-h">Choose a style</p>
+            <div class="cus-modal-3-0-shape">
+              <div (click)="cDotStyle('square')">
+                Square
+                <img
+                  src="../../../assets/qr-shape-1.png"
+                  [ngClass]="{
+                    'selected-shape': selectedDotStyle === 'square'
+                  }"
+                />
+              </div>
+              <div (click)="cDotStyle('dots')">
+                Doted
+                <img
+                  src="../../../assets/qr-shape-2.png"
+                  [ngClass]="{ 'selected-shape': selectedDotStyle === 'dots' }"
+                />
+              </div>
+              <div (click)="cDotStyle('rounded')">
+                Rounded
+                <img
+                  src="../../../assets/qr-shape-3.png"
+                  [ngClass]="{
+                    'selected-shape': selectedDotStyle === 'rounded'
+                  }"
+                />
+              </div>
+              <div (click)="cDotStyle('classy')">
+                Sharp Edges
+                <img
+                  [ngClass]="{
+                    'selected-shape': selectedDotStyle === 'classy'
+                  }"
+                  src="../../../assets/qr-shape-4.png"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 440px;
+              "
+            >
+              <p class="cus-modal-setting-h">Solid Colors</p>
+            </div>
+            <div class="cus-modal-3-0-color">
+              <div>
+                <div style="gap: 0">
+                  <span [style.background]="dotColor"
+                    ><label for="d-c">
+                      <svg
+                        width="21"
+                        height="22"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.0731 5.60711L15.9929 12.5269M1 15.9868L14.6314 2.35545C15.9053 1.08155 17.9707 1.08155 19.2446 2.35545C20.5185 3.62935 20.5185 5.69475 19.2446 6.96865L5.6132 20.6H1V15.9868Z"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg> </label
+                  ></span>
+                  <input
+                    type="color"
+                    name="d-c"
+                    id="d-c"
+                    [(ngModel)]="dotColor"
+                    (change)="regenQr()"
+                    (input)="regenQr()"
+                  />
+                </div>
+
+                <span
+                  *ngFor="
+                    let color of [
+                      '#000000',
+                      '#ffffff',
+                      '#f44336',
+                      '#e91e63',
+                      '#9c27b0',
+                      '#673ab7',
+                      '#3f51b5',
+                      '#2196f3'
+                    ]
+                  "
+                  [style.background]="color"
+                  [ngClass]="{ 'selected-color': selectedDotColor === color }"
+                  (click)="cDotColor(color)"
+                ></span>
+              </div>
+              <div>
+                <span
+                  *ngFor="
+                    let color of [
+                      '#009688',
+                      '#8bc34a',
+                      '#cddc39',
+                      '#ffeb3b',
+                      '#ff9800',
+                      '#ff5722',
+                      '#795548',
+                      '#607d8b',
+                      '#00bcd4'
+                    ]
+                  "
+                  [style.background]="color"
+                  [ngClass]="{ 'selected-color': selectedDotColor === color }"
+                  (click)="cDotColor(color)"
+                ></span>
+              </div>
+            </div>
+
+            <p class="cus-modal-setting-h">Gradients</p>
+            <div class="cus-modal-3-0-gradients">
+              <div>
+                <label for="d-g-1" [style.background]="dotGradient1">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="d-g-1"
+                  id="d-g-1"
+                  [(ngModel)]="dotGradient1"
+                  (change)="pDotGradient()"
+                  (input)="pDotGradient()"
+                />
+                To
+
+                <label for="d-g-2" [style.background]="dotGradient2">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="d-g-2"
+                  id="d-g-2"
+                  [(ngModel)]="dotGradient2"
+                  (change)="pDotGradient()"
+                  (input)="pDotGradient()"
+                />
+              </div>
+              <div>
+                <!-- Solid Color (example) -->
+                <span
+                  style="background: black"
+                  (click)="cDotColor('black')"
+                ></span>
+
+                <!-- Gradient Options -->
+                <span
+                  (click)="cDotGradient('#e91e63', '#f44336')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #e91e63 0%,
+                      #f44336 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#9c27b0', '#673ab7')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #9c27b0 0%,
+                      #673ab7 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#3f51b5', '#2196f3')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #3f51b5 0%,
+                      #2196f3 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#00bcd4', '#009688')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #00bcd4 0%,
+                      #009688 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#009688', '#8bc34a')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #009688 0%,
+                      #8bc34a 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#cddc39', '#ffeb3b')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #cddc39 0%,
+                      #ffeb3b 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#ff9800', '#ff5722')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #ff9800 0%,
+                      #ff5722 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#607d8b', '#df9d85')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #607d8b 0%,
+                      #df9d85 100%
+                    );
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="activeModalIndex == 2" class="cus-modal-3-settings">
+            <div
+              style="
+                width: 440px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <p class="cus-modal-setting-h">Solid Colors</p>
+            </div>
+            <div class="cus-modal-3-0-color">
+              <div>
+                <div style="gap: 0">
+                  <span [style.background]="bgColor"
+                    ><label for="b-c">
+                      <svg
+                        width="21"
+                        height="22"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.0731 5.60711L15.9929 12.5269M1 15.9868L14.6314 2.35545C15.9053 1.08155 17.9707 1.08155 19.2446 2.35545C20.5185 3.62935 20.5185 5.69475 19.2446 6.96865L5.6132 20.6H1V15.9868Z"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg> </label
+                  ></span>
+                  <input
+                    type="color"
+                    name="b-c"
+                    id="b-c"
+                    [(ngModel)]="bgColor"
+                    (change)="regenQr()"
+                    (input)="regenQr()"
+                  />
+                </div>
+
+                <span
+                  (click)="cBgColor('black')"
+                  style="background: black"
+                ></span>
+                <span
+                  (click)="cBgColor('white')"
+                  style="background: white"
+                ></span>
+                <span
+                  (click)="cBgColor('#f44336')"
+                  style="background: #f44336"
+                ></span>
+                <span
+                  (click)="cBgColor('#e91e63')"
+                  style="background: #e91e63"
+                ></span>
+                <span
+                  (click)="cBgColor('#9c27b0')"
+                  style="background: #9c27b0"
+                ></span>
+                <span
+                  (click)="cBgColor('#673ab7')"
+                  style="background: #673ab7"
+                ></span>
+                <span
+                  (click)="cBgColor('#3f51b5')"
+                  style="background: #3f51b5"
+                ></span>
+                <span
+                  (click)="cBgColor('#2196f3')"
+                  style="background: #2196f3"
+                ></span>
+              </div>
+              <div>
+                <span
+                  (click)="cBgColor('#009688')"
+                  style="background: #009688"
+                ></span>
+                <span
+                  (click)="cBgColor('#8bc34a')"
+                  style="background: #8bc34a"
+                ></span>
+                <span
+                  (click)="cBgColor('#cddc39')"
+                  style="background: #cddc39"
+                ></span>
+                <span
+                  (click)="cBgColor('#ffeb3b')"
+                  style="background: #ffeb3b"
+                ></span>
+                <span
+                  (click)="cBgColor('#ff9800')"
+                  style="background: #ff9800"
+                ></span>
+                <span
+                  (click)="cBgColor('#ff5722')"
+                  style="background: #ff5722"
+                ></span>
+                <span
+                  (click)="cBgColor('#795548')"
+                  style="background: #795548"
+                ></span>
+                <span
+                  (click)="cBgColor('#607d8b')"
+                  style="background: #607d8b"
+                ></span>
+                <span
+                  (click)="cBgColor('#00bcd4')"
+                  style="background: #00bcd4"
+                ></span>
+              </div>
+            </div>
+
+            <p class="cus-modal-setting-h">Gradients</p>
+            <div class="cus-modal-3-0-gradients">
+              <div>
+                <label for="b-b-1" [style.background]="bgGradient1">
+                  <!-- Keep same icon -->
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="b-b-1"
+                  id="b-b-1"
+                  [(ngModel)]="bgGradient1"
+                  (change)="pBgGradient()"
+                  (input)="pBgGradient()"
+                />
+                To
+
+                <label for="b-b-2" [style.background]="bgGradient2">
+                  <!-- Keep same icon -->
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="b-b-2"
+                  id="b-b-2"
+                  [(ngModel)]="bgGradient2"
+                  (change)="pBgGradient()"
+                  (input)="pBgGradient()"
+                />
+              </div>
+
+              <div>
+                <!-- <span
+                  ><svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.3241 7.53589C14.5193 7.34063 14.5193 7.02405 14.3241 6.82878C14.1288 6.63352 13.8122 6.63352 13.617 6.82878L14.3241 7.53589ZM6.82875 13.617C6.63349 13.8123 6.63349 14.1289 6.82875 14.3241C7.02401 14.5194 7.34059 14.5194 7.53586 14.3241L6.82875 13.617ZM13.617 14.3241C13.8122 14.5194 14.1288 14.5194 14.3241 14.3241C14.5193 14.1289 14.5193 13.8123 14.3241 13.617L13.617 14.3241ZM7.53586 6.82878C7.34059 6.63352 7.02401 6.63352 6.82875 6.82878C6.63349 7.02405 6.63349 7.34063 6.82875 7.53589L7.53586 6.82878ZM17.0111 17.0111C13.4573 20.5649 7.69552 20.5649 4.14174 17.0111L3.43464 17.7182C7.37893 21.6625 13.7739 21.6625 17.7182 17.7182L17.0111 17.0111ZM4.14174 17.0111C0.587974 13.4573 0.587974 7.69555 4.14174 4.14178L3.43464 3.43467C-0.509658 7.37897 -0.509657 13.7739 3.43464 17.7182L4.14174 17.0111ZM4.14174 4.14178C7.69552 0.588007 13.4573 0.588007 17.0111 4.14178L17.7182 3.43467C13.7739 -0.509624 7.37893 -0.509624 3.43464 3.43467L4.14174 4.14178ZM17.0111 4.14178C20.5649 7.69555 20.5649 13.4573 17.0111 17.0111L17.7182 17.7182C21.6625 13.7739 21.6625 7.37897 17.7182 3.43467L17.0111 4.14178ZM13.617 6.82878L10.2229 10.2229L10.93 10.93L14.3241 7.53589L13.617 6.82878ZM10.2229 10.2229L6.82875 13.617L7.53586 14.3241L10.93 10.93L10.2229 10.2229ZM14.3241 13.617L10.93 10.2229L10.2229 10.93L13.617 14.3241L14.3241 13.617ZM10.93 10.2229L7.53586 6.82878L6.82875 7.53589L10.2229 10.93L10.93 10.2229Z"
+                      fill="black"
+                    />
+                  </svg>
+                </span> -->
+
+                <span
+                  (click)="cBgGradient('#e91e63', '#f44336')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #e91e63 0%,
+                      #f44336 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#9c27b0', '#673ab7')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #9c27b0 0%,
+                      #673ab7 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#3f51b5', '#2196f3')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #3f51b5 0%,
+                      #2196f3 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#00bcd4', '#009688')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #00bcd4 0%,
+                      #009688 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#009688', '#8bc34a')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #009688 0%,
+                      #8bc34a 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#cddc39', '#ffeb3b')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #cddc39 0%,
+                      #ffeb3b 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#ff9800', '#ff5722')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #ff9800 0%,
+                      #ff5722 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#607d8b', '#df9d85')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #607d8b 0%,
+                      #df9d85 100%
+                    );
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="activeModalIndex == 3" class="cus-modal-3-settings">
+            <!-- <p class="cus-modal-setting-h">Choose your Logo</p>
+
+          <div
+            style="
+              display: flex;
+              padding: 15px;
+              justify-content: center;
+              align-items: center;
+              gap: 15px;
+              border-radius: 20px;
+              border: 1px solid #e4e4e7;
+              color: var(--text, #636364);
+
+              /* Texi */
+              font-family: Nunito;
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+            "
+          >
+            <label class="switch_box" [class.active]="isChecked">
+              <input type="checkbox" [(ngModel)]="isChecked" />
+              <span class="slider"></span>
+            </label>
+            Hide Background Dots
+          </div> -->
+            <p class="cus-modal-setting-h">Upload Logo</p>
+            <input
+              type="file"
+              id="logo-upload"
+              style="display: none"
+              accept="image/*"
+              (change)="cImg($event)"
+            />
+            <label
+              for="logo-upload"
+              style="
+                display: flex;
+                width: 349px;
+                height: 75px;
+                padding: 17px;
+                align-items: center;
+                gap: 23px;
+                border-radius: 8px;
+                border: 2px dashed #d9d9d9;
+                color: var(--text, #636364); /* Texi */
+                font-family: Nunito;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                letter-spacing: 0.54px;
+              "
+            >
+              <img
+                src="../../../assets/gallery-icon (2).png"
+                style="width: 25px"
+              />
+              <span *ngIf="!logoDataUrl">Choose File – No File Chosen</span>
+              <span *ngIf="logoDataUrl">Change Logo</span>
+            </label>
+            <button
+              (click)="cRemoveLogo()"
+              [disabled]="!logoDataUrl"
+              style="
+                padding: 10px 20px;
+                background-color: #ff4d4f;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-family: Nunito;
+                font-weight: 600;
+                width: 349px;
+              "
+            >
+              Remove Logo
+            </button>
+          </div>
+
+          <div *ngIf="activeModalIndex == 4" class="cus-modal-3-settings">
+            <p class="cus-modal-setting-h">Error Correction Level</p>
+            <div style="display: flex; gap: 20px">
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('L')"
+              >
+                Low (7%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Best for clean environments
+                </p>
+              </div>
+
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('M')"
+              >
+                Medium (15%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Good for standard use
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 20px">
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('Q')"
+              >
+                Quartile (25%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Better damage resistance
+                </p>
+              </div>
+
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('H')"
+              >
+                High (30%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Best damage resistance
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cus-modal-3-qr" style="position: relative">
+            <!-- QR: Dot Solid + Corner Solid + Solid Background -->
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 200px;
+                aspect-ratio: 1/1;
+                position: absolute;
+              "
+              *ngIf="saveBtnText === 'Saving...'"
+            >
+              <div
+                style="
+                  background: white;
+                  opacity: 0.8;
+                  width: 200px;
+                  aspect-ratio: 1/1;
+                  position: absolute;
+                "
+              ></div>
+              <app-loader></app-loader>
+            </div>
+
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotSolid_cornerSolid_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Solid + Corner Solid + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotSolid_cornerSolid_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Solid + Corner Gradient + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotSolid_cornerGradient_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Solid + Corner Gradient + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotSolid_cornerGradient_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Solid + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotGradient_cornerSolid_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Solid + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotGradient_cornerSolid_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Gradient + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotGradient_cornerGradient_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Gradient + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                qrString.length > 0 &&
+                qrCombo === 'dotGradient_cornerGradient_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="qrString"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+                position: absolute;
+                width: 200px;
+                top: 224px;
+              "
+            >
+              <button
+                (click)="cDownloadQr()"
+                style="
+                  display: flex;
+                  padding: 10px 0px;
+                  font-size: 10px;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 6.507px;
+                  flex: 1 0 0;
+                  border-radius: 3.254px;
+                  border: 0.651px solid rgba(0, 0, 0, 0.2);
+                  box-shadow: 0px 0px 6.507px 0px rgba(46, 188, 150, 0.2);
+                  background: white;
+                "
+              >
+                <svg
+                  width="12"
+                  height="14"
+                  viewBox="0 0 12 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.530273 9.09524L0.530274 11.5068C0.530274 11.8722 0.674247 12.2227 0.930521 12.4812C1.18679 12.7396 1.53438 12.8848 1.8968 12.8848H10.096C10.4584 12.8848 10.806 12.7396 11.0623 12.4812C11.3185 12.2227 11.4625 11.8722 11.4625 11.5068V9.09524M5.99715 1.11523V8.92397M5.99715 8.92397L9.12064 5.94028M5.99715 8.92397L2.87366 5.94028"
+                    stroke="black"
+                    stroke-width="0.976092"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Download Qr
+              </button>
+              <button
+                style="
+                  display: flex;
+                  padding: 10px 0px;
+                  font-size: 10px;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 6.507px;
+                  flex: 1 0 0;
+                  border-radius: 3.254px;
+                  background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%),
+                    #fff;
+                  box-shadow: 0px 0px 6.507px 0px rgba(46, 188, 150, 0.2);
+                  border: none;
+                  color: white;
+                "
+                (click)="cSaveQr()"
+              >
+                {{ saveBtnText }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+
+  <app-modal *ngIf="openUniversalQrCustomizeFromDetails">
+    <div
+      style="
+        width: 866px;
+        display: flex;
+        justify-content: center;
+        height: 568px;
+        overflow: scroll;
+        position: relative;
+      "
+    >
+      <img
+        *ngIf="!isQrChanged"
+        style="
+          position: absolute;
+          z-index: 1000;
+          width: 202px;
+          height: 202px;
+          right: 50px;
+          top: 159px;
+        "
+        [src]="activeQrDetails.recordWithoutPublicId[0].qrCodeImage"
+      />
+      <div class="cus-modal">
+        <div class="cus-modal-1">
+          <h1>Design your QR <img src="../../../assets/warning.png" /></h1>
+          <div class="cus-modol-1-btn-con">
+            <!-- <button (click)="cSaveQrFromDetails()">{{ saveBtnText }}</button> -->
+            <button
+              (click)="
+                openUniversalQrCustomizeFromDetails =
+                  !openUniversalQrCustomizeFromDetails;
+                resetQr()
+              "
+              [disabled]="saveBtnText === 'Saving...'"
+              style="background: white !important"
+            >
+              <svg
+                width="22"
+                height="21"
+                viewBox="0 0 22 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20.975 19.675L1.0153 1.32495M20.975 1.32495L1.0153 19.675"
+                  stroke="#2EBC96"
+                  stroke-width="1.2975"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="cus-modal-2">
+          <svg
+            width="20"
+            height="21"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 5.5H11V7.5H9V5.5ZM10 15.5C10.55 15.5 11 15.05 11 14.5V10.5C11 9.95 10.55 9.5 10 9.5C9.45 9.5 9 9.95 9 10.5V14.5C9 15.05 9.45 15.5 10 15.5ZM10 0.5C4.48 0.5 0 4.98 0 10.5C0 16.02 4.48 20.5 10 20.5C15.52 20.5 20 16.02 20 10.5C20 4.98 15.52 0.5 10 0.5ZM10 18.5C5.59 18.5 2 14.91 2 10.5C2 6.09 5.59 2.5 10 2.5C14.41 2.5 18 6.09 18 10.5C18 14.91 14.41 18.5 10 18.5Z"
+              fill="#636364"
+            />
+          </svg>
+          <div
+            (click)="setModalActive(0)"
+            [class.active]="activeModalIndex === 0"
+          >
+            Shape
+          </div>
+          <div
+            (click)="setModalActive(1)"
+            [class.active]="activeModalIndex === 1"
+          >
+            Eyes
+          </div>
+          <div
+            (click)="setModalActive(2)"
+            [class.active]="activeModalIndex === 2"
+          >
+            Background
+          </div>
+          <div
+            (click)="setModalActive(3)"
+            [class.active]="activeModalIndex === 3"
+          >
+            Logo
+          </div>
+          <div
+            (click)="setModalActive(4)"
+            [class.active]="activeModalIndex === 4"
+          >
+            Error Level
+          </div>
+        </div>
+
+        <div class="cus-modal-3">
+          <div *ngIf="activeModalIndex == 1" class="cus-modal-3-settings">
+            <div style="display: flex; gap: 20px">
+              <div
+                style="
+                  border-right: 2px solid rgba(26, 144, 150, 0.5);
+                  padding-right: 20px;
+                "
+              >
+                <p
+                  style="
+                    color: #000;
+                    font-family: 'DM Sans';
+                    font-size: 20px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 42px; /* 210% */
+                    letter-spacing: -0.4px;
+                  "
+                >
+                  External Eye
+                </p>
+                <p class="cus-modal-setting-h">Choose a style</p>
+                <div class="cus-modal-3-0-shape">
+                  <div (click)="cEyeExternal('square')">
+                    <!-- Square -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeExternal === 'square'
+                      }"
+                      src="../../../assets/ee1.png"
+                    />
+                  </div>
+                  <div (click)="cEyeExternal('dot')">
+                    <!-- Doted -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeExternal === 'dot'
+                      }"
+                      src="../../../assets/ee2.png"
+                    />
+                  </div>
+                  <div (click)="cEyeExternal('extra-rounded')">
+                    <!-- Rounded -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape':
+                          selectedEyeExternal === 'extra-rounded'
+                      }"
+                      src="../../../assets/ee3.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p
+                  style="
+                    color: #000;
+                    font-family: 'DM Sans';
+                    font-size: 20px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 42px; /* 210% */
+                    letter-spacing: -0.4px;
+                  "
+                >
+                  Internal Eye
+                </p>
+                <p class="cus-modal-setting-h">Choose a style</p>
+                <div class="cus-modal-3-0-shape">
+                  <div (click)="cEyeInternal('square')">
+                    <!-- Square -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeInternal === 'square'
+                      }"
+                      src="../../../assets/ei2.png"
+                    />
+                  </div>
+                  <div (click)="cEyeInternal('dot')">
+                    <!-- Doted -->
+                    <img
+                      [ngClass]="{
+                        'selected-shape': selectedEyeInternal === 'dot'
+                      }"
+                      src="../../../assets/ei1.png"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 440px;
+              "
+            >
+              <p class="cus-modal-setting-h">Solid Colors</p>
+              =
+            </div>
+            <div class="cus-modal-3-0-color">
+              <!-- Row 1 -->
+              <div style="margin-bottom: 10px">
+                <div style="gap: 0">
+                  <span [style.background]="eyeColor"
+                    ><label for="e-c">
+                      <svg
+                        width="21"
+                        height="22"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.0731 5.60711L15.9929 12.5269M1 15.9868L14.6314 2.35545C15.9053 1.08155 17.9707 1.08155 19.2446 2.35545C20.5185 3.62935 20.5185 5.69475 19.2446 6.96865L5.6132 20.6H1V15.9868Z"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg> </label
+                  ></span>
+                  <input
+                    type="color"
+                    name="e-c"
+                    id="e-c"
+                    [(ngModel)]="eyeColor"
+                    (change)="regenQr()"
+                    (input)="regenQr()"
+                  />
+                </div>
+                <span
+                  style="background: black"
+                  (click)="cEyeColor('black')"
+                ></span>
+                <span
+                  style="background: white"
+                  (click)="cEyeColor('white')"
+                ></span>
+                <span
+                  style="background: #f44336"
+                  (click)="cEyeColor('#f44336')"
+                ></span>
+                <span
+                  style="background: #e91e63"
+                  (click)="cEyeColor('#e91e63')"
+                ></span>
+                <span
+                  style="background: #9c27b0"
+                  (click)="cEyeColor('#9c27b0')"
+                ></span>
+                <span
+                  style="background: #673ab7"
+                  (click)="cEyeColor('#673ab7')"
+                ></span>
+                <span
+                  style="background: #3f51b5"
+                  (click)="cEyeColor('#3f51b5')"
+                ></span>
+                <span
+                  style="background: #2196f3"
+                  (click)="cEyeColor('#2196f3')"
+                ></span>
+              </div>
+
+              <!-- Row 2 -->
+              <div>
+                <span
+                  style="background: #009688"
+                  (click)="cEyeColor('#009688')"
+                ></span>
+                <span
+                  style="background: #8bc34a"
+                  (click)="cEyeColor('#8bc34a')"
+                ></span>
+                <span
+                  style="background: #cddc39"
+                  (click)="cEyeColor('#cddc39')"
+                ></span>
+                <span
+                  style="background: #ffeb3b"
+                  (click)="cEyeColor('#ffeb3b')"
+                ></span>
+                <span
+                  style="background: #ff9800"
+                  (click)="cEyeColor('#ff9800')"
+                ></span>
+                <span
+                  style="background: #ff5722"
+                  (click)="cEyeColor('#ff5722')"
+                ></span>
+                <span
+                  style="background: #795548"
+                  (click)="cEyeColor('#795548')"
+                ></span>
+                <span
+                  style="background: #607d8b"
+                  (click)="cEyeColor('#607d8b')"
+                ></span>
+                <span
+                  style="background: #00bcd4"
+                  (click)="cEyeColor('#00bcd4')"
+                ></span>
+              </div>
+            </div>
+            <p class="cus-modal-setting-h">Gradients</p>
+            <div class="cus-modal-3-0-gradients">
+              <div>
+                <label for="e-g-1" [style.background]="eyeGradient1">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="e-g-1"
+                  id="e-g-1"
+                  [(ngModel)]="eyeGradient1"
+                  (change)="pEyeGradient()"
+                  (input)="pEyeGradient()"
+                />
+                To
+
+                <label for="e-g-2" [style.background]="eyeGradient2">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="e-g-2"
+                  id="e-g-2"
+                  [(ngModel)]="eyeGradient2"
+                  (change)="pEyeGradient()"
+                  (input)="pEyeGradient()"
+                />
+              </div>
+              <div>
+                <!-- <span
+                  ><svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.3241 7.53589C14.5193 7.34063 14.5193 7.02405 14.3241 6.82878C14.1288 6.63352 13.8122 6.63352 13.617 6.82878L14.3241 7.53589ZM6.82875 13.617C6.63349 13.8123 6.63349 14.1289 6.82875 14.3241C7.02401 14.5194 7.34059 14.5194 7.53586 14.3241L6.82875 13.617ZM13.617 14.3241C13.8122 14.5194 14.1288 14.5194 14.3241 14.3241C14.5193 14.1289 14.5193 13.8123 14.3241 13.617L13.617 14.3241ZM7.53586 6.82878C7.34059 6.63352 7.02401 6.63352 6.82875 6.82878C6.63349 7.02405 6.63349 7.34063 6.82875 7.53589L7.53586 6.82878ZM17.0111 17.0111C13.4573 20.5649 7.69552 20.5649 4.14174 17.0111L3.43464 17.7182C7.37893 21.6625 13.7739 21.6625 17.7182 17.7182L17.0111 17.0111ZM4.14174 17.0111C0.587974 13.4573 0.587974 7.69555 4.14174 4.14178L3.43464 3.43467C-0.509658 7.37897 -0.509657 13.7739 3.43464 17.7182L4.14174 17.0111ZM4.14174 4.14178C7.69552 0.588007 13.4573 0.588007 17.0111 4.14178L17.7182 3.43467C13.7739 -0.509624 7.37893 -0.509624 3.43464 3.43467L4.14174 4.14178ZM17.0111 4.14178C20.5649 7.69555 20.5649 13.4573 17.0111 17.0111L17.7182 17.7182C21.6625 13.7739 21.6625 7.37897 17.7182 3.43467L17.0111 4.14178ZM13.617 6.82878L10.2229 10.2229L10.93 10.93L14.3241 7.53589L13.617 6.82878ZM10.2229 10.2229L6.82875 13.617L7.53586 14.3241L10.93 10.93L10.2229 10.2229ZM14.3241 13.617L10.93 10.2229L10.2229 10.93L13.617 14.3241L14.3241 13.617ZM10.93 10.2229L7.53586 6.82878L6.82875 7.53589L10.2229 10.93L10.93 10.2229Z"
+                      fill="black"
+                    />
+                  </svg>
+                </span> -->
+                <span
+                  (click)="cEyeGradient('#e91e63', '#f44336')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #e91e63 0%,
+                      #f44336 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#9c27b0', '#673ab7')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #9c27b0 0%,
+                      #673ab7 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#3f51b5', '#2196f3')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #3f51b5 0%,
+                      #2196f3 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#00bcd4', '#009688')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #00bcd4 0%,
+                      #009688 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#009688', '#8bc34a')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #009688 0%,
+                      #8bc34a 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#cddc39', '#ffeb3b')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #cddc39 0%,
+                      #ffeb3b 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#ff9800', '#ff5722')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #ff9800 0%,
+                      #ff5722 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cEyeGradient('#607d8b', '#df9d85')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #607d8b 0%,
+                      #df9d85 100%
+                    );
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="activeModalIndex == 0" class="cus-modal-3-settings">
+            <p class="cus-modal-setting-h">Choose a style</p>
+            <div class="cus-modal-3-0-shape">
+              <div (click)="cDotStyle('square')">
+                Square
+                <img
+                  src="../../../assets/qr-shape-1.png"
+                  [ngClass]="{
+                    'selected-shape': selectedDotStyle === 'square'
+                  }"
+                />
+              </div>
+              <div (click)="cDotStyle('dots')">
+                Doted
+                <img
+                  src="../../../assets/qr-shape-2.png"
+                  [ngClass]="{ 'selected-shape': selectedDotStyle === 'dots' }"
+                />
+              </div>
+              <div (click)="cDotStyle('rounded')">
+                Rounded
+                <img
+                  src="../../../assets/qr-shape-3.png"
+                  [ngClass]="{
+                    'selected-shape': selectedDotStyle === 'rounded'
+                  }"
+                />
+              </div>
+              <div (click)="cDotStyle('classy')">
+                Sharp Edges
+                <img
+                  [ngClass]="{
+                    'selected-shape': selectedDotStyle === 'classy'
+                  }"
+                  src="../../../assets/qr-shape-4.png"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 440px;
+              "
+            >
+              <p class="cus-modal-setting-h">Solid Colors</p>
+            </div>
+
+            <div class="cus-modal-3-0-color">
+              <div>
+                <div style="gap: 0">
+                  <span [style.background]="dotColor">
+                    <label for="d-c">
+                      <svg
+                        width="21"
+                        height="22"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.0731 5.60711L15.9929 12.5269M1 15.9868L14.6314 2.35545C15.9053 1.08155 17.9707 1.08155 19.2446 2.35545C20.5185 3.62935 20.5185 5.69475 19.2446 6.96865L5.6132 20.6H1V15.9868Z"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg> </label
+                  ></span>
+                  <input
+                    type="color"
+                    name="d-c"
+                    id="d-c"
+                    [(ngModel)]="dotColor"
+                    (change)="regenQr()"
+                    (input)="regenQr()"
+                  />
+                </div>
+
+                <span
+                  *ngFor="
+                    let color of [
+                      '#000000',
+                      '#ffffff',
+                      '#f44336',
+                      '#e91e63',
+                      '#9c27b0',
+                      '#673ab7',
+                      '#3f51b5',
+                      '#2196f3'
+                    ]
+                  "
+                  [style.background]="color"
+                  [ngClass]="{ 'selected-color': selectedDotColor === color }"
+                  (click)="cDotColor(color)"
+                ></span>
+              </div>
+              <div>
+                <span
+                  *ngFor="
+                    let color of [
+                      '#009688',
+                      '#8bc34a',
+                      '#cddc39',
+                      '#ffeb3b',
+                      '#ff9800',
+                      '#ff5722',
+                      '#795548',
+                      '#607d8b',
+                      '#00bcd4'
+                    ]
+                  "
+                  [style.background]="color"
+                  [ngClass]="{ 'selected-color': selectedDotColor === color }"
+                  (click)="cDotColor(color)"
+                ></span>
+              </div>
+            </div>
+
+            <p class="cus-modal-setting-h">Gradients</p>
+            <div class="cus-modal-3-0-gradients">
+              <div>
+                <label for="d-g-1" [style.background]="dotGradient1">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="d-g-1"
+                  id="d-g-1"
+                  [(ngModel)]="dotGradient1"
+                  (change)="pDotGradient()"
+                  (input)="pDotGradient()"
+                />
+                To
+
+                <label for="d-g-2" [style.background]="dotGradient2">
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="d-g-2"
+                  id="d-g-2"
+                  [(ngModel)]="dotGradient2"
+                  (change)="pDotGradient()"
+                  (input)="pDotGradient()"
+                />
+              </div>
+              <div>
+                <!-- Solid Color (example) -->
+                <span
+                  style="background: black"
+                  (click)="cDotColor('black')"
+                ></span>
+
+                <!-- Gradient Options -->
+                <span
+                  (click)="cDotGradient('#e91e63', '#f44336')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #e91e63 0%,
+                      #f44336 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#9c27b0', '#673ab7')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #9c27b0 0%,
+                      #673ab7 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#3f51b5', '#2196f3')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #3f51b5 0%,
+                      #2196f3 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#00bcd4', '#009688')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #00bcd4 0%,
+                      #009688 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#009688', '#8bc34a')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #009688 0%,
+                      #8bc34a 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#cddc39', '#ffeb3b')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #cddc39 0%,
+                      #ffeb3b 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#ff9800', '#ff5722')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #ff9800 0%,
+                      #ff5722 100%
+                    );
+                  "
+                ></span>
+                <span
+                  (click)="cDotGradient('#607d8b', '#df9d85')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #607d8b 0%,
+                      #df9d85 100%
+                    );
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="activeModalIndex == 2" class="cus-modal-3-settings">
+            <div
+              style="
+                width: 440px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <p class="cus-modal-setting-h">Solid Colors</p>
+            </div>
+            <div class="cus-modal-3-0-color">
+              <div>
+                <div style="gap: 0">
+                  <span [style.background]="bgColor">
+                    <label for="b-c">
+                      <svg
+                        width="21"
+                        height="22"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.0731 5.60711L15.9929 12.5269M1 15.9868L14.6314 2.35545C15.9053 1.08155 17.9707 1.08155 19.2446 2.35545C20.5185 3.62935 20.5185 5.69475 19.2446 6.96865L5.6132 20.6H1V15.9868Z"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </label>
+                  </span>
+                  <input
+                    type="color"
+                    name="b-c"
+                    id="b-c"
+                    [(ngModel)]="bgColor"
+                    (change)="regenQr()"
+                    (input)="regenQr()"
+                  />
+                </div>
+
+                <span
+                  (click)="cBgColor('black')"
+                  style="background: black"
+                ></span>
+                <span
+                  (click)="cBgColor('white')"
+                  style="background: white"
+                ></span>
+                <span
+                  (click)="cBgColor('#f44336')"
+                  style="background: #f44336"
+                ></span>
+                <span
+                  (click)="cBgColor('#e91e63')"
+                  style="background: #e91e63"
+                ></span>
+                <span
+                  (click)="cBgColor('#9c27b0')"
+                  style="background: #9c27b0"
+                ></span>
+                <span
+                  (click)="cBgColor('#673ab7')"
+                  style="background: #673ab7"
+                ></span>
+                <span
+                  (click)="cBgColor('#3f51b5')"
+                  style="background: #3f51b5"
+                ></span>
+                <span
+                  (click)="cBgColor('#2196f3')"
+                  style="background: #2196f3"
+                ></span>
+              </div>
+              <div>
+                <span
+                  (click)="cBgColor('#009688')"
+                  style="background: #009688"
+                ></span>
+                <span
+                  (click)="cBgColor('#8bc34a')"
+                  style="background: #8bc34a"
+                ></span>
+                <span
+                  (click)="cBgColor('#cddc39')"
+                  style="background: #cddc39"
+                ></span>
+                <span
+                  (click)="cBgColor('#ffeb3b')"
+                  style="background: #ffeb3b"
+                ></span>
+                <span
+                  (click)="cBgColor('#ff9800')"
+                  style="background: #ff9800"
+                ></span>
+                <span
+                  (click)="cBgColor('#ff5722')"
+                  style="background: #ff5722"
+                ></span>
+                <span
+                  (click)="cBgColor('#795548')"
+                  style="background: #795548"
+                ></span>
+                <span
+                  (click)="cBgColor('#607d8b')"
+                  style="background: #607d8b"
+                ></span>
+                <span
+                  (click)="cBgColor('#00bcd4')"
+                  style="background: #00bcd4"
+                ></span>
+              </div>
+            </div>
+
+            <p class="cus-modal-setting-h">Gradients</p>
+            <div class="cus-modal-3-0-gradients">
+              <div>
+                <label for="b-b-1" [style.background]="bgGradient1">
+                  <!-- Keep same icon -->
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="b-b-1"
+                  id="b-b-1"
+                  [(ngModel)]="bgGradient1"
+                  (change)="pBgGradient()"
+                  (input)="pBgGradient()"
+                />
+                To
+
+                <label for="b-b-2" [style.background]="bgGradient2">
+                  <!-- Keep same icon -->
+                  <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.0731 5.20709L15.9929 12.1269M1 15.5868L14.6314 1.95543C15.9053 0.681526 17.9707 0.681524 19.2446 1.95542C20.5185 3.22932 20.5185 5.29472 19.2446 6.56863L5.6132 20.2H1V15.5868Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="color"
+                  name="b-b-2"
+                  id="b-b-2"
+                  [(ngModel)]="bgGradient2"
+                  (change)="pBgGradient()"
+                  (input)="pBgGradient()"
+                />
+              </div>
+
+              <div>
+                <!-- <span
+                  ><svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 21 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.3241 7.53589C14.5193 7.34063 14.5193 7.02405 14.3241 6.82878C14.1288 6.63352 13.8122 6.63352 13.617 6.82878L14.3241 7.53589ZM6.82875 13.617C6.63349 13.8123 6.63349 14.1289 6.82875 14.3241C7.02401 14.5194 7.34059 14.5194 7.53586 14.3241L6.82875 13.617ZM13.617 14.3241C13.8122 14.5194 14.1288 14.5194 14.3241 14.3241C14.5193 14.1289 14.5193 13.8123 14.3241 13.617L13.617 14.3241ZM7.53586 6.82878C7.34059 6.63352 7.02401 6.63352 6.82875 6.82878C6.63349 7.02405 6.63349 7.34063 6.82875 7.53589L7.53586 6.82878ZM17.0111 17.0111C13.4573 20.5649 7.69552 20.5649 4.14174 17.0111L3.43464 17.7182C7.37893 21.6625 13.7739 21.6625 17.7182 17.7182L17.0111 17.0111ZM4.14174 17.0111C0.587974 13.4573 0.587974 7.69555 4.14174 4.14178L3.43464 3.43467C-0.509658 7.37897 -0.509657 13.7739 3.43464 17.7182L4.14174 17.0111ZM4.14174 4.14178C7.69552 0.588007 13.4573 0.588007 17.0111 4.14178L17.7182 3.43467C13.7739 -0.509624 7.37893 -0.509624 3.43464 3.43467L4.14174 4.14178ZM17.0111 4.14178C20.5649 7.69555 20.5649 13.4573 17.0111 17.0111L17.7182 17.7182C21.6625 13.7739 21.6625 7.37897 17.7182 3.43467L17.0111 4.14178ZM13.617 6.82878L10.2229 10.2229L10.93 10.93L14.3241 7.53589L13.617 6.82878ZM10.2229 10.2229L6.82875 13.617L7.53586 14.3241L10.93 10.93L10.2229 10.2229ZM14.3241 13.617L10.93 10.2229L10.2229 10.93L13.617 14.3241L14.3241 13.617ZM10.93 10.2229L7.53586 6.82878L6.82875 7.53589L10.2229 10.93L10.93 10.2229Z"
+                      fill="black"
+                    />
+                  </svg>
+                </span> -->
+
+                <span
+                  (click)="cBgGradient('#e91e63', '#f44336')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #e91e63 0%,
+                      #f44336 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#9c27b0', '#673ab7')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #9c27b0 0%,
+                      #673ab7 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#3f51b5', '#2196f3')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #3f51b5 0%,
+                      #2196f3 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#00bcd4', '#009688')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #00bcd4 0%,
+                      #009688 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#009688', '#8bc34a')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #009688 0%,
+                      #8bc34a 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#cddc39', '#ffeb3b')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #cddc39 0%,
+                      #ffeb3b 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#ff9800', '#ff5722')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #ff9800 0%,
+                      #ff5722 100%
+                    );
+                  "
+                ></span>
+
+                <span
+                  (click)="cBgGradient('#607d8b', '#df9d85')"
+                  style="
+                    background: linear-gradient(
+                      270deg,
+                      #607d8b 0%,
+                      #df9d85 100%
+                    );
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="activeModalIndex == 3" class="cus-modal-3-settings">
+            <!-- <p class="cus-modal-setting-h">Choose your Logo</p>
+
+          <div
+            style="
+              display: flex;
+              padding: 15px;
+              justify-content: center;
+              align-items: center;
+              gap: 15px;
+              border-radius: 20px;
+              border: 1px solid #e4e4e7;
+              color: var(--text, #636364);
+
+              /* Texi */
+              font-family: Nunito;
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+            "
+          >
+            <label class="switch_box" [class.active]="isChecked">
+              <input type="checkbox" [(ngModel)]="isChecked" />
+              <span class="slider"></span>
+            </label>
+            Hide Background Dots
+          </div> -->
+            <p class="cus-modal-setting-h">Upload Logo</p>
+            <input
+              type="file"
+              id="logo-upload"
+              style="display: none"
+              accept="image/*"
+              (change)="cImg($event)"
+            />
+            <label
+              for="logo-upload"
+              style="
+                display: flex;
+                width: 349px;
+                height: 75px;
+                padding: 17px;
+                align-items: center;
+                gap: 23px;
+                border-radius: 8px;
+                border: 2px dashed #d9d9d9;
+                color: var(--text, #636364); /* Texi */
+                font-family: Nunito;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                letter-spacing: 0.54px;
+              "
+            >
+              <img
+                src="../../../assets/gallery-icon (2).png"
+                style="width: 25px"
+              />
+              <span *ngIf="!logoDataUrl">Choose File – No File Chosen</span>
+              <span *ngIf="logoDataUrl">Change Logo</span>
+            </label>
+            <button
+              (click)="cRemoveLogo()"
+              [disabled]="!logoDataUrl"
+              style="
+                padding: 10px 20px;
+                background-color: #ff4d4f;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-family: Nunito;
+                font-weight: 600;
+                width: 349px;
+              "
+            >
+              Remove Logo
+            </button>
+          </div>
+
+          <div *ngIf="activeModalIndex == 4" class="cus-modal-3-settings">
+            <p class="cus-modal-setting-h">Error Correction Level</p>
+            <div style="display: flex; gap: 20px">
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('L')"
+              >
+                Low (7%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Best for clean environments
+                </p>
+              </div>
+
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('M')"
+              >
+                Medium (15%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Good for standard use
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 20px">
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('Q')"
+              >
+                Quartile (25%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Better damage resistance
+                </p>
+              </div>
+
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  padding: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #1a9096;
+                  color: #000;
+                  font-family: 'DM Sans';
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 42px; /* 262.5% */
+                  letter-spacing: -0.32px;
+                  text-transform: capitalize;
+                "
+                (click)="cErrorCorrection('H')"
+              >
+                High (30%)
+                <p
+                  style="
+                    color: var(--text, #636364);
+                    text-align: center;
+                    font-family: 'DM Sans';
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px; /* 128.571% */
+                    letter-spacing: -0.28px;
+                    text-transform: capitalize;
+                  "
+                >
+                  Best damage resistance
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cus-modal-3-qr" style="position: relative">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 200px;
+                aspect-ratio: 1/1;
+                position: absolute;
+              "
+              *ngIf="saveBtnText === 'Saving...'"
+            >
+              <div
+                style="
+                  background: white;
+                  opacity: 0.8;
+                  width: 200px;
+                  aspect-ratio: 1/1;
+                  position: absolute;
+                "
+              ></div>
+              <app-loader></app-loader>
+            </div>
+
+            <!-- QR: Dot Solid + Corner Solid + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotSolid_cornerSolid_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Solid + Corner Solid + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotSolid_cornerSolid_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Solid + Corner Gradient + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotSolid_cornerGradient_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Solid + Corner Gradient + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotSolid_cornerGradient_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{ type: dotStyle, color: dotColor }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Solid + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotGradient_cornerSolid_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Solid + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotGradient_cornerSolid_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{ type: eyeExternal, color: eyeColor }"
+              [cornersDotOptions]="{ type: eyeInternal, color: eyeColor }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Gradient + Solid Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotGradient_cornerGradient_solidBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{ color: bgColor }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <!-- QR: Dot Gradient + Corner Gradient + Gradient Background -->
+            <ngx-qrcode-styling
+              *ngIf="
+                qrShouldRender &&
+                currentQr.length > 0 &&
+                qrCombo === 'dotGradient_cornerGradient_gradientBg'
+              "
+              [width]="200"
+              [height]="200"
+              [margin]="1"
+              [data]="currentQr"
+              [dotsOptions]="{
+                type: dotStyle,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: dotGradient1 },
+                    { offset: 1, color: dotGradient2 }
+                  ]
+                }
+              }"
+              [cornersSquareOptions]="{
+                type: eyeExternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [cornersDotOptions]="{
+                type: eyeInternal,
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: eyeGradient1 },
+                    { offset: 1, color: eyeGradient2 }
+                  ]
+                }
+              }"
+              [image]="logoDataUrl"
+              [imageOptions]="{
+                crossOrigin: 'anonymous',
+                margin: 2,
+                imageSize: 0.4
+              }"
+              [backgroundOptions]="{
+                gradient: {
+                  type: 'linear',
+                  rotation: 0.5,
+                  colorStops: [
+                    { offset: 0, color: bgGradient1 },
+                    { offset: 1, color: bgGradient2 }
+                  ]
+                }
+              }"
+              [qrOptions]="{
+                typeNumber: typeNum,
+                mode: 'Byte',
+                errorCorrectionLevel: errorCorrection
+              }"
+              id="cQrCode"
+            ></ngx-qrcode-styling>
+
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+                position: absolute;
+                width: 200px;
+                top: 224px;
+              "
+            >
+              <button
+                (click)="cDownloadQr()"
+                style="
+                  display: flex;
+                  padding: 10px 0;
+                  font-size: 10px;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 6.507px;
+                  flex: 1 0 0;
+                  border-radius: 3.254px;
+                  border: 0.651px solid rgba(0, 0, 0, 0.2);
+                  box-shadow: 0px 0px 6.507px 0px rgba(46, 188, 150, 0.2);
+                  background: white;
+                "
+              >
+                <svg
+                  width="12"
+                  height="14"
+                  viewBox="0 0 12 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.530273 9.09524L0.530274 11.5068C0.530274 11.8722 0.674247 12.2227 0.930521 12.4812C1.18679 12.7396 1.53438 12.8848 1.8968 12.8848H10.096C10.4584 12.8848 10.806 12.7396 11.0623 12.4812C11.3185 12.2227 11.4625 11.8722 11.4625 11.5068V9.09524M5.99715 1.11523V8.92397M5.99715 8.92397L9.12064 5.94028M5.99715 8.92397L2.87366 5.94028"
+                    stroke="black"
+                    stroke-width="0.976092"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Download Qr
+              </button>
+              <button
+                style="
+                  display: flex;
+                  padding: 10px 0px;
+                  font-size: 10px;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 6.507px;
+                  flex: 1 0 0;
+                  border-radius: 3.254px;
+                  background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%),
+                    #fff;
+                  box-shadow: 0px 0px 6.507px 0px rgba(46, 188, 150, 0.2);
+                  border: none;
+                  color: white;
+                "
+                (click)="cSaveQrFromDetails()"
+              >
+                {{ saveBtnText }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+
+  <div class="nav">
+    <button
+      (click)="
+        setActive('universal');
+        updateFilteredQrCodes();
+        selectedItemIndex = null;
+        currentPage = 1
+      "
+      [class.active]="activeButton === 'universal'"
+    >
+      Universal QR
+    </button>
+    <button
+      (click)="
+        setActive('smart');
+        updateFilteredQrCodes();
+        selectedItemIndex = null;
+        currentPage = 1
+      "
+      [class.active]="activeButton === 'smart'"
+    >
+      Smart Locations QR
+    </button>
+  </div>
+
+  <div class="qr-banner">
+    <div>
+      <h3>Universal QR Code – Instant Taxi Bookings!</h3>
+      <p>
+        Generate a Universal QR Code to let anyone book a ride instantly! When
+        scanned, users are redirected to the Taxi Messages WhatsApp chatbot,
+        where they can enter their location and request a ride. 
+      </p>
+      <p>
+        Perfect for: Taxi stands, public places, hotels, and businesses that
+        want to offer easy ride access.
+      </p>
+    </div>
+    <img src="../../../assets/qr-new-banner.png" />
+    <!-- <img src="../../../assets/qr-banner-gradient.png" /> -->
+  </div>
+
+  <!-- Content for Universal QR -->
+  <div *ngIf="activeButton === 'universal'">
+    <h2 class="qr-sec" *ngIf="showUniversalQrGenerator">
+      Set Up Your Universal QR Code
+      <img height="25px" width="25px" src="../../../assets/warning.png" />
+    </h2>
+    <!-- <div
+      *ngIf="showUniversalQrGenerator"
+      class="note-banner"
+      style="display: flex; justify-content: start; gap: 5px"
+    >
+      <strong style="color: black"
+        ><img style="width: 15px" src="../../../assets/info-icon.png" />
+        Important Note:
+      </strong>
+      <p style="text-align: left; color: black; font-weight: 400">
+        Create a Universal QR Code for instant taxi bookings, allowing users to
+        scan and access the Taxi Messages chatbot seamlessly. Easily customize
+        your QR, update details anytime, and download it in PDF, PNG, or JPG
+        formats for easy sharing. Perfect for taxi stands, hotels, offices, and
+        public spaces, this QR code ensures quick and hassle-free ride access in
+        just one scan.
+      </p>
+      <button>
+        <img src="../../../assets/close-icon.png" />
+      </button>
+    </div> -->
+
+    <div
+      class="main"
+      *ngIf="showUniversalQrGenerator || filteredQrCodes.length == 0"
+    >
+      <div class="main-left">
+        <div>
+          <p style="width: 100%; display: flex; justify-content: space-between">
+            Title Name
+            <span *ngIf="!universalQrData">
+              {{ inputUniversalTitleName?.length || 0 }}/50
+              <!-- <img
+              style="width: 10px; height: 10px"
+                src="../../../assets/edit-pen.png"
+                /> -->
+            </span>
+          </p>
+          <input
+            [(ngModel)]="inputUniversalTitleName"
+            placeholder="Type here"
+            maxlength="50"
+            [readonly]="universalQrData"
+          />
+        </div>
+        <div class="left-textarea">
+          <p style="width: 100%; display: flex; justify-content: space-between">
+            Prefilled Text
+            <span *ngIf="!universalQrData">
+              {{ inputUniversalPreferenceText?.length || 0 }}/80
+              <!-- <img
+              style="width: 10px; height: 10px"
+                src="../../../assets/edit-pen.png"
+              /> -->
+            </span>
+          </p>
+          <input
+            [(ngModel)]="inputUniversalPreferenceText"
+            placeholder="Type here"
+            maxlength="80"
+            [readonly]="universalQrData"
+          />
+        </div>
+        <div class="left-btn-con" *ngIf="!universalQrData">
+          <button
+            (click)="generateUniversalQRCode()"
+            [disabled]="
+              !inputUniversalTitleName?.trim() ||
+              !inputUniversalPreferenceText?.trim()
+            "
+          >
+            Generate QR Code
+          </button>
+        </div>
+      </div>
+      <div class="main-right" *ngIf="!universalQrData">
+        <!-- <div>
+            <button *ngIf="!universalQrData">
+              <img src="../../../assets/refresh-white.png" />
+            </button>
+            <button *ngIf="universalQrData" (click)="downloadUniversalQRCode()">
+              <img src="../../../assets/download-icon.png" />
+          </button>
+        </div> -->
+        <div class="qr-con">
+          <img class="qr-gif" src="../../../assets/qr-gif.gif" />
+          <img class="qr-code" src="../../../assets/empty-qr-area.png" />
+        </div>
+        <p class="main-right-info-text" *ngIf="!universalQrData">
+          Click the "Generate" button to create a QR code
+        </p>
+
+        <!-- <button>
+          <img src="../../../assets/download-white.png" />
+          Download QR Code
+        </button> -->
+      </div>
+
+      <div class="main-right-qr" *ngIf="universalQrData">
+        <!-- <div
+        *ngIf="showLoader"
+        style="
+        height: 300px;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        "
+        >
+        <app-loader></app-loader>
+      </div> -->
+
+        <ngx-qrcode-styling
+          *ngIf="universalQrString.length > 0"
+          #qrCodeElem
+          [width]="300"
+          [height]="300"
+          [data]="universalQrString"
+          [dotsOptions]="{ color: '#000', type: 'rounded' }"
+          [backgroundOptions]="{ color: '#fff' }"
+          [image]="''"
+          [imageOptions]="{ crossOrigin: 'anonymous', margin: 10 }"
+          [qrOptions]="{
+            typeNumber: typeNum,
+            mode: 'Byte',
+            errorCorrectionLevel: 'Q'
+          }"
+        >
+        </ngx-qrcode-styling>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+          "
+        >
+          <button
+            (click)="downloadGenQrCode()"
+            style="
+              display: flex;
+              width: 60%;
+              height: 41px;
+              align-items: center;
+              gap: 10px;
+              border-radius: 5px;
+              border: 1px solid rgba(0, 0, 0, 0.2);
+              box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+              background: white;
+              color: var(--dark-color, #181818);
+              text-align: center;
+              font-family: Nunito;
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+            "
+          >
+            <svg
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.59998 13.7199L1.59998 17.4257C1.59998 17.9874 1.82123 18.526 2.21505 18.9231C2.60888 19.3203 3.14302 19.5434 3.69998 19.5434H16.3C16.8569 19.5434 17.3911 19.3203 17.7849 18.9231C18.1787 18.526 18.4 17.9874 18.4 17.4257V13.7199M10.0011 1.45667V13.4567M10.0011 13.4567L14.8011 8.87151M10.0011 13.4567L5.20115 8.87151"
+                stroke="black"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Download QR
+          </button>
+          <button
+            style="
+              display: flex;
+              width: 40%;
+              height: 41px;
+              align-items: center;
+              gap: 10px;
+              border-radius: 5px;
+              border: 1px solid rgba(0, 0, 0, 0.2);
+              box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+              background: white;
+              color: var(--dark-color, #181818);
+              text-align: center;
+              font-family: Nunito;
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              letter-spacing: 0.54px;
+            "
+            (click)="copyQrLink()"
+          >
+            <svg
+              width="18"
+              height="19"
+              viewBox="0 0 18 19"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.1625 7.47502H16.1875C16.7467 7.47502 17.2 7.92834 17.2 8.48752L17.2 15.6C17.2 16.7046 16.3046 17.6 15.2 17.6L8.0875 17.6C7.52831 17.6 7.075 17.1467 7.075 16.5875V14.5625M9.1 1.40002L3.025 1.40002C1.90662 1.40002 1 2.30665 1 3.42502L1 9.50002C1 10.6184 1.90662 11.525 3.025 11.525L9.1 11.525C10.2184 11.525 11.125 10.6184 11.125 9.50002L11.125 3.42502C11.125 2.30665 10.2184 1.40003 9.1 1.40002Z"
+                stroke="black"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            Copy Link
+          </button>
+
+          <button
+            style="
+              width: 450px;
+              height: 50px;
+              display: flex;
+              align-items: center;
+            "
+            *ngIf="universalQrData"
+            (click)="openUniversalQrCustomize = true"
+            [disabled]="isNotCustomizable"
+          >
+            <ng-container *ngIf="!isNotCustomizable; else loading">
+              Customize QR Code
+            </ng-container>
+            <ng-template #loading>
+              <div class="load"></div>
+            </ng-template>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content for Smart Locations QR -->
+  <div *ngIf="activeButton === 'smart'">
+    <h2 class="qr-sec" *ngIf="showUniversalQrGenerator">
+      Set Up Your Smart Location QR
+      <img height="25px" width="25px" src="../../../assets/warning.png" />
+    </h2>
+    <!-- <div class="note-banner">
+      <strong
+        ><img src="../../../assets/info-icon.png" /> Important Note:
+      </strong>
+      <p
+        style="
+          text-align: left;
+          color: black;
+          font-weight: 400;
+          font-family: 'DM Sans';
+        "
+      >
+        Create a Universal QR Code for instant taxi bookings, allowing users to
+        scan and access the Taxi Messages chatbot seamlessly. Easily customize
+        your QR, update details anytime, and download it in PDF, PNG, or JPG
+        formats for easy sharing. Perfect for taxi stands, hotels, offices, and
+        public spaces, this QR code ensures quick and hassle-free ride access in
+        just one scan.
+      </p>
+      <button>
+        <img src="../../../assets/close-icon.png" />
+      </button>
+    </div> -->
+    <div style="width: 100%">
+      <div
+        *ngIf="showUniversalQrGenerator || filteredQrCodes.length == 0"
+        class="main"
+      >
+        <div class="main-left">
+          <div>
+            <p
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              Title Name
+              <span>
+                {{ inputSmartTitleName.length || 0 }}/50
+                <!-- <img
+                  style="width: 10px; height: 10px"
+                  src="../../../assets/edit-pen.png"
+                /> -->
+              </span>
+            </p>
+            <input
+              maxlength="50"
+              [(ngModel)]="inputSmartTitleName"
+              placeholder="Type here"
+              [readonly]="smartQrData"
+            />
+          </div>
+
+          <div>
+            <p
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              Prefilled Text
+              <span>
+                {{ inputSmartPrefilledText.length || 0 }}/80
+                <!-- <img
+                  style="width: 10px; height: 10px"
+                  src="../../../assets/edit-pen.png"
+                /> -->
+              </span>
+            </p>
+            <input
+              [(ngModel)]="inputSmartPrefilledText"
+              placeholder="Type here"
+              maxlength="80"
+              [readonly]="smartQrData"
+            />
+          </div>
+
+          <div class="left-textarea">
+            <p
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              Pickup Location
+              <span>
+                <!-- {{ inputSmartPickup.length || 0 }}/200 -->
+                <!-- <img
+                  style="width: 10px; height: 10px"
+                  src="../../../assets/edit-pen.png"
+                /> -->
+              </span>
+            </p>
+            <div style="position: relative">
+              <input
+                [(ngModel)]="inputSmartPickup"
+                (input)="getLocations()"
+                placeholder="Type here"
+                style="text-overflow: ellipsis"
+                [title]="inputSmartPickup"
+                [readonly]="smartQrData"
+              />
+              <div
+                style="
+                  position: absolute;
+                  top: 50%;
+                  right: 10px;
+                  transform: translateY(-50%);
+                "
+                *ngIf="locationLoader"
+              >
+                <div class="load"></div>
+              </div>
+              <div
+                *ngIf="locations.length != 0"
+                style="
+                  position: absolute;
+                  background: white;
+                  max-height: 200px;
+                  min-height: fit-content;
+                  overflow: scroll;
+                  box-shadow: 0 0 10px lightgray;
+                  padding: 0 10px;
+                  cursor: pointer;
+                  width: 100%;
+                  z-index: 10;
+                "
+              >
+                <div
+                  *ngFor="let location of locations; let i = index"
+                  style="border-bottom: 1px solid lightgray; padding: 10px"
+                  (click)="selectLocation(i)"
+                >
+                  {{ location.title }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="left-btn-con" *ngIf="!smartQrData">
+            <button
+              (click)="generateSmartQRCode()"
+              [disabled]="
+                !inputSmartTitleName?.trim() ||
+                !inputSmartPrefilledText?.trim() ||
+                !inputSmartPickup?.trim() ||
+                !inputSmartPickupLat ||
+                !inputSmartPickupLng
+              "
+            >
+              Generate QR Code
+            </button>
+            <!-- <button *ngIf="smartQrData">Save & View Stats</button>
+            <button
+              *ngIf="smartQrData"
+              (click)="generateSmartQRCode()"
+              style="width: 150px"
+            >
+              Edit Details
+            </button> -->
+          </div>
+        </div>
+        <div class="main-right" *ngIf="!smartQrData">
+          <div class="qr-con">
+            <img class="qr-gif" src="../../../assets/qr-gif.gif" />
+            <img class="qr-code" src="../../../assets/empty-qr-area.png" />
+          </div>
+          <p class="main-right-info-text">
+            Click the "Generate" button to create a QR code
+          </p>
+        </div>
+        <div class="main-right-qr" *ngIf="smartQrData">
+          <ngx-qrcode-styling
+            *ngIf="smartQrString.length > 0"
+            [width]="300"
+            [height]="300"
+            [data]="smartQrString"
+            [dotsOptions]="{ color: '#000', type: 'rounded' }"
+            [backgroundOptions]="{ color: '#fff' }"
+            [image]="''"
+            [imageOptions]="{ crossOrigin: 'anonymous', margin: 10 }"
+            [qrOptions]="{
+              typeNumber: typeNum,
+              mode: 'Byte',
+              errorCorrectionLevel: 'Q'
+            }"
+          >
+          </ngx-qrcode-styling>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              gap: 10px;
+            "
+          >
+            <button
+              (click)="downloadGenQrCode()"
+              style="
+                display: flex;
+                width: 60%;
+                height: 41px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 5px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+                background: white;
+                color: var(--dark-color, #181818);
+                text-align: center;
+                font-family: Nunito;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                letter-spacing: 0.54px;
+              "
+            >
+              <svg
+                width="20"
+                height="21"
+                viewBox="0 0 20 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.59998 13.7199L1.59998 17.4257C1.59998 17.9874 1.82123 18.526 2.21505 18.9231C2.60888 19.3203 3.14302 19.5434 3.69998 19.5434H16.3C16.8569 19.5434 17.3911 19.3203 17.7849 18.9231C18.1787 18.526 18.4 17.9874 18.4 17.4257V13.7199M10.0011 1.45667V13.4567M10.0011 13.4567L14.8011 8.87151M10.0011 13.4567L5.20115 8.87151"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Download QR
+            </button>
+            <button
+              style="
+                display: flex;
+                width: 40%;
+                height: 41px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 5px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                box-shadow: 0px 0px 10px 0px rgba(46, 188, 150, 0.2);
+                background: white;
+                color: var(--dark-color, #181818);
+                text-align: center;
+                font-family: Nunito;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                letter-spacing: 0.54px;
+              "
+              (click)="copyQrLink()"
+            >
+              <svg
+                width="18"
+                height="19"
+                viewBox="0 0 18 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.1625 7.47502H16.1875C16.7467 7.47502 17.2 7.92834 17.2 8.48752L17.2 15.6C17.2 16.7046 16.3046 17.6 15.2 17.6L8.0875 17.6C7.52831 17.6 7.075 17.1467 7.075 16.5875V14.5625M9.1 1.40002L3.025 1.40002C1.90662 1.40002 1 2.30665 1 3.42502L1 9.50002C1 10.6184 1.90662 11.525 3.025 11.525L9.1 11.525C10.2184 11.525 11.125 10.6184 11.125 9.50002L11.125 3.42502C11.125 2.30665 10.2184 1.40003 9.1 1.40002Z"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+              Copy Link
+            </button>
+
+            <button
+              style="
+                width: 450px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+              "
+              *ngIf="smartQrString"
+              (click)="openUniversalQrCustomize = true"
+              [disabled]="isNotCustomizable"
+            >
+              <ng-container *ngIf="!isNotCustomizable; else loading">
+                Customize QR Code
+              </ng-container>
+              <ng-template #loading>
+                <div class="load"></div>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+
+        <!-- <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+          "
+          *ngIf="smartQrData"
+        >
+          <p class="main-right-info-text">Download QR Code</p>
+        </div>
+        <button *ngIf="smartQrData">Customize QR Code</button> -->
+      </div>
+    </div>
+  </div>
+</main>
+
+<main *ngIf="filteredQrCodes.length > 0">
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <h2 class="qr-sec">QR Code List</h2>
+
+    <div style="display: flex; align-items: center">
+      <input
+        style="
+          padding: 10px;
+          outline: none;
+          border-top-left-radius: 40px;
+          border-bottom-left-radius: 40px;
+          border: 1px solid rgba(46, 188, 150, 0.2);
+          background: rgba(46, 188, 150, 0.2);
+          width: 350px;
+        "
+        placeholder="QR Code Title"
+        [(ngModel)]="searchQrQry"
+      />
+      <button
+        (click)="searchQr()"
+        style="
+          border-top-right-radius: 40px;
+          border-bottom-right-radius: 40px;
+          background: linear-gradient(0deg, #2ebc96 0%, #1a9096 100%);
+          box-shadow: 0px 5px 22px 0px rgba(238, 238, 238, 0.5);
+          color: white;
+          font-family: Poppins;
+          font-size: 1rem;
+          border: none;
+          padding: 8.5px 20px;
+        "
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M20.9999 21L16.6499 16.65"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div style="display: flex; gap: 10px">
+      <button
+        (click)="fetchQrList()"
+        style="
+          border-radius: 8px;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+          color: #fff;
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          border: none;
+          padding: 10px 20px;
+        "
+      >
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 30 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M26.25 3.75V10M26.25 10H20M26.25 10L22.5 6.6146C20.5096 4.8332 17.8814 3.75 15 3.75C8.7868 3.75 3.75 8.7868 3.75 15C3.75 21.2133 8.7868 26.25 15 26.25C20.354 26.25 24.8344 22.51 25.9713 17.5"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Refresh
+      </button>
+      <button
+        (click)="
+          universalQrData = '';
+          smartQrData = '';
+          universalQrString = '';
+          showUniversalQrGenerator = true;
+          inputUniversalTitleName = '';
+          inputUniversalPreferenceText = '';
+          qrString = '';
+          smartQrString = '';
+          inputSmartPickup = '';
+          inputSmartPrefilledText = '';
+          inputSmartTitleName = '';
+          inputSmartPickupLat = '';
+          inputSmartPickupLng = ''
+        "
+        style="
+          border-radius: 8px;
+          background: linear-gradient(270deg, #2ebc96 0%, #1a9096 100%);
+          color: #fff;
+          font-family: Nunito;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          border: none;
+          padding: 10px 20px;
+        "
+      >
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M0 1.22273L0.877727 0.345001H7.89955L8.77727 1.22273V8.24455L7.89955 9.12227H0.877727L0 8.24455V1.22273ZM1.75545 2.10046V7.36682H7.02182V2.10046H1.75545ZM11.4105 0.345001L10.5327 1.22273V8.24455L11.4105 9.12227H18.4323L19.31 8.24455V1.22273L18.4323 0.345001H11.4105ZM12.2882 7.36682V2.10046H17.5545V7.36682H12.2882ZM15.7991 19.655H14.0436V16.1441H10.5327V14.3886H14.0436V10.8777H15.7991V14.3886H19.31V16.1441H15.7991V19.655ZM0.877727 10.8777L0 11.7555V18.7773L0.877727 19.655H7.89955L8.77727 18.7773V11.7555L7.89955 10.8777H0.877727ZM1.75545 17.8995V12.6332H7.02182V17.8995H1.75545Z"
+            fill="white"
+          />
+        </svg>
+        Add QR Code
+      </button>
+    </div>
+  </div>
+  <!-- <div class="note-banner" style="margin-bottom: 40px">
+    <strong
+      ><img src="../../../assets/info-icon.png" /> Important Note:
+    </strong>
+    <p style="text-align: left; color: black; font-weight: 400">
+      Create a Universal QR Code for instant taxi bookings, allowing users to
+      scan and access the Taxi Messages chatbot seamlessly. Easily customize
+      your QR, update details anytime, and download it in PDF, PNG, or JPG
+      formats for easy sharing. Perfect for taxi stands, hotels, offices, and
+      public spaces, this QR code ensures quick and hassle-free ride access in
+      just one scan.
+    </p>
+    <button>
+      <img src="../../../assets/close-icon.png" />
+    </button>
+  </div> -->
+  <div class="qr-table">
+    <div class="qr-table-head">
+      <div>No</div>
+      <!-- <div>QR Code</div> -->
+      <div>Create Date & Time</div>
+      <div>Title</div>
+      <div>Prefilled Text</div>
+      <div>Status</div>
+      <div>Actions</div>
+    </div>
+
+    <app-loader *ngIf="filteredQrCodes.length == 0"></app-loader>
+    <div class="qr-table-body" *ngIf="filteredQrCodes.length > 0">
+      <div
+        *ngFor="let item of filteredQrCodes; let i = index"
+        class="qr-table-item-container"
+      >
+        <div class="qr-table-item">
+          <div>
+            <div>{{ i + 1 }}</div>
+          </div>
+
+          <!-- <div>
+            <div
+              style="
+                height: fit-content;
+                width: 100px;
+                display: flex;
+                justify-content: center;
+                border-radius: 10px;
+              "
+            >
+              <img style="width: 100%" src="../../../assets/temp-qr.png" />
+            </div>
+          </div> -->
+          <div>{{ item.createdAt | date : "MM/dd/yyyy, h:mm:ss a" }}</div>
+          <div title="{{ item.title }}">{{ item.title }}</div>
+          <div title="{{ item.text }}">
+            {{ item.text }}
+          </div>
+          <div style="text-transform: capitalize">
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 15 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="7.5"
+                cy="7.69125"
+                r="7.5"
+                [attr.fill]="item.status === 'active' ? '#41D461' : '#FF4D4F'"
+              />
+            </svg>
+            {{ item.status }}
+          </div>
+          <div>
+            <span
+              (click)="toggleDetails(i)"
+              style="
+                height: 25px;
+                width: 30px;
+                border: 1px solid grey;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+              "
+            >
+              <img style="width: 15px" src="../../../assets/see-qr.png" />
+            </span>
+            <span
+              style="
+                height: 25px;
+                width: 30px;
+                border: 1px solid grey;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+              "
+              (click)="directToQrStats(i)"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.3999 1.40002V15.6H15.5999M4.9499 10.2751L8.05615 7.16887L10.2749 9.38762L15.1562 4.50637M11.8352 4.06252H15.6006V7.82787"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span
+              style="
+                height: 25px;
+                width: 30px;
+                border: 1px solid grey;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+              "
+              (click)="toggleDeleteModal(i)"
+            >
+              <img style="width: 15px" src="../../../assets/delete-qr.png" />
+            </span>
+          </div>
+        </div>
+        <div style="overflow: scroll" *ngIf="selectedItemIndex === i">
+          <div class="qr-table-item-detail">
+            <div class="qr-table-item-detail-l">
+              <div class="item-detail-l-1">
+                <div *ngIf="qrDetailImgLoader">
+                  <app-loader></app-loader>
+                </div>
+                <img
+                  *ngIf="!qrDetailImgLoader"
+                  [src]="activeQrDetails.recordWithoutPublicId[0].qrCodeImage"
+                />
+              </div>
+              <div class="item-detail-l-2">
+                <button
+                  (click)="
+                    openUniversalQrCustomizeFromDetails =
+                      !openUniversalQrCustomizeFromDetails;
+                    isQrChanged = false
+                  "
+                >
+                  Customize QR Code
+                </button>
+                <div class="">
+                  Status :
+                  <label
+                    [ngClass]="{ active: item.status === 'active' }"
+                    class="switch_box"
+                    (click)="
+                      updateQrStatus(
+                        i,
+                        item.status === 'active' ? 'inactive' : 'active'
+                      )
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      [checked]="item.status === 'active'"
+                      (change)="
+                        item.status =
+                          item.status === 'active' ? 'inactive' : 'active'
+                      "
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="qr-table-item-detail-r">
+              <div class="item-detail-r-1">
+                <div class="r-1-1">
+                  <div style="display: flex; gap: 15px">
+                    <p
+                      style="
+                        white-space: nowrap;
+                        display: flex;
+                        align-items: center;
+                      "
+                    >
+                      <span>Created: </span
+                      >{{
+                        filteredQrCodes[i].createdAt | date : "MMM d, y, h:mm a"
+                      }}
+                    </p>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        width: 290px;
+                        height: 40px;
+                      "
+                      *ngIf="item.type == 'location'"
+                    >
+                      <div
+                        style="
+                          box-shadow: 0 0 10px lightgrey;
+                          background: white;
+                          border-radius: 6px;
+                          display: flex;
+                          align-items: center;
+                          gap: 10px;
+                          position: absolute;
+                          right: 162px;
+                        "
+                      >
+                        <span
+                          ><p
+                            style="
+                              white-space: nowrap;
+                              text-overflow: ellipsis;
+                              overflow: hidden;
+                              font-size: 12px;
+
+                              padding: 5px;
+
+                              height: 40px;
+                              display: flex;
+                              align-items: center;
+                              border-radius: 6px;
+                            "
+                          >
+                            {{ activeQrDetails?.recordWithoutPublicId[0].url }}
+                          </p></span
+                        >
+                        <button
+                          class="r-1-1-1-copy"
+                          style="
+                            background: transparent;
+                            box-shadow: none;
+                            position: relative;
+                            z-index: 10;
+                            height: 40px;
+                            padding: 10px;
+                          "
+                          (click)="copyToClipboard()"
+                        >
+                          <svg
+                            width="18"
+                            height="19"
+                            viewBox="0 0 18 19"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M14.1625 7.475H16.1875C16.7467 7.475 17.2 7.92831 17.2 8.4875L17.2 15.6C17.2 16.7046 16.3046 17.6 15.2 17.6L8.0875 17.6C7.52831 17.6 7.075 17.1467 7.075 16.5875V14.5625M9.1 1.4L3.025 1.4C1.90662 1.4 1 2.30662 1 3.425L1 9.5C1 10.6184 1.90662 11.525 3.025 11.525L9.1 11.525C10.2184 11.525 11.125 10.6184 11.125 9.5L11.125 3.425C11.125 2.30663 10.2184 1.4 9.1 1.4Z"
+                              stroke="black"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                            />
+                          </svg>
+                          <!-- Copy Link -->
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="r-1-1-1" *ngIf="item.type == 'text'">
+                    <span
+                      ><p>
+                        {{ activeQrDetails?.recordWithoutPublicId[0].url }}
+                      </p></span
+                    >
+                    <button class="r-1-1-1-copy" (click)="copyToClipboard()">
+                      <svg
+                        width="18"
+                        height="19"
+                        viewBox="0 0 18 19"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14.1625 7.475H16.1875C16.7467 7.475 17.2 7.92831 17.2 8.4875L17.2 15.6C17.2 16.7046 16.3046 17.6 15.2 17.6L8.0875 17.6C7.52831 17.6 7.075 17.1467 7.075 16.5875V14.5625M9.1 1.4L3.025 1.4C1.90662 1.4 1 2.30662 1 3.425L1 9.5C1 10.6184 1.90662 11.525 3.025 11.525L9.1 11.525C10.2184 11.525 11.125 10.6184 11.125 9.5L11.125 3.425C11.125 2.30663 10.2184 1.4 9.1 1.4Z"
+                          stroke="black"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                      Copy Link
+                    </button>
+                  </div>
+                  <div class="r-1-1-2">
+                    <span
+                      >Title
+                      <button
+                        class="r-1-1-2-edit"
+                        *ngIf="isQrListTitleEditable"
+                        (click)="isQrListTitleEditable = !isQrListTitleEditable"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 11.247V13.6112C0 13.8289 0.171087 14 0.388835 14H2.75295C2.85405 14 2.95515 13.9611 3.02514 13.8833L11.5173 5.39897L8.60103 2.48271L0.116651 10.9671C0.0388836 11.0449 0 11.1382 0 11.247ZM13.7725 3.14373C14.0758 2.84044 14.0758 2.35051 13.7725 2.04722L11.9528 0.227468C11.6495 -0.0758228 11.1596 -0.0758228 10.8563 0.227468L9.43314 1.6506L12.3494 4.56687L13.7725 3.14373Z"
+                            fill="black"
+                          />
+                        </svg>
+                      </button>
+
+                      <div
+                        style="display: flex; gap: 10px"
+                        *ngIf="!isQrListTitleEditable"
+                      >
+                        <button class="r-1-1-2-save" (click)="updateQrTitle(i)">
+                          Save
+
+                          <svg
+                            width="13"
+                            height="14"
+                            viewBox="0 0 13 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7.79983 1.3999H2.89981C1.74001 1.3999 0.799805 2.34011 0.799805 3.49991V10.5C0.799805 11.6598 1.74001 12.6 2.89981 12.6H9.89984C11.0596 12.6 11.9999 11.6598 11.9999 10.5V6.64992M11.2998 3.14991L6.39983 8.04993L4.99982 6.64992"
+                              stroke="white"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="r-1-1-2-cancel"
+                          (click)="cancelQrTitle(i)"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </span>
+                    <input
+                      [disabled]="isQrListTitleEditable"
+                      [(ngModel)]="qrListTitle"
+                    />
+                  </div>
+                  <div class="r-1-1-2">
+                    <span
+                      >Prefilled Text
+
+                      <button
+                        class="r-1-1-2-edit"
+                        *ngIf="isQrListDescriptionEditable"
+                        (click)="
+                          isQrListDescriptionEditable =
+                            !isQrListDescriptionEditable
+                        "
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 11.247V13.6112C0 13.8289 0.171087 14 0.388835 14H2.75295C2.85405 14 2.95515 13.9611 3.02514 13.8833L11.5173 5.39897L8.60103 2.48271L0.116651 10.9671C0.0388836 11.0449 0 11.1382 0 11.247ZM13.7725 3.14373C14.0758 2.84044 14.0758 2.35051 13.7725 2.04722L11.9528 0.227468C11.6495 -0.0758228 11.1596 -0.0758228 10.8563 0.227468L9.43314 1.6506L12.3494 4.56687L13.7725 3.14373Z"
+                            fill="black"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        style="display: flex; gap: 10px"
+                        *ngIf="!isQrListDescriptionEditable"
+                      >
+                        <button class="r-1-1-2-save" (click)="updateQrText(i)">
+                          Save
+
+                          <svg
+                            width="13"
+                            height="14"
+                            viewBox="0 0 13 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7.79983 1.3999H2.89981C1.74001 1.3999 0.799805 2.34011 0.799805 3.49991V10.5C0.799805 11.6598 1.74001 12.6 2.89981 12.6H9.89984C11.0596 12.6 11.9999 11.6598 11.9999 10.5V6.64992M11.2998 3.14991L6.39983 8.04993L4.99982 6.64992"
+                              stroke="white"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="r-1-1-2-cancel"
+                          (click)="cancelQrText(i)"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </span>
+                    <input
+                      [disabled]="isQrListDescriptionEditable"
+                      [(ngModel)]="qrListDescription"
+                    />
+                  </div>
+                  <div
+                    class="r-1-1-2"
+                    *ngIf="item.type == 'location'"
+                    style="position: relative"
+                  >
+                    <span
+                      >Pickup Location
+
+                      <button
+                        class="r-1-1-2-edit"
+                        *ngIf="isQrListPickupLocationEditable"
+                        (click)="
+                          isQrListPickupLocationEditable =
+                            !isQrListPickupLocationEditable
+                        "
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 11.247V13.6112C0 13.8289 0.171087 14 0.388835 14H2.75295C2.85405 14 2.95515 13.9611 3.02514 13.8833L11.5173 5.39897L8.60103 2.48271L0.116651 10.9671C0.0388836 11.0449 0 11.1382 0 11.247ZM13.7725 3.14373C14.0758 2.84044 14.0758 2.35051 13.7725 2.04722L11.9528 0.227468C11.6495 -0.0758228 11.1596 -0.0758228 10.8563 0.227468L9.43314 1.6506L12.3494 4.56687L13.7725 3.14373Z"
+                            fill="black"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        style="display: flex; gap: 10px"
+                        *ngIf="!isQrListPickupLocationEditable"
+                      >
+                        <button
+                          class="r-1-1-2-save"
+                          (click)="updateQrPickupLocation(i)"
+                        >
+                          Save
+
+                          <svg
+                            width="13"
+                            height="14"
+                            viewBox="0 0 13 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7.79983 1.3999H2.89981C1.74001 1.3999 0.799805 2.34011 0.799805 3.49991V10.5C0.799805 11.6598 1.74001 12.6 2.89981 12.6H9.89984C11.0596 12.6 11.9999 11.6598 11.9999 10.5V6.64992M11.2998 3.14991L6.39983 8.04993L4.99982 6.64992"
+                              stroke="white"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          class="r-1-1-2-cancel"
+                          (click)="cancelQrPickupLocation(i)"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </span>
+                    <input
+                      [disabled]="isQrListPickupLocationEditable"
+                      [(ngModel)]="qrListPickupLocation"
+                      (input)="getLocationsFromDetails()"
+                      style="text-overflow: ellipsis"
+                    />
+                    <div
+                      *ngIf="qrListPickupLocation.length != 0"
+                      style="
+                        position: absolute;
+                        background: white;
+                        max-height: 130px;
+                        min-height: fit-content;
+                        overflow: scroll;
+                        box-shadow: 0 0 10px lightgray;
+                        padding: 0 10px;
+                        cursor: pointer;
+                        width: 100%;
+                        z-index: 10;
+                      "
+                    >
+                      <div
+                        *ngFor="
+                          let location of locationsFromDetails;
+                          let j = index
+                        "
+                        style="
+                          border-bottom: 1px solid lightgray;
+                          padding: 10px;
+                        "
+                        (click)="selectLocationFromDetails(j)"
+                      >
+                        {{ location.title }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="r-1-2">
+                  <span style="display: flex; gap: 10px; background: black">
+                    <button
+                      (click)="copyToClipboard()"
+                      style="background: transparent; border: none"
+                    >
+                      <svg
+                        width="18"
+                        height="19"
+                        viewBox="0 0 18 19"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14.1625 7.475H16.1875C16.7467 7.475 17.2 7.92831 17.2 8.4875L17.2 15.6C17.2 16.7046 16.3046 17.6 15.2 17.6L8.0875 17.6C7.52831 17.6 7.075 17.1467 7.075 16.5875V14.5625M9.1 1.4L3.025 1.4C1.90662 1.4 1 2.30662 1 3.425L1 9.5C1 10.6184 1.90662 11.525 3.025 11.525L9.1 11.525C10.2184 11.525 11.125 10.6184 11.125 9.5L11.125 3.425C11.125 2.30663 10.2184 1.4 9.1 1.4Z"
+                          stroke="black"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </button>
+                    <span style="display: flex; height: 40px; gap: 5px">
+                      <button (click)="toggleDetails(i)">
+                        Close
+                        <svg
+                          width="16"
+                          height="9"
+                          viewBox="0 0 16 9"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1 7.89997L7.8 1.09998L14.6 7.89997"
+                            stroke="black"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    </span>
+                  </span>
+
+                  <div>
+                    <p>{{ activeQrDetails?.qrScannedCount }}</p>
+                    <span>Total Scans </span>
+                  </div>
+                  <div>
+                    <p>1,124</p>
+                    <span>Total Bookings </span>
+                  </div>
+                </div>
+              </div>
+              <div class="item-detail-r-2">
+                <button
+                  (click)="
+                    downloadQrCode(
+                      activeQrDetails.recordWithoutPublicId[0].qrCodeImage,
+                      'qrcode.jpg'
+                    )
+                  "
+                >
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.946777 8.59524L0.946777 11.0068C0.946777 11.3722 1.09075 11.7227 1.34702 11.9812C1.6033 12.2396 1.95088 12.3848 2.31331 12.3848H10.5125C10.8749 12.3848 11.2225 12.2396 11.4788 11.9812C11.735 11.7227 11.879 11.3722 11.879 11.0068V8.59524M6.41365 0.615234V8.42397M6.41365 8.42397L9.53715 5.44028M6.41365 8.42397L3.29016 5.44028"
+                      stroke="black"
+                      stroke-width="0.976092"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Download QR
+                </button>
+                <button (click)="directToQrStats(i)">
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.3999 1.40002V15.6H15.5999M4.9499 10.2751L8.05615 7.16887L10.2749 9.38762L15.1562 4.50637M11.8352 4.06252H15.6006V7.82787"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  View Stats
+                </button>
+                <button (click)="toggleDeleteModal(i)">
+                  <svg
+                    width="16"
+                    height="17"
+                    viewBox="0 0 16 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.55664 3.84123H15.1096M6.63899 12.3118V7.22946M10.0272 12.3118V7.22946M11.7213 15.7001H4.94488C4.00924 15.7001 3.25076 14.9416 3.25076 14.0059V4.68828C3.25076 4.22047 3.63 3.84123 4.09782 3.84123H12.5684C13.0362 3.84123 13.4155 4.22047 13.4155 4.68828V14.0059C13.4155 14.9416 12.657 15.7001 11.7213 15.7001ZM6.63899 3.84123H10.0272C10.495 3.84123 10.8743 3.46198 10.8743 2.99417V2.14711C10.8743 1.67929 10.495 1.30005 10.0272 1.30005H6.63899C6.17118 1.30005 5.79193 1.67929 5.79193 2.14711V2.99417C5.79193 3.46198 6.17118 3.84123 6.63899 3.84123Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+            <!-- <div class="qr-table-item-detail-l">
+            <div class="item-detail-qr">
+              <img [src]="allQrCodes[i].qrCodeImage" />
+            </div>
+            <div class="item-detail-2">
+              <p><span>Created: </span> Jan 15, 2025 , 4:12 PM</p>
+              <button>
+                <svg
+                  width="18"
+                  height="19"
+                  viewBox="0 0 18 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.1625 7.63054H16.1875C16.7467 7.63054 17.2 8.08385 17.2 8.64304L17.2 15.7555C17.2 16.8601 16.3046 17.7555 15.2 17.7555L8.0875 17.7555C7.52831 17.7555 7.075 17.3022 7.075 16.743V14.718M9.1 1.55554L3.025 1.55554C1.90662 1.55554 1 2.46217 1 3.58054L1 9.65554C1 10.7739 1.90662 11.6805 3.025 11.6805L9.1 11.6805C10.2184 11.6805 11.125 10.7739 11.125 9.65554L11.125 3.58054C11.125 2.46217 10.2184 1.55554 9.1 1.55554Z"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                Copy Link
+              </button>
+            </div>
+            <div class="item-detail-3">
+              <input
+                placeholder="Enter title here"
+                [disabled]="isQrListTitleEditable"
+                [(ngModel)]="qrListTitle"
+              />
+              <button>
+                <img
+                  *ngIf="isQrListTitleEditable"
+                  (click)="isQrListTitleEditable = !isQrListTitleEditable"
+                  src="../../../assets/edit-pen.png"
+                />
+                <img
+                  *ngIf="!isQrListTitleEditable"
+                  src="../../../assets/confirm-edit.png"
+                />
+              </button>
+            </div>
+            <div class="item-detail-4">
+              Status :
+              <label
+                class="switch_box"
+                (click)="
+                  updateQrStatus(
+                    i,
+                    item.status === 'active' ? 'inactive' : 'active'
+                  )
+                "
+              >
+                <input type="checkbox" [checked]="item.status === 'active'" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="qr-table-item-detail-r">
+            <div class="item-detail-r-1" (click)="toggleDetails(i)">
+              <svg
+                width="24"
+                height="14"
+                viewBox="0 0 24 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 11.9555L11.8 2.15552L21.6 11.9555"
+                  stroke="#636364"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="item-detail-r-2">
+              <div>
+                <p>1,124</p>
+                <p>Total Scans</p>
+              </div>
+              <div>
+                <p>897</p>
+                <p>Bookings</p>
+              </div>
+            </div>
+            <div style="position: relative">
+              <button
+                style="
+                  position: absolute;
+                  top: 10px;
+                  right: 10px;
+                  border: none;
+                  background: none;
+                "
+              >
+                <img
+                  *ngIf="isQrListDescriptionEditable"
+                  src="../../../assets/edit-pen.png"
+                  style="width: 15px"
+                  (click)="
+                    isQrListDescriptionEditable = !isQrListDescriptionEditable
+                  "
+                />
+                <img
+                  *ngIf="!isQrListDescriptionEditable"
+                  src="../../../assets/confirm-edit.png"
+                  style="width: 15px"
+                />
+              </button>
+              <textarea
+                [disabled]="isQrListDescriptionEditable"
+                [(ngModel)]="qrListDescription"
+              ></textarea>
+            </div>
+            <div class="item-detail-r-4">
+              <button (click)="downloadQrCode(item.qrCodeImage, 'qrcode.jpg')">
+                <svg
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.6001 13.9531L1.6001 17.659C1.6001 18.2206 1.82135 18.7593 2.21517 19.1564C2.609 19.5536 3.14314 19.7767 3.7001 19.7767H16.3001C16.8571 19.7767 17.3912 19.5536 17.785 19.1564C18.1788 18.7593 18.4001 18.2206 18.4001 17.659V13.9531M10.0013 1.68994V13.6899M10.0013 13.6899L14.8013 9.10479M10.0013 13.6899L5.20127 9.10479"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Download QR
+              </button>
+              <button (click)="directToQrStats()">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 1.47778V20.6778H20.7M6.3 13.4779L10.5 9.27791L13.5 12.2779L20.1 5.67791M15.6097 5.07778H20.7009V10.169"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                View Stats
+              </button>
+              <button (click)="deleteQr(i)">
+                <svg
+                  width="22"
+                  height="23"
+                  viewBox="0 0 22 23"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.60059 4.47775H20.8006M8.80059 16.4777V9.27775M13.6006 16.4777V9.27775M16.0006 21.2777H6.40059C5.0751 21.2777 4.00059 20.2032 4.00059 18.8777V5.67775C4.00059 5.015 4.53784 4.47775 5.20059 4.47775H17.2006C17.8633 4.47775 18.4006 5.01501 18.4006 5.67775V18.8777C18.4006 20.2032 17.3261 21.2777 16.0006 21.2777ZM8.80059 4.47775H13.6006C14.2633 4.47775 14.8006 3.94049 14.8006 3.27775V2.07775C14.8006 1.415 14.2633 0.877747 13.6006 0.877747H8.80059C8.13784 0.877747 7.60059 1.415 7.60059 2.07775V3.27775C7.60059 3.94049 8.13784 4.47775 8.80059 4.47775Z"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="
+        width: 100%;
+        display: flex;
+        justify-content: right;
+        padding-right: 200px;
+      "
+      *ngIf="totalPage > 1"
+    >
+      <div style="display: flex">
+        <div class="pagination">
+          <!-- First Page -->
+          <button
+            *ngIf="currentPage > 1"
+            class="page-btn"
+            (click)="goToPage(1)"
+          >
+            1
+          </button>
+
+          <div
+            *ngIf="currentPage > 1"
+            style="
+              width: 50px;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 16px;
+            "
+          >
+            ...
+          </div>
+
+          <!-- Previous Page -->
+          <button
+            *ngIf="currentPage - 1 > 1"
+            (click)="goToPage(currentPage - 1)"
+            class="page-btn"
+          >
+            {{ currentPage - 1 }}
+          </button>
+
+          <!-- Current Page -->
+          <button disabled class="active-btn">
+            {{ currentPage }}
+          </button>
+
+          <!-- Next Page -->
+          <button
+            *ngIf="currentPage + 1 < totalPage"
+            (click)="goToPage(currentPage + 1)"
+            class="page-btn"
+          >
+            {{ currentPage + 1 }}
+          </button>
+
+          <div
+            *ngIf="currentPage < totalPage"
+            style="
+              width: 50px;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 16px;
+            "
+          >
+            ...
+          </div>
+
+          <!-- Last Page -->
+          <button
+            *ngIf="currentPage < totalPage"
+            (click)="goToPage(totalPage)"
+            class="page-btn"
+          >
+            {{ totalPage }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

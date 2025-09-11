@@ -1,0 +1,12 @@
+<canvas
+  *ngIf="isUpdated"
+  baseChart
+  [data]="pieChartData"
+  [options]="pieChartOptions"
+  [type]="pieChartType"
+>
+</canvas>
+
+<div *ngIf="!isUpdated">
+  <app-loader></app-loader>
+</div>

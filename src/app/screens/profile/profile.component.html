@@ -1,0 +1,134 @@
+<div class="profile-imgs-con">
+  <div class="cover-img">
+    <img
+      [src]="coverPreview || '../../../assets/default_cover_img.png'"
+      class="coverImg"
+    />
+    <img
+      src="../../../assets/icons/edit-03.png"
+      alt="edit"
+      class="covericon"
+      (click)="triggerFileInput('coverInput')"
+    />
+    <input
+      type="file"
+      id="coverInput"
+      hidden
+      accept="image/*"
+      (change)="onCoverSelected($event)"
+    />
+  </div>
+  <div class="under-cover-img">
+    <div class="profile-img-con">
+      <p class="upload">Upload cover</p>
+      <div class="profile-img">
+        <img
+          *ngIf="profilePreview"
+          [src]="profilePreview"
+          style="
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+          "
+        />
+      </div>
+    </div>
+    <img
+      src="../../../assets/icons/edit-03.png"
+      alt="edit"
+      class="editIcon"
+      (click)="triggerFileInput('profileInput')"
+    />
+    <input
+      type="file"
+      id="profileInput"
+      hidden
+      accept="image/*"
+      (change)="onProfileSelected($event)"
+    />
+  </div>
+</div>
+<ng-container *ngIf="!isEditing">
+  <div class="profile-details-settings">
+    <div>
+      <strong>Name</strong>
+      <p>{{ user.name }}</p>
+    </div>
+    <div>
+      <strong>User Name</strong>
+      <p>{{ user.user_name }}</p>
+    </div>
+    <div>
+      <strong>User ID</strong>
+      <p>{{ user._id }}</p>
+    </div>
+    <div>
+      <strong>Password</strong>
+      <p>{{ user.password }}</p>
+    </div>
+    <div>
+      <strong>Email account</strong>
+      <p>{{ user.email || "Not available" }}</p>
+    </div>
+    <div>
+      <strong>Mobile number </strong>
+      <p>{{ user.phone }}</p>
+    </div>
+  </div>
+  <div class="profile-Btn">
+    <button class="editbutton" (click)="onEdit()">Edit Profile</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isEditing">
+  <div class="profile-details-settings">
+    <div>
+      <strong>User ID</strong>
+      <p>{{ user._id }}</p>
+    </div>
+    <div>
+      <strong>User Name</strong>
+      <label for="text">
+        <input type="text" id="text" [(ngModel)]="user.user_name" />
+      </label>
+    </div>
+
+    <div>
+      <strong>Password</strong>
+      <label for="password">
+        <input type="text" id="text" [(ngModel)]="user.password" />
+      </label>
+    </div>
+
+    <div>
+      <strong>Email account</strong>
+      <label for="text">
+        <input type="text" id="text" [(ngModel)]="user.email" />
+      </label>
+    </div>
+
+    <div>
+      <strong>Phone number </strong>
+      <label for="text">
+        <input type="text" id="text" [(ngModel)]="user.phone" />
+      </label>
+    </div>
+
+    <div>
+      <strong>App Link</strong>
+      <label for="text">
+        <input type="text" id="text" [(ngModel)]="user.app_link" />
+      </label>
+    </div>
+  </div>
+  <div class="profile-Btn">
+    <button class="Canceltbutton" (click)="onCancel()">Cancel</button>
+    <button class="editbutton" (click)="OnSave()">
+      <span *ngIf="!isLoading">Save</span>
+      <span *ngIf="isLoading">
+        <i class="fa fa-spinner fa-spin"></i> Saving...
+      </span>
+    </button>
+  </div>
+</ng-container>

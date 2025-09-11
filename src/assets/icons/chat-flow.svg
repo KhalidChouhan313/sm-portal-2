@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32" fill="none">
+<g id="Chatbot-chatflow-icon">
+<mask id="mask0_959_6122" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+<rect id="Flow Chart" width="32" height="32" fill="url(#pattern0_959_6122)"/>
+</mask>
+<g mask="url(#mask0_959_6122)">
+<rect id="Rectangle 5380" width="32" height="32" fill="#333540"/>
+</g>
+</g>
+<defs>
+<pattern id="pattern0_959_6122" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_959_6122" transform="scale(0.01)"/>
+</pattern>
+<image id="image0_959_6122" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAABk0lEQVR4nO2aMY4CQRADLST+/2QTk2xrxUJ7cZU02QWDyx4CTtrHYaeebQFGyDvbAowQhESz3VCzkKxAjJCsQIyQrECMkKxAjJCsQIyQrECMkKxAjJCsQIyQrECMkKxAjJCsQIyQrECMkKxAjJCsQIyQ6wN5Snog5Bq2fyE0C0FINNuLMAtByF9jGp6FEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKFEZKF24Vs/1eIb3YQon0JCNF+8AjRftiRQrZx+33qAxhAiFhI9xMxwEKEkO5GDrAQIaS7kQMsRAjpbuQACxFCuhs5wEKEkO5GDrAQIaS7kQMsRAjpbuQACxFCuhs5wEKEkO5Gfvs+/vHhPjrOByHH/DwfhByDEJU/oR9/CZ38QFf//d/dpz6AAYSIhXQ/EQMsRAjpbuQACxFCuhs5wEKEkO5GDrAQIaS7kQMsRAjpbuQACxFCuhuZvpBvn7MXdNt96gMYQIhYSPcTcbP7AAAAAIDO8gKp60A4/fm2kwAAAABJRU5ErkJggg=="/>
+</defs>
+</svg>

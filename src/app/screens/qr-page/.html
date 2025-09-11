@@ -1,0 +1,568 @@
+<!-- <div class="container">
+  <div class="h2">
+    <h2>Need dynamic QR Codes? <a href="#">QRtrac</a></h2>
+  </div>
+  <div class="qr-container mt-5">
+    <div class="left_container">
+      <div class="">
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            QR Data
+          </span>
+          <span
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+        <div class="collapse show" id="collapseExample">
+          <div class="card card-body">
+            <div class="form-control border-bottom border-1 border-dark">
+              <label>QR Data</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter your data url"
+                [(ngModel)]="qrText"
+                (input)="updateQRCode()"
+              />
+            </div>
+            <div class="qrshape">
+              <label>QR Shape</label>
+              <div>
+                <input
+                  type="radio"
+                  name="qrShape"
+                  id="square"
+                  [(ngModel)]="shape"
+                  (change)="updateQRCode()"
+                  value="square"
+                />
+                <label for="square">Square</label>
+                <input
+                  type="radio"
+                  name="qrShape"
+                  id="circle"
+                  [(ngModel)]="shape"
+                  (change)="updateQRCode()"
+                  value="circle"
+                  checked
+                />
+                <label for="circle">Circle</label>
+              </div>
+            </div>
+            <div class="form-control border-bottom border-1 border-dark mt-3">
+              <label>QR Width</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter width (e.g., 400)"
+                [(ngModel)]="width"
+                (input)="updateQRCode()"
+              />
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label class="form-label">Height</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter height (e.g., 400)"
+                [(ngModel)]="height"
+                (input)="updateQRCode()"
+              />
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label>Margin</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="margin"
+                [(ngModel)]="margin"
+                (input)="updateQRCode()"
+              />
+            </div>
+            <div class="mt-2 m-1">
+              <input type="file" (change)="onFileSelected($event)" />
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Dots Options
+          </span>
+          <span
+            type="button"
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+        <div class="collapse show" id="collapseExample">
+          <div class="card card-body">
+            <div>
+              <label for="select">QR Dots Type </label>
+              <select
+                class="form-select form-control border-none container"
+                [(ngModel)]="selectedShape"
+                (change)="updateQRCode()"
+              >
+                <option value="square">Square</option>
+                <option value="dots">Dots</option>
+                <option value="lines">Lines</option>
+                <option value="zigzag">Zigzag</option>
+                <option value="diamonds">Diamonds</option>
+                <option value="crosses">Crosses</option>
+              </select>
+            </div>
+
+            <div class="qrshape">
+              <label>Dots Color</label>
+              <div>
+                <input
+                  type="radio"
+                  name="qrShape"
+                  id="single"
+                  [(ngModel)]="dotsColorType"
+                  value="single"
+                  (change)="updateQRCode()"
+                />
+                <label for="single">Single</label>
+
+                <input
+                  type="radio"
+                  name="qrShape"
+                  id="gradient"
+                  [(ngModel)]="dotsColorType"
+                  value="gradient"
+                  (change)="updateQRCode()"
+                />
+                <label for="gradient">Gradient</label>
+              </div>
+            </div>
+            <div
+              class="mt-2 form-control border-bottom border-1 border-dark"
+              *ngIf="dotsColorType === 'gradient'"
+            >
+              <label>Start Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="startColor"
+                (input)="updateQRCode()"
+              />
+            </div>
+
+            <div
+              class="mt-2 form-control border-bottom border-1 border-dark"
+              *ngIf="dotsColorType === 'gradient'"
+            >
+              <label>End Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="endColor"
+                (input)="updateQRCode()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Corners Square Options
+          </span>
+          <span
+            type="button"
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+        <div class="collapse show" id="collapseExample">
+          <div class="card card-body">
+            <div class="border-bottom border-1 border-dark">
+              <label class="form-label p-1">Corner Dots Type</label>
+              <select
+                class="form-select form-control border-none container"
+                [(ngModel)]="cornersSquareType"
+                (change)="updateQRCode()"
+              >
+                <option value="square">Square</option>
+                <option value="dot">Dots</option>
+                <option value="extra-rounded">Extra Rounded</option>
+              </select>
+            </div>
+
+            <div class="qrshape">
+              <label>Corner Square Color </label>
+              <div>
+                <input
+                  type="radio"
+                  name="qrShape"
+                  id="square"
+                  [(ngModel)]="cornersSquareColorType"
+                  value="single"
+                  (change)="updateQRCode()"
+                />
+                <label for="square">single</label>
+                <input
+                  type="radio"
+                  name="qrShape"
+                  id="square"
+                  [(ngModel)]="cornersSquareColorType"
+                  value="gradient"
+                  (change)="updateQRCode()"
+                />
+                <label for="circle">Gradient</label>
+              </div>
+            </div>
+            <div
+              class="mt-2 form-control border-bottom border-1 border-dark"
+              *ngIf="cornersSquareColorType === 'gradient'"
+            >
+              <label>Start Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="cornersSquareStartColor"
+                (input)="updateQRCode()"
+              />
+            </div>
+            <div
+              class="mt-2 form-control border-bottom border-1 border-dark"
+              *ngIf="cornersSquareColorType === 'gradient'"
+            >
+              <label>End Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="cornersSquareEndColor"
+                (input)="updateQRCode()"
+              />
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label>Rounded</label>
+              <select
+                class="form-select form-control border-none container"
+                [(ngModel)]="cornersSquareRoundedType"
+                (change)="updateQRCode()"
+              >
+                <option value="radial">Radial</option>
+                <option value="linear">Linear</option>
+              </select>
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label class="form-label">Rotation</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="cornersSquareRotation"
+                (input)="updateQRCode()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Corners Dots Options
+          </span>
+          <span
+            type="button"
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+        <div class="collapse show" id="collapseExample">
+          <div class="card card-body">
+            <div class="border-bottom border-1 border-dark">
+              <label class="form-label p-1">Corner Dots Type </label>
+              <select class="form-select form-control border-none container">
+                <option value="square ">Rounded</option>
+                <option value="lines">Square</option>
+              </select>
+            </div>
+            <div class="qrshape">
+              <label>Corner Square Color </label>
+              <div>
+                <input type="radio" name="qrShape" id="square" />
+                <label for="square">single</label>
+                <input type="radio" name="qrShape" id="circle" checked />
+                <label for="circle">Gradient</label>
+              </div>
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label>Start color</label>
+              <input type="color" class="form-control" value="#FFFF00" />
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label class="form-label">End Color</label>
+              <input type="color" class="form-control" value="#333333" />
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label>Rounded</label>
+              <select class="form-select form-control border-none container">
+                <option value="square ">Radial</option>
+                <option value="dots">Linear</option>
+              </select>
+            </div>
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <label class="form-label">End Color</label>
+              <input type="number" class="form-control" value="0" />
+            </div>
+          </div>
+        </div>
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#bgOptions"
+            role="button"
+            aria-expanded="false"
+            aria-controls="bgOptions"
+          >
+            Background Options
+          </span>
+          <span
+            type="button"
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#bgOptions"
+            aria-expanded="false"
+            aria-controls="bgOptions"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+
+        <div class="collapse show" id="bgOptions">
+          <div class="card card-body">
+            <div class="qrshape">
+              <label>Background Color Type</label>
+              <div>
+                <input
+                  type="radio"
+                  name="bgColorType"
+                  id="bgSingle"
+                  [(ngModel)]="bgColorType"
+                  value="single"
+                />
+                <label for="bgSingle">Single</label>
+
+                <input
+                  type="radio"
+                  name="bgColorType"
+                  id="bgGradient"
+                  [(ngModel)]="bgColorType"
+                  value="gradient"
+                  checked
+                />
+                <label for="bgGradient">Gradient</label>
+              </div>
+            </div>
+
+            <div
+              *ngIf="bgColorType === 'single'"
+              class="mt-2 form-control border-bottom border-1 border-dark"
+            >
+              <label>Background Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="bgSingleColor"
+              />
+            </div>
+
+            <div
+              *ngIf="bgColorType === 'gradient'"
+              class="mt-2 form-control border-bottom border-1 border-dark"
+            >
+              <label>Start Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="bgStartColor"
+              />
+            </div>
+
+            <div
+              *ngIf="bgColorType === 'gradient'"
+              class="mt-2 form-control border-bottom border-1 border-dark"
+            >
+              <label>End Color</label>
+              <input
+                type="color"
+                class="form-control"
+                [(ngModel)]="bgEndColor"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Image Options
+          </span>
+          <span
+            type="button"
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+        <div class="collapse show" id="collapseExample">
+          <div class="card card-body">
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <input
+                type="number"
+                [(ngModel)]="imageSize"
+                class="form-control"
+                (change)="updateQRCode()"
+              />
+            </div>
+            <div class="qrshape">
+              <input type="checkbox" name="" id="" />
+              <label>Hide Background Dots </label>
+            </div>
+
+            <div class="mt-2 form-control border-bottom border-1 border-dark">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Image Size"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="d-flex justify-content-between border-bottom border-1 border-dark shadow rounded p-3 mt-4"
+        >
+          <span
+            data-bs-toggle="collapse"
+            class="fs-4 fw-bolder"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Error Correction Level
+          </span>
+          <span
+            type="button"
+            class="icon"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <i class="bi bi-chevron-up"></i>
+          </span>
+        </p>
+        <div class="collapse show" id="collapseExample">
+          <div class="card card-body p-4">
+            <div class="dropdown">
+              <button
+                class="border-none outline-none dropdown-toggle p-2 rounded"
+                id="dropdownMenuButton2"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Error correction level
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-dark"
+                aria-labelledby="dropdownMenuButton2"
+              >
+                <li><a class="dropdown-item active" href="#">L</a></li>
+                <li><a class="dropdown-item" href="#">M </a></li>
+                <li><a class="dropdown-item" href="#">Q</a></li>
+                <li><a class="dropdown-item" href="#">H</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right_container">
+      <ngx-qrcode-styling [config]="config"></ngx-qrcode-styling>
+      <div class="btn-secondary">
+        <button (click)="downloadQrCode('png')" class="btn btn-secondary">
+          Download PNG
+        </button>
+        <button (click)="downloadQrCode('svg')" class="btn btn-secondary">
+          Download SVG
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->

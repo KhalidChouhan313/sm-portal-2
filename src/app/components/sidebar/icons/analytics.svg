@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32" fill="none">
+<g id="chatbot-Analytics-icon">
+<mask id="mask0_959_6117" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+<rect id="Bar Chart" width="32" height="32" fill="url(#pattern0_959_6117)"/>
+</mask>
+<g mask="url(#mask0_959_6117)">
+<rect id="Rectangle 5379" width="32" height="32" fill="#333540"/>
+</g>
+</g>
+<defs>
+<pattern id="pattern0_959_6117" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_959_6117" transform="scale(0.01)"/>
+</pattern>
+<image id="image0_959_6117" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAABn0lEQVR4nO2aMWrEABDE/P9PK08wKW4tGAlcBmkZO2nyPBEREREREfE1HD/xQoPIoC/EBQ3igh//ju9vyD9pEBn0hbigQVzQIC5oEBc0iAsaxAUN4oIGcUGDuKBBXNAgLmgQFzSICxrEBQ3iggZxQYO4oEFc0CAusA2y/m8wNIgLGsQFDeIC+yCfBx2ju18XdIzufl3QMbr7dUHH6O7XBR2ju18XdIzufl3QMbr7dUHH6O7XBR2ju18XdIzufl3QMbr7dUHH6O7XBR2ju18XdIzufl3QMbr7dUHH6O7XBR2ju18XdIzu/q+DOH5s9+uCaJAGMb2QuiD6QtyDrPl1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+3VBjPt1QYz7dUGM+19/4NdP/hca5Pn0hWwQ2QupC2LZ/wdEmChJ0guhLQAAAABJRU5ErkJggg=="/>
+</defs>
+</svg>

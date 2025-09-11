@@ -1,0 +1,91 @@
+<div class="container-own">
+  <div class="left">
+    <img src="../../assets/img/login-content.png" alt="taxi-message" />
+  </div>
+  <div class="right">
+    <form class="form" (ngSubmit)="handleSubmit($event)">
+      <h1>WELCOME BACK</h1>
+      <h2>Welcome Back! Please enter your details.</h2>
+
+      <div class="inp_con">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          placeholder="Enter your username"
+          id="username"
+          name="username"
+        />
+      </div>
+      <div class="inp_con">
+        <label for="password" style="display: flex; align-items: center">
+          Password
+          <button type="button" (click)="togglePasswordType()">
+            <ng-container *ngIf="passwordType === 'password'; else showEye">
+              <!-- Eye with Slash (Hide Password) -->
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.073 12.194L4.212 8.333C2.692 9.99 2.116 11.65 2.106 11.684L2 12L2.105 12.316C2.127 12.383 4.421 19 12.054 19C12.983 19 13.829 18.898 14.606 18.727L11.86 15.981C10.8713 15.9325 9.93595 15.518 9.23598 14.818C8.53601 14.118 8.12147 13.1827 8.073 12.194ZM12.054 5C10.199 5 8.679 5.404 7.412 5.998L3.707 2.293L2.293 3.707L20.293 21.707L21.707 20.293L18.409 16.995C21.047 15.042 21.988 12.358 22.002 12.316L22.107 12L22.002 11.684C21.98 11.617 19.687 5 12.054 5ZM13.96 12.546C14.147 11.869 13.988 11.107 13.468 10.586C12.948 10.065 12.185 9.907 11.508 10.094L10 8.586C10.618 8.20598 11.3285 8.00325 12.054 8C14.26 8 16.054 9.794 16.054 12C16.051 12.7253 15.8479 13.4357 15.467 14.053L13.96 12.546Z"
+                  fill="#666666"
+                />
+              </svg>
+            </ng-container>
+
+            <ng-template #showEye>
+              <!-- Open Eye (Show Password) -->
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_2945_8)">
+                  <path
+                    d="M0.267713 12.7336C1.83433 14.6969 6.49453 19.9321 12.0074 19.9321C17.5203 19.9321 22.1805 14.6971 23.7472 12.7336C24.0841 12.2974 24.0841 11.6826 23.7472 11.2664C22.1805 9.30313 17.5203 4.06785 12.0074 4.06785C6.49453 4.04802 1.83433 9.2833 0.267713 11.2465C-0.0892378 11.6828 -0.0892378 12.2974 0.267713 12.7336ZM12.0074 7.22092C14.6449 7.22092 16.7668 9.34279 16.7668 11.9803C16.7668 14.6177 14.6449 16.7396 12.0074 16.7396C9.36997 16.7396 7.24809 14.6177 7.24809 11.9803C7.24809 9.34279 9.36997 7.22092 12.0074 7.22092Z"
+                    fill="#666666"
+                  />
+                  <path
+                    d="M12.0075 14.3599C13.3217 14.3599 14.3872 13.2945 14.3872 11.9803C14.3872 10.666 13.3217 9.60059 12.0075 9.60059C10.6932 9.60059 9.62781 10.666 9.62781 11.9803C9.62781 13.2945 10.6932 14.3599 12.0075 14.3599Z"
+                    fill="#666666"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_2945_8">
+                    <rect width="24" height="24" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </ng-template>
+
+            {{ passwordType === "password" ? "Show" : "Hide" }}
+          </button>
+        </label>
+        <input
+          [type]="passwordType"
+          placeholder="Enter your password"
+          id="password"
+          name="password"
+        />
+      </div>
+      <div class="rem_res">
+        <div class="remember">
+          <input type="checkbox" name="remember" id="remember" />
+          <label for="remember">Remember me</label>
+        </div>
+        <div class="reset">Forgot Password?</div>
+      </div>
+      <p class="dha">
+        Looking to join? Submit your details
+        <a href="https://taximessages.com/request-an-account/">Here!</a>
+      </p>
+      <button [disabled]="disabled" type="submit">Sign In</button>
+      <div *ngIf="error" class="error">{{ error }}</div>
+    </form>
+  </div>
+</div>

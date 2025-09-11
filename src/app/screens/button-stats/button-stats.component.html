@@ -1,0 +1,50 @@
+<header>
+  <h2>Templates</h2>
+  <label for="search" class="search">
+    <img src="../../../assets/icons/search 1.svg" alt="" />
+    <input type="text" placeholder="Search Loactions" />
+  </label>
+  <div class="rightIcon">
+    <span>View </span>
+    <img src="../../../assets/icons/Frame 73.svg" alt="" />
+    <img src="../../../assets/icons/Frame 74.svg" alt="" />
+  </div>
+</header>
+<div class="cards">
+  <div class="card" *ngFor="let template of templates">
+    <div class="card-body">
+      <div
+        class="card-body1"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <div class="icon">
+          <img [src]="template.icon" alt="{{ template.title }}" />
+          <h3>{{ template.title }}</h3>
+        </div>
+        <span class="status" *ngIf="template.active">Active</span>
+      </div>
+
+      <div class="total-clicks">
+        <div class="">
+          <span class="text-[#1C1C1C] fw-bold">Total Clicks:</span>
+          <span class="eye">👁</span>
+        </div>
+        <strong>{{ template.totalClicks | number }}</strong>
+      </div>
+    </div>
+
+    <ul class="items">
+      <li *ngFor="let item of template.items" [ngClass]="item.type">
+        <span>{{ item.label }}</span>
+        <div class="percent1">
+          <span class="value">{{ item.value | number }}</span>
+          <span class="percent">{{ item.percent }}%</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+/* interaction-flow.component.css */
+/* .chat-container {
+    max-width: 800px;
+    min-width: 390px;
+    margin: 20px auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 20px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: url('../../../assets/wa-bg.png');
+    box-shadow: inset 0 1px 6px rgb(167 167 167 / 69%);
+    overflow: auto;
+} */
+
+.chat-container {
+    max-width: 600px;
+    /* min-width: 390px; */
+    margin: 20px auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 20px;
+    padding-right: 25px; /* Added padding for scrollbar */
+    height: 80vh;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    background: url('../../../assets/wa-bg.png');
+    box-shadow: inset 0 1px 6px rgb(167 167 167 / 69%);
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Optional: Style the scrollbar */
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    /* background: rgba(0,0,0,0.1); */
+    height: 90%;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: #075e54;
+    border-radius: 4px;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 16px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message.bot {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.chat-message.user .message-bubble {
+        background-color: #dcf8c6;
+    color: #000;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message.bot .message-bubble {
+   background-color: #128c7e;
+    color: #fff;
+    border-bottom-left-radius: 4px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Optional: Add time stamps */
+.message-time {
+    font-size: 11px;
+    color: #8e8e8e;
+    margin-top: 4px;
+    margin-inline: 8px;
+}
+
+.message-bubble-container-user {
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+    width: 100%;
+}
+
+.message-bubble-container-bot {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    width: 100%;
+}

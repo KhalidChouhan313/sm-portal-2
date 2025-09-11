@@ -1,0 +1,139 @@
+<main class="main">
+  <div class="top-banner">
+    <div class="top-banner-content">
+      <div class="top-banner-content-1">
+        <h3 title="{{ title }}">{{ title }}</h3>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+          "
+        >
+          {{ qrURL
+          }}<img
+            style="width: 15px; height: 15px; cursor: pointer"
+            (click)="copyToClipboard(qrId)"
+            src="../../../assets/copy.png"
+          />
+        </div>
+      </div>
+      <div class="top-banner-qr-info">
+        <div class="top-banner-qr-info-1">
+          <img
+            class="top-banner-qr-info-img"
+            src="../../../assets/banner-scan.png"
+          />
+          <div>
+            <p>Total Scans</p>
+            <p>{{ stats.scanData.length }}</p>
+            <p>
+              <span>
+                <svg
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 17.5L10 5.5"
+                    stroke="#27FFD4"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M4.16669 10.5L10 4.66666L15.8334 10.5"
+                    stroke="#27FFD4"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                16%
+              </span>
+              this month
+            </p>
+          </div>
+        </div>
+
+        <div style="height: 84px; width: 1px; background: white"></div>
+
+        <div class="top-banner-qr-info-1">
+          <img
+            class="top-banner-qr-info-img"
+            src="../../../assets/banner-booking.png"
+          />
+          <div>
+            <p>Total Bookings</p>
+            <p>5,423</p>
+            <p>
+              <span>
+                <svg
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 17.5L10 5.5"
+                    stroke="#27FFD4"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M4.16669 10.5L10 4.66666L15.8334 10.5"
+                    stroke="#27FFD4"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                16%
+              </span>
+              this month
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="top-banner-main-img" src="../../../assets/qr-new-banner.png" />
+  </div>
+
+  <table style="margin-top: 100px">
+    <thead>
+      <tr>
+        <td>Date & Time</td>
+        <td>Scan ID</td>
+        <td>Browser Name</td>
+        <td>Browser Version</td>
+        <td>Platform</td>
+        <td>IP Address</td>
+        <td>City</td>
+        <td>State</td>
+        <td>Country</td>
+        <td>Status</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of stats.scanData">
+        <td>{{ item.createdAt | date : "MM/dd/yyyy, h:mm:ss a" }}</td>
+        <td>{{ item.scan_id }}</td>
+        <td>{{ item.browser }}</td>
+        <td>{{ item.browserVersion }}</td>
+        <td>{{ item.os }}</td>
+        <td>{{ item.ipAddress }}</td>
+        <td>{{ item.city }}</td>
+        <td>{{ item.state }}</td>
+        <td>{{ item.country }}</td>
+        <td [ngStyle]="{ color: getStatusColor(item.status) }">
+          {{ item.status }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>

@@ -1,0 +1,12 @@
+<aside class="sidebar" [class.full]="sidebarOpen">
+    <button class="toggle" (click)="toggleSidebar()">
+        <img src="../../../assets/icons/menu.svg" alt="toggle menu">
+    </button>
+    <ul class="sb_menu">
+        <li *ngFor="let item of sidebarMenu" class="sbm_item" [class.active]="item.active"
+            (click)="toggleActive(item.id)" [attr.data-label]="item.label">
+            <img [src]="item .active ? item.icon_active : item.icon" alt="">
+            <span>{{item.label}}</span>
+        </li>
+    </ul>
+</aside>

@@ -1,0 +1,203 @@
+<div class="container">
+  <div class="sidebar">
+    <div class="heading-sidebar">
+      <input type="text" placeholder="Search or start a new chat..." />
+    </div>
+
+
+
+
+    <ul class="chat-list" (scroll)="onSidebarScroll($event)">
+      <li *ngFor="let item of phonesData" class="chat-list-item" [class.selected]="item._id === selectedPhone"
+        (click)="selectPhone(item._id)">
+        <img class="avatar-img"
+          src="https://imgsrv2.voi.id/WjEqMKzrXoQQvMyNmpfJrb69U5WO2jgd1eqrHg-lOyA/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8zNDMxMTEvMjAyMzEyMjkxMzI1LW1haW4uY3JvcHBlZF8xNzAzODM0OTI5LmpwZWc.jpg"
+          alt="Avatar" />
+        <div class="chat-info">
+          <div class="chat-header-flow">
+            <div class="phone-number">{{ item._id }}</div>
+            <div class="chat-time">{{item.latestCreatedAt | date: 'dd/MM/yy hh:mm a'}}</div>
+          </div>
+          <div *ngIf="item.type == 'text'" class="last-message">
+            {{item.latestMessage}}
+          </div>
+          <div *ngIf="item.type != 'text'" class="last-message">
+
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="chat-box">
+    <div class="chat-header">
+      <div class="chat-header-profiler">
+        <img class="avatar-img"
+          src="https://imgsrv2.voi.id/WjEqMKzrXoQQvMyNmpfJrb69U5WO2jgd1eqrHg-lOyA/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8zNDMxMTEvMjAyMzEyMjkxMzI1LW1haW4uY3JvcHBlZF8xNzAzODM0OTI5LmpwZWc.jpg"
+          alt="Avatar" />
+        <h5 class="waba-name">User</h5>
+      </div>
+      <div>
+        {{ selectedPhone }}
+      </div>
+    </div>
+
+    <div class="chat-messages" (scroll)="onChatScroll($event)">
+      <div *ngFor="let msg of messages" class="message" [class.from-me]="!msg.from_me" [class.from-user]="msg.from_me"
+        [attr.data-wamid]="msg.wamid" #messageRef>
+
+        <!-- <div *ngIf="msg.context_id" class="context" (click)="scrollToContext(msg.context_id)">
+          <div class="context-body">
+            {{ getReplyBody(msg.context_id) }}
+          </div>
+        </div> -->
+
+
+
+        <div *ngIf="msg.type === 'text'">
+          {{ msg.text }}
+        </div>
+
+        <div *ngIf="msg.type === 'image'">
+          <img [src]="msg.image?.url" alt="Image" style="max-width: 200px; border-radius: 8px;" />
+        </div>
+
+        <div *ngIf="msg.type === 'location'">
+          📍 {{ msg.location?.name || 'Location' }}<br />
+          <a [href]="'https://maps.google.com/?q=' + msg.location?.latitude + ',' + msg.location?.longitude"
+            target="_blank">
+            View on Map
+          </a>
+        </div>
+
+        <!-- 
+        <div *ngIf="msg.type === 'interactive' && msg.interactive?.type === 'button'">
+          <div><strong>{{ msg.interactive?.body?.text }}</strong></div>
+          <div style="margin-top: 8px;">
+            <button *ngFor="let btn of msg.interactive?.action?.buttons"
+              style="margin-right: 6px; padding: 4px 8px; font-size: 13px;">
+              {{ btn?.reply?.title }}
+            </button>
+          </div>
+        </div> -->
+
+        <div *ngIf="msg.type === 'interactive' && msg.interactive?.type === 'button'">
+          <p class="button-item">{{ msg.interactive?.body?.text }}</p>
+          <div class="interactive-buttons">
+            <button *ngFor="let btn of msg.interactive?.action?.buttons" [ngStyle]="getSelectedButton(msg,btn)">
+              {{ btn?.reply?.title }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="msg.interactive?.type === 'button_reply' || msg.interactive?.type === 'list_reply'">
+          <div class="reply-tag" (click)="scrollToContext(msg.context_id)">
+            {{ getReplyBody(msg.context_id) }}
+          </div>
+          <div class="font-medium">
+            {{ msg.interactive?.button_reply?.title || msg.interactive?.list_reply?.title }}
+          </div>
+        </div>
+
+        <div *ngIf="msg.type === 'button'">
+          <div class="reply-tag" (click)="scrollToContext(msg.context_id)">
+            {{ getReplyBody(msg.context_id) }}
+          </div>
+          <div class="font-medium">
+            {{ msg.button?.text}}
+          </div>
+        </div>
+
+        <div *ngIf="msg.type === 'template'">
+          <div *ngFor="let comp of msg.template_data.components">
+            <p *ngIf="comp.type =='HEADER'" class="button-item" style="font-weight: bold;">{{ comp.text }}</p>
+            <p *ngIf="comp.type =='BODY'" class="button-item">{{ comp.text }}</p>
+            <div *ngIf="comp.type =='BUTTONS'" class="interactive-buttons">
+              <button *ngFor="let btn of comp.buttons" [ngStyle]="getSelectedButton(msg,btn)">
+                {{ btn.text }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="msg.type === 'sms'">
+          <div>
+            <p class="button-item" style="font-weight: bold;">SMS</p>
+            <p class="button-item">{{msg.text}}</p>
+          </div>
+        </div>
+
+        <div *ngIf="msg.type === 'interactive' && msg.interactive?.type === 'list'">
+          <p class="button-item">{{ msg.interactive?.body?.text }}</p>
+          <div class="interactive-list">
+            <div *ngFor="let section of msg.interactive?.action?.sections">
+              <h5 style="font-weight: 600; margin-bottom: 4px;">{{ section.title }}</h5>
+              <div *ngFor="let item of section.rows" class="list-item" [ngStyle]="getSelectedListItem(msg,item)">
+                {{ item.title }} - {{ item.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="msg.type === 'interactive' && msg.interactive?.type === 'cta_url'">
+          <div><strong>{{ msg.interactive?.body?.text }}</strong></div>
+          <div style="margin-top: 8px;">
+            <a [href]="msg.interactive?.action?.parameters?.url" target="_blank" class="cta-button">
+              {{ msg.interactive?.action?.parameters?.display_text || 'Open Link' }}
+            </a>
+          </div>
+        </div>
+
+        <div *ngIf="msg.interactive?.type === 'location_request_message'">
+          {{ msg.interactive?.body?.text || 'Location Request' }}
+        </div>
+
+        <div
+          *ngIf="msg.type === 'interactive' &&
+                !['button', 'list', 'cta_url', 'button_reply', 'list_reply', 'location_request_message'].includes(msg.interactive?.type)">
+          ⚠️ Unknown interactive type: {{ msg.interactive?.type || 'N/A' }}
+        </div>
+
+        <div *ngIf="!['text', 'image', 'location', 'interactive','template','button','sms'].includes(msg.type)">
+          ⚠️ Unknown message type: {{ msg.type }}
+        </div>
+
+        <div *ngIf="msg.timestamp" class="message-time">
+          <span *ngIf="msg.paid">
+            <div class="red"></div>paid
+          </span>
+          <span *ngIf="!msg.paid">
+            <div class="green"></div>free
+          </span>
+          {{ msg.createdAt|date: 'dd/MM/yy hh:mm a' }}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="chat-input">
+      <input type="text" [(ngModel)]="newMessage" placeholder="Type a message..." (focus)="showEmojiPicker = false" />
+
+      <button type="button" class="emoji-toggle" (click)="toggleEmojiPicker()">😊</button>
+
+      <!-- Make this wrapper relative -->
+      <div class="emoji-container">
+        <div class="emoji-picker" *ngIf="showEmojiPicker">
+          <!-- <emoji-mart set="apple" (emojiSelect)="addEmoji($event)"></emoji-mart>
+        -->
+          <emoji-mart set="apple" (emojiSelect)="addEmoji($event)"></emoji-mart>
+
+        </div>
+
+      </div>
+
+      <button *ngIf="newMessage?.trim().length" (click)="sendMessage()" [disabled]="sending" class="send-btn">
+        <i class="fa fa-paper-plane"></i>
+      </button>
+    </div>
+
+
+
+  </div>
+</div>

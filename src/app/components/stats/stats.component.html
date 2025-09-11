@@ -1,0 +1,86 @@
+<div class="stats">
+    <div class="stats_header">
+        <h4>Statistic</h4>
+    </div>
+    <div class="stats_body">
+        <div class="cards">
+            <div class="card" *ngFor="let card of cardsData" [class.row]="statsCardStyles === 'row'">
+                <img [src]="card.icon" [alt]="card.count">
+                <div>
+                    <p>{{card.label}}</p>
+                    <h5>{{card.count}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="table_wrapper pc_view">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><strong>Channels</strong></th>
+                        <th><strong>Today</strong></th>
+                        <th><strong>15</strong> min</th>
+                        <th><strong>30</strong> min</th>
+                        <th><strong>60</strong> min</th>
+                        <th><strong>12</strong> hours</th>
+                        <th><strong>24</strong> hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Whatsapp</td>
+                        <td>Today</td>
+                        <td>15 min</td>
+                        <td>30 min</td>
+                        <td>60 min</td>
+                        <td>12 hours</td>
+                        <td>24 hours</td>
+                    </tr>
+                    <tr>
+                        <td>SMS</td>
+                        <td>Today</td>
+                        <td>15 min</td>
+                        <td>30 min</td>
+                        <td>60 min</td>
+                        <td>12 hours</td>
+                        <td>24 hours</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table_wrapper mobile_view">
+            <div class="item">
+                <span>
+                    <strong>Whatsapp</strong>
+                </span>
+                <span>
+                    <strong>SMS</strong>
+                </span>
+                <span>
+                    <strong>Time</strong>
+                </span>
+            </div>
+            <div class="item">
+                <span>
+                    45 msgs
+                </span>
+                <span>
+                    23 msgs
+                </span>
+                <span>
+                    30 min
+                </span>
+            </div>
+            <div class="item">
+                <span>
+                    45 msgs
+                </span>
+                <span>
+                    23 msgs
+                </span>
+                <span>
+                    60 min
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

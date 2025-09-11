@@ -1,0 +1,521 @@
+<div class="container-own">
+  <div
+    *ngIf="showBanner"
+    style="
+      display: flex;
+      justify-content: start;
+      gap: 5px;
+      position: relative;
+      align-items: start;
+    "
+    class="top"
+  >
+    <span
+      style="
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+        height: fit-content;
+      "
+      class="top_t"
+    >
+      <svg
+        width="20"
+        height="21"
+        viewBox="0 0 20 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9 5.5H11V7.5H9V5.5ZM10 15.5C10.55 15.5 11 15.05 11 14.5V10.5C11 9.95 10.55 9.5 10 9.5C9.45 9.5 9 9.95 9 10.5V14.5C9 15.05 9.45 15.5 10 15.5ZM10 0.5C4.48 0.5 0 4.98 0 10.5C0 16.02 4.48 20.5 10 20.5C15.52 20.5 20 16.02 20 10.5C20 4.98 15.52 0.5 10 0.5ZM10 18.5C5.59 18.5 2 14.91 2 10.5C2 6.09 5.59 2.5 10 2.5C14.41 2.5 18 6.09 18 10.5C18 14.91 14.41 18.5 10 18.5Z"
+          fill="#181818"
+        />
+      </svg>
+      <span style="font-size: 13px; font-weight: 700">Important Note:</span>
+    </span>
+    <p
+      style="
+        font-size: 13px;
+        font-weight: 400;
+        color: black;
+        padding: 2px;
+        width: 80%;
+      "
+    >
+      Adding phone numbers to blocked list will prevent that number from
+      receiving WhatApp and/or SMS. Add the number below and select the message
+      types you do not want the number to receive.
+    </p>
+    <button
+      (click)="this.showBanner = false"
+      style="position: absolute; right: 20px"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="11"
+        height="11"
+        viewBox="0 0 11 11"
+        fill="none"
+      >
+        <path
+          d="M9.9751 9.675L0.892618 1.32498M9.9751 1.32498L0.892618 9.675"
+          stroke="#2EBC96"
+          stroke-width="1.2975"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
+  <div class="table-top">
+    <div class="tt-left">
+      <!-- <button
+        (click)="this.showBanner = true"
+        style="
+          width: fit-content;
+          height: fit-content;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
+          align-self: center;
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M9 5H11V7H9V5ZM10 15C10.55 15 11 14.55 11 14V10C11 9.45 10.55 9 10 9C9.45 9 9 9.45 9 10V14C9 14.55 9.45 15 10 15ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z"
+            fill="#636364"
+          />
+        </svg>
+      </button> -->
+      <button
+        style="border: 1px solid lightgray"
+        *ngFor="let t of tabs"
+        [class.active]="t === tab"
+        (click)="onTabChange(t)"
+      >
+        {{ t }}
+      </button>
+    </div>
+    <div class="tt-right">
+      <div class="search">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+        >
+          <path
+            d="M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z"
+            fill="#5C5E64"
+          />
+        </svg>
+        <input
+          type="text"
+          [formControl]="numberControl"
+          maxlength="12"
+          (keypress)="restrictInput($event)"
+          (keyup.enter)="showPhoneNumber()"
+          placeholder="+44 090481937"
+        />
+      </div>
+      <button (click)="toggleVisibility()">
+        <img
+          style="height: 15px; width: 15px"
+          src="../../../assets/add-number.png"
+        />Add Number
+      </button>
+    </div>
+  </div>
+  <div class="add-con" *ngIf="isVisible">
+    <button
+      (click)="toggleVisibility()"
+      style="
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        padding: 2px;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      "
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="11"
+        height="11"
+        viewBox="0 0 11 11"
+        fill="none"
+      >
+        <path
+          d="M9.9751 9.675L0.892618 1.32498M9.9751 1.32498L0.892618 9.675"
+          stroke="#2EBC96"
+          stroke-width="1.2975"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <div
+      style="
+        background: #d5f2ea;
+        border: 1px solid rgba(46, 188, 150, 0.5);
+        border-radius: 20px;
+        width: 800px;
+        padding: 1rem;
+        display: flex;
+        gap: 5px;
+      "
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          d="M9 5H11V7H9V5ZM10 15C10.55 15 11 14.55 11 14V10C11 9.45 10.55 9 10 9C9.45 9 9 9.45 9 10V14C9 14.55 9.45 15 10 15ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z"
+          fill="#636364"
+        />
+      </svg>
+      <p style="margin-bottom: 0">
+        <span style="font-weight: 600">Note: </span>
+        Here you can add specific phone numbers to stop them from receiving
+        WhatsApp or SMS
+      </p>
+    </div>
+    <div class="left">
+      <div class="inp_con">
+        <label for="">Phone Number</label>
+        <input
+          [(ngModel)]="phone"
+          type="text"
+          [formControl]="numberControl"
+          maxlength="12"
+          (keypress)="restrictInput($event)"
+          placeholder="+44 090481937"
+        />
+      </div>
+      <div>
+        <label
+          style="
+            color: #fff;
+            font-size: 0.8rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-bottom: 0.2rem;
+          "
+          for=""
+          >Target Type</label
+        >
+        <!-- <select [(ngModel)]="type">
+      <option value="">Select Target</option>
+      <option value="both">Both</option>
+      <option value="sms">SMS</option>
+      <option value="whatsapp">WhatsApp</option>
+    </select> -->
+        <div class="inp_con_target_type">
+          <div style="display: flex; gap: 5px">
+            <label for="">WhatsApp</label>
+            <div
+              class="switch_box"
+              [class.active]="isWhatsApp"
+              (click)="updateType('whatsapp')"
+            ></div>
+          </div>
+          <div style="display: flex; gap: 5px">
+            <label for="">SMS</label>
+            <div
+              class="switch_box"
+              [class.active]="isSMS"
+              (click)="updateType('sms')"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <button
+        [disabled]="!phone || isLoad || !type"
+        (click)="addBlacklistUser()"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <div class="table">
+      <div class="t-item">
+        <div class="ti-item">No</div>
+        <div class="ti-item">User Mobile Number</div>
+        <div class="ti-item">WhatsApp</div>
+        <div class="ti-item">SMS</div>
+        <div class="ti-item">Actions</div>
+      </div>
+      <div
+        *ngIf="isLoad"
+        style="
+          padding: 2rem;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        "
+      >
+        <app-loader></app-loader>
+      </div>
+      <ng-container *ngIf="!isLoad">
+        <div *ngIf="filteredBlacklist.length == 0" style="text-align: center">
+          No data found
+        </div>
+        <div *ngFor="let it of filteredBlacklist; let i = index" class="t-item">
+          <div class="ti-item" style="height: fit-content">
+            <p
+              style="
+                border: 1px solid black;
+                border-radius: 4px;
+                height: 20px;
+                width: 20px !important;
+                margin-bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              {{ i + 1 }}
+            </p>
+          </div>
+          <div class="ti-item">{{ it?.phone }}</div>
+          <div class="ti-item whatsapp" style="position: relative">
+            <div
+              class="tooltip-whatsapp"
+              style="
+                position: absolute;
+                z-index: 9;
+                width: 100px;
+                top: 36px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: transparent;
+
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+              "
+            >
+              <svg
+                width="17"
+                height="19"
+                viewBox="0 0 26 23"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g filter="url(#filter0_d_3995_927)">
+                  <path
+                    d="M13 0L21.6603 15L4.33975 15L13 0Z"
+                    fill="#010101"
+                    fill-opacity="0.6"
+                    shape-rendering="crispEdges"
+                  />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_d_3995_927"
+                    x="0.339722"
+                    y="0"
+                    width="25.3206"
+                    height="23"
+                    filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB"
+                  >
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix
+                      in="SourceAlpha"
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha"
+                    />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in2="BackgroundImageFix"
+                      result="effect1_dropShadow_3995_927"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="effect1_dropShadow_3995_927"
+                      result="shape"
+                    />
+                  </filter>
+                </defs>
+              </svg>
+              <div
+                style="
+                  border-radius: 5px;
+                  background: rgba(1, 1, 1, 0.6);
+                  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                  position: relative;
+                  top: -7px;
+                  width: 186px;
+                  padding: 14px 9px;
+
+                  color: #fff;
+                  text-align: center;
+                  font-family: 'DM Sans';
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 16px;
+                  letter-spacing: -0.28px;
+                "
+              >
+                Enabling the toggle will block the WhatsApp messages.
+              </div>
+            </div>
+            <div
+              class="switch_box"
+              [class.active]="it?.whatsapp"
+              (click)="blockWhatsApp(!it.whatsapp, it._id, i)"
+            ></div>
+          </div>
+          <div class="ti-item sms" style="position: relative">
+            <div
+              class="tooltip-sms"
+              style="
+                position: absolute;
+                z-index: 9;
+                width: 100px;
+                top: 36px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: transparent;
+
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+              "
+            >
+              <svg
+                width="17"
+                height="19"
+                viewBox="0 0 26 23"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g filter="url(#filter0_d_3995_927)">
+                  <path
+                    d="M13 0L21.6603 15L4.33975 15L13 0Z"
+                    fill="#010101"
+                    fill-opacity="0.6"
+                    shape-rendering="crispEdges"
+                  />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_d_3995_927"
+                    x="0.339722"
+                    y="0"
+                    width="25.3206"
+                    height="23"
+                    filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB"
+                  >
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix
+                      in="SourceAlpha"
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha"
+                    />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in2="BackgroundImageFix"
+                      result="effect1_dropShadow_3995_927"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="effect1_dropShadow_3995_927"
+                      result="shape"
+                    />
+                  </filter>
+                </defs>
+              </svg>
+              <div
+                style="
+                  border-radius: 5px;
+                  background: rgba(1, 1, 1, 0.6);
+                  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                  position: relative;
+                  top: -7px;
+                  width: 186px;
+                  padding: 14px 9px;
+
+                  color: #fff;
+                  text-align: center;
+                  font-family: 'DM Sans';
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 16px;
+                  letter-spacing: -0.28px;
+                "
+              >
+                Enabling the toggle will block the SMS messages.
+              </div>
+            </div>
+            <div
+              class="switch_box"
+              [class.active]="it?.sms"
+              (click)="blockSms(!it.sms, it._id, i)"
+            ></div>
+          </div>
+          <div class="ti-item actions">
+            <button
+              style="--content: 'Delete'"
+              (click)="deleteBlacklistUser(it._id, i)"
+            >
+              <img src="assets/Bin.png" />
+            </button>
+            <!-- <button>
+              <img src="assets/Pencil.png" />
+            </button> -->
+            <!-- <button style="--content: 'Edit';">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23"
+                                fill="none">
+                                <path
+                                    d="M21.0139 2.42608C20.6972 2.11071 20.3211 1.86122 19.9074 1.69203C19.4938 1.52283 19.0507 1.43727 18.6037 1.44029C18.1568 1.44332 17.7149 1.53487 17.3035 1.70965C16.8922 1.88444 16.5195 2.13899 16.2071 2.45862L2.72573 15.94L1.08008 22.3599L7.5 20.7133L20.9814 7.23195C21.3011 6.91968 21.5557 6.54713 21.7305 6.13585C21.9054 5.72456 21.997 5.2827 22 4.8358C22.003 4.3889 21.9174 3.94584 21.7482 3.53222C21.5789 3.11861 21.3294 2.74265 21.0139 2.42608V2.42608Z"
+                                    stroke="#615E83" stroke-width="1.3" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button> -->
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
