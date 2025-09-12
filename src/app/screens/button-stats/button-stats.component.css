@@ -87,8 +87,8 @@ header input {
   height: auto;
   margin: 0 0 5px;
   break-inside: avoid;
-  margin-bottom: 35px; 
-  break-inside: avoid; 
+  margin-bottom: 35px;
+  break-inside: avoid;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
 }
@@ -132,15 +132,27 @@ header input {
 }
 
 .total-clicks {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.total-press {
   /* display: flex; */
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
 }
 
 .total-clicks strong {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: end;
+  margin-left: auto;
+}
+.total-press strong {
   font-size: 24px;
   font-weight: 700;
   margin-left: auto;
@@ -211,4 +223,23 @@ header input {
 }
 .percent svg path {
   stroke: currentColor;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.countBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
