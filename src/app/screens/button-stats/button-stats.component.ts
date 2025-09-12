@@ -1,81 +1,79 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AdminService } from 'src/services/admin/admin.service';
 
 @Component({
   selector: 'app-button-stats',
   templateUrl: './button-stats.component.html',
   styleUrls: ['./button-stats.component.css'],
 })
-export class ButtonStatsComponent {
-  templates = [
-    {
-      title: 'Booking',
-      icon: 'assets/icons/Frame.svg',
-      active: true,
-      totalClicks: 2847,
-      items: [
-        { label: 'Create Booking', value: 1420, percent: 49.8, type: 'normal' },
-        { label: 'Edit Booking', value: 854, percent: 30.1, type: 'normal' },
-        { label: 'Cancel Booking', value: 573, percent: 20.1, type: 'danger' },
-      ],
-    },
+export class ButtonStatsComponent implements OnInit {
+  templates: any[] = [];
 
-    {
-      title: 'Tracking',
-      icon: 'assets/icons/tracking.svg',
-      active: true,
-      items: [
-        { label: 'Track Driver', value: 1420, percent: 49.8, type: 'normal' },
-        { label: 'Share Location', value: 854, percent: 30.1, type: 'normal' },
-      ],
-    },
-    {
-      title: 'Paylink 2',
-      icon: 'assets/icons/Group 73 (1).png',
-      active: true,
-      totalClicks: 2847,
-      items: [
-        { label: 'Cash Payment', value: 1420, percent: 49.8, type: 'normal' },
-        { label: 'Card Payment', value: 854, percent: 30.1, type: 'normal' },
-      ],
-    },
-    {
-      title: 'Review',
-      icon: 'assets/icons/Vector.png',
-      active: true,
-      totalClicks: 2847,
-      items: [
-        {
-          label: 'Book On Whatsapp',
-          value: 1420,
-          percent: 49.8,
-          type: 'normal',
-        },
-        {
-          label: 'Book On Whatsapp',
-          value: 1420,
-          percent: 49.8,
-          type: 'normal',
-        },
-        { label: 'Cancel Booking', value: 573, percent: 20.1, type: 'danger' },
-      ],
-    },
-    {
-      title: 'Arrived',
-      icon: 'assets/icons/Group 73.png',
-      active: true,
-      // totalClicks: 2847,
-      items: [
-        { label: 'Fix Here', value: 1420, percent: 49.8, type: 'normal' },
-        { label: 'Call Passenger', value: 854, percent: 30.1, type: 'green' },
-        { label: 'Wait 5 Minutes', value: 573, percent: 20.1, type: 'normal' },
-        {
-          label: 'Book On Whatsapp',
-          value: 573,
-          percent: 20.1,
-          type: 'bgn',
-        },
-        { label: 'Cancel Booking', value: 573, percent: 20.1, type: 'danger' },
-      ],
-    },
-  ];
+  constructor(private adminService: AdminService) {}
+
+  ngOnInit(): void {
+    const userData = localStorage.getItem('user_details');
+    const user = userData ? JSON.parse(userData) : null;
+    const companyId = user?._id;
+
+    // jitne bhi message types show karne hain
+    const messageTypes = [
+      { title: 'Booking', icon: 'assets/icons/Frame.svg', type: 'booking' },
+      { title: 'Arrived', icon: 'assets/icons/Group 73.png', type: 'arrived' },
+      {
+        title: 'Tracking',
+        icon: 'assets/icons/tracking.svg',
+        type: 'tracking',
+      },
+      {
+        title: 'Paylink',
+        icon: 'assets/icons/Group 73 (1).png',
+        type: 'paylink',
+      },
+      { title: 'Review', icon: 'assets/icons/Vector.png', type: 'review' },
+    ];
+
+    this.templates = [];
+
+    messageTypes.forEach((mt) => {
+      this.adminService
+        .getButtonStats(companyId, mt.type)
+        .subscribe((res: any) => {
+          const apiData = res[0] || {};
+          console.log(apiData);
+          const sentItems =
+            apiData?.sent?.filter((s: any) => s.sentCount > 0) || [];
+
+          const pressedMap: any = {};
+          apiData?.pressed?.forEach(
+            (p: any) => (pressedMap[p._id] = p.pressedCount)
+          );
+
+          const items = sentItems.map((item: any) => {
+            const pressedCount = pressedMap[item._id] || 0;
+            const sentCount = item.sentCount;
+            const percent =
+              sentCount > 0 ? ((pressedCount / sentCount) * 100).toFixed(0) : 0;
+
+            return {
+              label: item._id,
+              value: pressedCount,
+              percent: percent,
+              type: 'normal',
+            };
+          });
+
+          this.templates.push({
+            title: mt.title,
+            icon: mt.icon,
+            active: true,
+            totalClicks: apiData?.pressed?.reduce(
+              (sum: number, b: any) => sum + b.pressedCount,
+              0
+            ),
+            items: items,
+          });
+        });
+    });
+  }
 }

@@ -1,9 +1,9 @@
 <header>
   <h2>Templates</h2>
-  <div  class="search">
+  <!-- <div class="search">
     <img src="../../../assets/icons/search 1.svg" alt="" />
     <input type="text" placeholder="Search Loactions" />
-  </div>
+  </div> -->
   <div class="rightIcon">
     <span>View </span>
     <img src="../../../assets/icons/Frame 73.svg" alt="" />
@@ -25,13 +25,25 @@
           <img [src]="template.icon" alt="{{ template.title }}" />
           <h3>{{ template.title }}</h3>
         </div>
-        <span class="status" *ngIf="template.active">Active</span>
+        <!-- <span class="status" *ngIf="template.active">Active</span> -->
       </div>
 
       <div class="total-clicks">
         <div class="">
           <span class="text-[#1C1C1C] fw-bold">Total Clicks:</span>
-          <span class="eye">👁</span>
+          <span class="eye"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="14"
+              viewBox="0 0 23 14"
+              fill="none"
+            >
+              <path
+                d="M11.3178 5.04897C12.4009 5.04897 13.2834 5.9324 13.2834 7.01459C13.2834 8.09677 12.4 8.95194 11.3178 8.95194C10.2356 8.95194 9.38045 8.09677 9.38045 7.01459C9.38045 5.9324 10.2356 5.04897 11.3178 5.04897ZM11.3178 0.205124C17.7571 0.205124 22.4004 6.24511 22.4004 6.24511C22.714 6.64444 22.714 7.35647 22.4004 7.75488C22.4004 7.75488 17.7562 13.7949 11.3178 13.7949C4.8794 13.7949 0.235218 7.75488 0.235218 7.75488C-0.0784059 7.35556 -0.0784059 6.64353 0.235218 6.24511C0.235218 6.24511 4.8794 0.205124 11.3178 0.205124ZM11.3178 11.8867C13.9964 11.8867 16.1899 9.69315 16.1899 7.01459C16.1899 4.33602 13.9964 2.14248 11.3178 2.14248C8.63924 2.14248 6.44569 4.33602 6.44569 7.01459C6.44569 9.69315 8.63924 11.8867 11.3178 11.8867Z"
+                fill="black"
+              /></svg
+          ></span>
         </div>
         <strong>{{ template.totalClicks | number }}</strong>
       </div>
@@ -42,7 +54,30 @@
         <span>{{ item.label }}</span>
         <div class="percent1">
           <span class="value">{{ item.value | number }}</span>
-          <span class="percent">{{ item.percent }}%</span>
+          <span class="percent"
+            >{{ item.percent }}%
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="13"
+              height="14"
+              viewBox="0 0 13 14"
+              fill="none"
+            >
+              <path
+                d="M1.04004 1.51999V11.7493C1.04004 12.1529 1.36717 12.48 1.77071 12.48H12"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.2693 4.44254L7.61599 8.0958L5.78933 6.26906L3.23199 8.82639"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              /></svg
+          ></span>
         </div>
       </li>
     </ul>
