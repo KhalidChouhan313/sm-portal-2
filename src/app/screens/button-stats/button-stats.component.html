@@ -59,7 +59,6 @@
       </ul>
     </div>
   </div>
-
   <div class="col">
     <div class="card" *ngFor="let template of col2">
       <div class="card-body">
@@ -75,15 +74,24 @@
             <img [src]="template.icon" alt="{{ template.title }}" />
             <h3>{{ template.title }}</h3>
           </div>
-          <span class="status" *ngIf="template.active">Active</span>
+          <!-- <span class="status" *ngIf="template.active">Active</span> -->
         </div>
 
-        <div class="total-clicks">
-          <div class="">
-            <span class="text-[#1C1C1C] fw-bold">Total Clicks:</span>
-            <span class="eye">👁</span>
+        <div class="countBox">
+          <div class="total-press">
+            <div class="">
+              <span class="text-[#1C1C1C] fw-bold">Total Sent</span>
+            
+            </div>
+            <strong>{{ template.topSentCount | number }}</strong>
           </div>
-          <strong>{{ template.totalClicks | number }}</strong>
+          <div class="total-clicks">
+            <div class="">
+              <span class="text-[#1C1C1C] fw-bold">Total Clicks</span>
+           
+            </div>
+            <strong>{{ template.totalClicks | number }}</strong>
+          </div>
         </div>
       </div>
 
@@ -98,7 +106,6 @@
       </ul>
     </div>
   </div>
-
   <div class="col">
     <div class="card" *ngFor="let template of col3">
       <div class="card-body">
@@ -114,15 +121,24 @@
             <img [src]="template.icon" alt="{{ template.title }}" />
             <h3>{{ template.title }}</h3>
           </div>
-          <span class="status" *ngIf="template.active">Active</span>
+          <!-- <span class="status" *ngIf="template.active">Active</span> -->
         </div>
 
-        <div class="total-clicks">
-          <div class="">
-            <span class="text-[#1C1C1C] fw-bold">Total Clicks:</span>
-            <span class="eye">👁</span>
+        <div class="countBox">
+          <div class="total-press">
+            <div class="">
+              <span class="text-[#1C1C1C] fw-bold">Total Sent</span>
+            
+            </div>
+            <strong>{{ template.topSentCount | number }}</strong>
           </div>
-          <strong>{{ template.totalClicks | number }}</strong>
+          <div class="total-clicks">
+            <div class="">
+              <span class="text-[#1C1C1C] fw-bold">Total Clicks</span>
+           
+            </div>
+            <strong>{{ template.totalClicks | number }}</strong>
+          </div>
         </div>
       </div>
 
@@ -137,4 +153,5 @@
       </ul>
     </div>
   </div>
+
 </div>
