@@ -201,6 +201,7 @@ header input {
 
 .value {
   font-weight: 600;
+  text-align: center;
 }
 
 .percent {

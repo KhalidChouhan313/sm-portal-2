@@ -7,7 +7,6 @@ import { AdminService } from 'src/services/admin/admin.service';
   styleUrls: ['./button-stats.component.css'],
 })
 export class ButtonStatsComponent implements OnInit {
-  templates: any[] = [];
   col1: any[] = [];
   col2: any[] = [];
   col3: any[] = [];
@@ -48,37 +47,44 @@ export class ButtonStatsComponent implements OnInit {
             0
           );
 
-          if (!pressedArr.length || totalPressed === 0) return;
+          const items = sentArr
+            .filter((s: any) => s.sentCount > 0)
+            .map((s: any) => {
+              const pressed = pressedArr.find((p: any) => p._id === s._id);
+              const pressedCount = pressed ? pressed.pressedCount : 0;
 
-          const topSentCount = sentArr.length ? sentArr[0].sentCount : 0;
+              const percent =
+                totalPressed > 0
+                  ? ((pressedCount / totalPressed) * 100).toFixed(2)
+                  : '0';
 
-          const items = pressedArr.map((p: any) => {
-            const percent =
-              totalPressed > 0
-                ? ((p.pressedCount / totalPressed) * 100).toFixed(0)
-                : 0;
-            return {
-              label: p._id,
-              value: p.pressedCount,
-              percent: percent,
-              type: 'normal',
-            };
-          });
+              return {
+                label: s._id,
+                value: pressedCount,
+                percent,
+                type: 'normal',
+                sentCount: s.sentCount,
+              };
+            });
+
+          if (items.length === 0) return;
+
+          const topSentCount = items[0].sentCount;
 
           const template = {
             title: mt.title,
             icon: mt.icon,
             active: true,
             totalClicks: totalPressed,
-            topSentCount: topSentCount, 
-            items: items,
+            topSentCount,
+            items,
           };
 
           if (mt.title === 'Booking' || mt.title === 'Paylink') {
             this.col1.push(template);
-          } else if (mt.title === 'Tracking' || mt.title === 'Review') {
+          } else if (mt.title === 'Arrived' || mt.title === 'Review') {
             this.col2.push(template);
-          } else if (mt.title === 'Arrived') {
+          } else if (mt.title === 'Tracking') {
             this.col3.push(template);
           }
         });
