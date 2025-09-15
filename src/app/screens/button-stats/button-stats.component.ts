@@ -14,9 +14,7 @@ export class ButtonStatsComponent implements OnInit {
   private bookingOrPaylink: any[] = [];
   private trackingOrReview: any[] = [];
   private arrived: any[] = [];
-
   constructor(private adminService: AdminService) {}
-
   ngOnInit(): void {
     const userData = localStorage.getItem('user_details');
     const user = userData ? JSON.parse(userData) : null;
@@ -81,14 +79,13 @@ export class ButtonStatsComponent implements OnInit {
           };
 
           const title = mt.title.trim();
-          if (title === 'Booking' || title === 'Paylink') {
+          if (title === 'Follow Up' || title === 'Booking') {
             this.bookingOrPaylink.push(template);
-          } else if (title === 'Follow Up' || title === 'Tracking') {
+          } else if (title === 'Paylink' || title === 'Tracking') {
             this.trackingOrReview.push(template);
           } else if (title === 'Arrived') {
             this.arrived.push(template);
           }
-
           this.buildColumns();
         });
     });
