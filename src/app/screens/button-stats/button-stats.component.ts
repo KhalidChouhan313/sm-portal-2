@@ -79,9 +79,9 @@ export class ButtonStatsComponent implements OnInit {
           };
 
           const title = mt.title.trim();
-          if (title === 'Follow Up' || title === 'Booking') {
+          if (title === 'Paylink' || title === 'Booking') {
             this.bookingOrPaylink.push(template);
-          } else if (title === 'Paylink' || title === 'Tracking') {
+          } else if (title === 'Follow Up' || title === 'Tracking') {
             this.trackingOrReview.push(template);
           } else if (title === 'Arrived') {
             this.arrived.push(template);
@@ -91,14 +91,41 @@ export class ButtonStatsComponent implements OnInit {
     });
   }
 
-  private buildColumns() {
-    this.col1 = [...this.bookingOrPaylink];
-    if (this.trackingOrReview.length > 0) {
-      this.col2 = [...this.trackingOrReview];
-      this.col3 = [...this.arrived];
-    } else {
-      this.col2 = [...this.arrived];
-      this.col3 = [];
+ private buildColumns() {
+  let col1Arr: any[] = [];
+  let trackingArr = [...this.trackingOrReview];
+
+  const booking = this.bookingOrPaylink.find((t: any) => t.title === 'Booking');
+  if (booking) {
+    col1Arr.push(booking);
+  } else {
+    const followUp = trackingArr.find((t: any) => t.title === 'Follow Up');
+    if (followUp) {
+      col1Arr.push(followUp);
+      trackingArr = trackingArr.filter((t: any) => t.title !== 'Follow Up');
     }
   }
+
+  const paylink = this.bookingOrPaylink.find((t: any) => t.title === 'Paylink');
+  if (paylink) {
+    col1Arr.push(paylink);
+  } else {
+    const followUp = trackingArr.find((t: any) => t.title === 'Follow Up');
+    if (followUp) {
+      col1Arr.push(followUp);
+      trackingArr = trackingArr.filter((t: any) => t.title !== 'Follow Up');
+    }
+  }
+
+  this.col1 = col1Arr;
+
+  if (trackingArr.length > 0) {
+    this.col2 = [...trackingArr];
+    this.col3 = [...this.arrived];
+  } else {
+    this.col2 = [...this.arrived];
+    this.col3 = [];
+  }
+}
+
 }

@@ -40,20 +40,25 @@ export class NavbarComponent implements OnInit {
         this.checkAuthentication();
       });
   }
+  private beautifyTitle(str: string): string {
+    let spaced = str.replace(/-/g, ' ');
+    spaced = spaced.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return spaced.replace(/\b\w/g, (char) => char.toUpperCase());
+  }
 
   updateUrlAndTitle(rawUrl: string): void {
     if (!rawUrl || rawUrl.trim() === '/' || rawUrl.trim() === '') {
       this.currentUrl = 'home / dashboard';
-      this.title = 'dashboard';
+      this.title = 'Dashboard';
     } else {
-      const cleanedUrl = rawUrl.split('?')[0].replace(/\/$/, ''); // remove trailing slash
+      const cleanedUrl = rawUrl.split('?')[0].replace(/\/$/, '');
       this.currentUrl =
         'home' + cleanedUrl.replace(/\//g, ' / ').replace(/-/g, ' ');
       const urlParts = this.currentUrl.split(' / ').filter(Boolean);
-      this.title = urlParts[urlParts.length - 1].replace(/-/g, ' ');
-    }
 
-    // console.log('Current URL:', `"${this.currentUrl}"`);
+      // last part beautify kar ke title me set karo
+      this.title = this.beautifyTitle(urlParts[urlParts.length - 1]);
+    }
   }
 
   checkAuthentication(): void {

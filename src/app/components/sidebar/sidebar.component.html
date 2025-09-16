@@ -105,7 +105,7 @@
               <span>Chat Flow</span>
             </li>
             <li
-              [routerLink]="'/chatbot/QR-code'"
+              [routerLink]="'/chatbot/QR-page'"
               (click)="setCurrentSubItem('qrcode')"
               [class.active]="currentSubItem === 'qrcode'"
               class="sub_menu_item"
@@ -113,6 +113,7 @@
               <img src="../../../assets/qricon.png" />
               <span>QR Code</span>
             </li>
+
             <li
               [routerLink]="'/chatbot/bookings'"
               (click)="setCurrentSubItem('Bookings')"

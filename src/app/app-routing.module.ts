@@ -57,7 +57,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'chatbot/QR-code',
+    path: 'chatbot/QR-page',
     loadChildren: () =>
       import('./screens/qr-page/qr-page.module').then((m) => m.QrPageModule),
   },

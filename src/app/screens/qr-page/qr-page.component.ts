@@ -35,10 +35,9 @@ export class QrPageComponent {
   public shape: ShapeType = 'circle';
   public selectedShape: string = 'square';
 
-  public imageSize: number = 30; // New Image Size Option
+  public imageSize: number = 30;
   public imagePosition: string = 'center';
 
-  // Corners Square Options
   public cornersSquareType: CornerSquareType = 'square';
   public cornersSquareColorType: string = 'single';
   public cornersSquareSingleColor: string = '#000000';
@@ -91,7 +90,7 @@ export class QrPageComponent {
     },
   };
 
-  constructor(private qrcodeService: QrcodeService, private router: Router) { }
+  constructor(private qrcodeService: QrcodeService, private router: Router) {}
 
   currentUser: any;
   allQrCodes: any = null;
@@ -120,13 +119,12 @@ export class QrPageComponent {
     let user = JSON.parse(localStorage.getItem('user_details'));
     this.currentUser = user;
     // console.log(user);
-    if (user) {
+    if (!user) {
       this.router.navigateByUrl('login');
+    } else {
+      this.fetchQrList();
     }
-
-    this.fetchQrList();
   }
-
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPage) {
       this.currentPage = page;
@@ -267,9 +265,10 @@ export class QrPageComponent {
                   this.selectedItemIndex = null;
                   this.fetchQrList();
                 },
-                (qrErr) => { });
+                (qrErr) => {}
+              );
             })
-            .catch((err) => { });
+            .catch((err) => {});
         } else {
           console.error('QR element not found!');
         }
@@ -367,9 +366,10 @@ export class QrPageComponent {
                   this.selectedItemIndex = null;
                   this.fetchQrList();
                 },
-                (qrErr) => { });
+                (qrErr) => {}
+              );
             })
-            .catch((err) => { });
+            .catch((err) => {});
         } else {
           console.error('QR element not found!');
         }
@@ -1029,9 +1029,10 @@ export class QrPageComponent {
                   // this.fetchQrList();
                   this.selectedItemIndex = null;
                 },
-                (qrErr) => { });
+                (qrErr) => {}
+              );
           })
-          .catch((err) => { });
+          .catch((err) => {});
       } else {
         // console.error('QR element not found!');
       }
@@ -1078,9 +1079,10 @@ export class QrPageComponent {
                 // this.selectedItemIndex = null;
                 // this.fetchQrList();
               },
-              (qrErr) => { });
+              (qrErr) => {}
+            );
           })
-          .catch((err) => { });
+          .catch((err) => {});
       } else {
         // console.error('QR element not found!');
       }

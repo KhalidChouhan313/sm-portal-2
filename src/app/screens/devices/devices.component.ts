@@ -14,37 +14,6 @@ const PRODUCT_ID = '3055fd3a-661b-467e-8a25-16cd0c76b1fb';
   styleUrls: ['./devices.component.css'],
 })
 export class DevicesComponent implements OnInit {
-  // deviceList = [
-  // {
-  //   id: 1,
-  //   name: "Motorola",
-  //   model: "Motorola Moto Edge 30",
-  //   auth_status: "Authenticated",
-  //   connection: "Active",
-  // },
-  // {
-  //   id: 2,
-  //   name: "Samsung",
-  //   model: "Samsung Note 10 Ultra",
-  //   auth_status: "Not-Authenticated",
-  //   connection: "Inactive"
-  // },
-  // {
-  //   id: 3,
-  //   name: "Samsung",
-  //   model: "Samsung Note 10 Ultra",
-  //   auth_status: "Not-Authenticated",
-  //   connection: "Inactive"
-  // },
-  // {
-  //   id: 4,
-  //   name: "Samsung",
-  //   model: "Samsung Note 10 Ultra",
-  //   auth_status: "Not-Authenticated",
-  //   connection: "Inactive"
-  // },
-  // ]
-
   waToday = 0;
   wa15Min = 0;
   wa30Min = 0;
@@ -147,21 +116,20 @@ export class DevicesComponent implements OnInit {
     private BS: BotService,
     private BKS: BookingsService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     let user_id = this.activatedRoute.params['value'].id;
-
-    // this.AS.getCurrentUserFromBack().subscribe(() => {
     this.currentUser = JSON.parse(localStorage.getItem('user_details'));
-    // console.log(this.currentUser);
 
     if (!this.currentUser) {
       this.router.navigateByUrl('login');
     }
+
     this.AS.getUser(this.currentUser._id).subscribe((usr) => {
+      this.currentUser = usr;
+
       this.BKS.getCompanyBots(this.currentUser._id).subscribe((admin) => {
-        // console.log('admin', admin.data[0]);
         this.wabaDeviceDetails = admin.data[0];
         if (admin.data[0].wa_phone_id.length) {
           this.haveWabaDevice = true;
@@ -169,10 +137,9 @@ export class DevicesComponent implements OnInit {
             device_id: admin.data[0].wa_phone_id,
             device_name: 'Official WhatsApp Account',
           });
-          this.setCurrent(0, 0);
         }
       });
-      this.currentUser = usr;
+
       this.deviceList = usr.wa_api.filter(
         (d) =>
           d.status &&
@@ -180,46 +147,57 @@ export class DevicesComponent implements OnInit {
             d.wa_api_platform == 'maytapi' ||
             d.wa_api_platform == 'greenapi')
       );
-      // console.log(this.deviceList);
-      // Initialize device connection statuses
-      this.deviceConnections = {}; // Reset deviceConnections before fetching new statuses
+
+      this.deviceConnections = {};
 
       if (this.deviceList.length) {
         this.deviceList.forEach((device, index) => {
-          // Fetch connection status for each device
           if (device.wa_api_platform == 'greenapi') {
-            // this.currentDevice = device;
-            this.getGreenApiStatus(device, index); // Open the Green API for each device
-            // this.creatGraph(device, index); // Create a graph (if necessary)
-          } else if (device.wa_api_platform == 'chatapi') {
-            // Handle chatapi device status (if needed)
-          } else if (device.wa_api_platform == 'maytapi') {
-            // Handle maytapi device status (if needed)
+            this.getGreenApiStatus(device, index);
           }
         });
-        // If there are devices, set a timeout to refresh their status after 10 seconds
+
         setTimeout(() => {
           this.refreshingGreenApi();
         }, 10000);
+
+        const lastIndex = localStorage.getItem('lastDeviceIndex');
+        const idx = lastIndex ? +lastIndex : 0;
+        this.setCurrent(this.deviceList[idx].device_id, idx);
       } else {
         this.isLoad = false;
       }
-      this.setCurrent(0, 0);
     });
-    // });
   }
 
+  ngOnDestroy() {
+    if (this.currentGraphSubscription) {
+      this.currentGraphSubscription.unsubscribe();
+    }
+  }
   currentDeviceIndex: number = 0;
-
+  currentDeviceId: string = '';
+  currentGraphSubscription: any;
   setCurrent = (id: number, index: number) => {
     this.currentDevice = this.deviceList[index];
     this.currentDeviceIndex = index;
-    // console.log('current', this.currentDevice);
-    this.openGreenApi(this.deviceList[index], index);
+    this.currentDeviceId = this.currentDevice.device_id;
+    localStorage.setItem('lastDeviceIndex', index.toString());
+
+    this.totalSms = this.totalWhatsapp = this.totalMsg = this.notSent = 0;
+
+    if (this.currentGraphSubscription) {
+      this.currentGraphSubscription.unsubscribe();
+    }
+
+    this.currentGraphSubscription = this.creatGraph(
+      this.deviceList[index],
+      index
+    );
   };
 
   toggleBanner() {
-    this.isBannerVisible = !this.isBannerVisible; // Hide the banner
+    this.isBannerVisible = !this.isBannerVisible;
   }
 
   openDevice(device, index) {
@@ -387,26 +365,25 @@ export class DevicesComponent implements OnInit {
 
   creatGraph(device, index) {
     // console.log('dev', device, 'ind', index);
-    this.waToday = 0;
-    this.wa15Min = 0;
-    this.wa30Min = 0;
-    this.wa60Min = 0;
-    this.wa6Hr = 0;
-    this.wa12Hr = 0;
-    this.wa24Hr = 0;
-    this.smsToday = 0;
-    this.sms15Min = 0;
-    this.sms30Min = 0;
-    this.sms60Min = 0;
-    this.sms6Hr = 0;
-    this.sms12Hr = 0;
-    this.sms24Hr = 0;
-    this.totalBooking = 0;
-    this.cancelledBooking = 0;
-    this.trackDriverTotalMsg = 0;
-    this.trackDriverYesMsg = 0;
-    this.arrivedDriverTotalMsg = 0;
-    this.arrivedDriverYesMsg = 0;
+    this.waToday =
+      this.wa15Min =
+      this.wa30Min =
+      this.wa60Min =
+      this.wa6Hr =
+      this.wa12Hr =
+      this.wa24Hr =
+        0;
+    this.smsToday =
+      this.sms15Min =
+      this.sms30Min =
+      this.sms60Min =
+      this.sms6Hr =
+      this.sms12Hr =
+      this.sms24Hr =
+        0;
+    this.totalBooking = this.cancelledBooking = 0;
+    this.trackDriverTotalMsg = this.trackDriverYesMsg = 0;
+    this.arrivedDriverTotalMsg = this.arrivedDriverYesMsg = 0;
     this.isGraphLoad = false;
     this.barChartData = [
       { data: [0, 0, 0, 0, 0, 0, 0], label: 'SMS' },
@@ -414,43 +391,24 @@ export class DevicesComponent implements OnInit {
       { data: [0, 0, 0, 0, 0, 0, 0], label: 'Not Sent' },
       { data: [0, 0, 0, 0, 0, 0, 0], label: 'Total' },
     ];
-    this.totalMsg = 0;
-    this.totalSms = 0;
-    this.totalWhatsapp = 0;
-    this.notSent = 0;
-    let endDate = new Date();
-    let startDate = new Date();
+    this.totalMsg = this.totalSms = this.totalWhatsapp = this.notSent = 0;
+
+    // date strings
+    const endDate = new Date();
+    const startDate = new Date();
     startDate.setDate(startDate.getDate() - 6);
 
-    let t = endDate;
-    let fd = startDate;
-    let tz = t.getTimezoneOffset() / 60;
-    fd.setDate(fd.getDate() - 1);
-    let fh = 24 + tz;
-    let m = (fd.getMonth() + 1).toString();
-    let d = fd.getDate().toString();
-    if (parseInt(m) < 10) {
-      m = '0' + m;
-    }
-    if (parseInt(d) < 10) {
-      d = '0' + d;
-    }
-    let startDateStr =
-      fd.getFullYear() + '-' + m + '-' + d + 'T' + fh + ':00:00.000Z';
+    const tz = endDate.getTimezoneOffset() / 60;
+    startDate.setDate(startDate.getDate() - 1);
+    const fh = 24 + tz;
+    let m = (startDate.getMonth() + 1).toString().padStart(2, '0');
+    let d = startDate.getDate().toString().padStart(2, '0');
+    const startDateStr = `${startDate.getFullYear()}-${m}-${d}T${fh}:00:00.000Z`;
 
-    let th = 23 + tz;
-    let em = (t.getMonth() + 1).toString();
-    let dm = (t.getDate() + 1).toString();
-
-    if (parseInt(em) < 10) {
-      em = '0' + em;
-    }
-    if (parseInt(dm) < 10) {
-      dm = '0' + dm;
-    }
-
-    let endDateStr =
-      t.getFullYear() + '-' + em + '-' + dm + 'T' + th + ':59:59.999Z';
+    const th = 23 + tz;
+    let em = (endDate.getMonth() + 1).toString().padStart(2, '0');
+    let dm = (endDate.getDate() + 1).toString().padStart(2, '0');
+    const endDateStr = `${endDate.getFullYear()}-${em}-${dm}T${th}:59:59.999Z`;
 
     let obj = {
       device_id: device.device_id,
@@ -461,6 +419,7 @@ export class DevicesComponent implements OnInit {
 
     this.AS.getMessageGraphValue(obj).subscribe((ml) => {
       // console.log(ml.length);
+      if (this.currentDeviceId !== device.device_id) return;
 
       let tday = ml[ml.length - 1].day;
       let today = ml[ml.length - 1].day;
@@ -569,48 +528,6 @@ export class DevicesComponent implements OnInit {
           this.isGraphLoad = true;
         }
       });
-      // console.log(this.barChartData);
-      // this.barChartData[0]['data'] = [
-      //   this.barChartData[0]['data'][3],
-      //   this.barChartData[0]['data'][4],
-      //   this.barChartData[0]['data'][5],
-      //   this.barChartData[0]['data'][6],
-      //   this.barChartData[0]['data'][0],
-      //   this.barChartData[0]['data'][1],
-      //   this.barChartData[0]['data'][2],
-      // ];
-      // this.barChartData[1]['data'] = [
-      //   this.barChartData[1]['data'][3],
-      //   this.barChartData[1]['data'][4],
-      //   this.barChartData[1]['data'][5],
-      //   this.barChartData[1]['data'][6],
-      //   this.barChartData[1]['data'][0],
-      //   this.barChartData[1]['data'][1],
-      //   this.barChartData[1]['data'][2],
-      // ];
-      // this.barChartData[2]['data'] = [
-      //   this.barChartData[2]['data'][3],
-      //   this.barChartData[2]['data'][4],
-      //   this.barChartData[2]['data'][5],
-      //   this.barChartData[2]['data'][6],
-      //   this.barChartData[2]['data'][0],
-      //   this.barChartData[2]['data'][1],
-      //   this.barChartData[2]['data'][2],
-      // ];
-      // this.barChartData[3]['data'] = [
-      //   this.barChartData[3]['data'][3],
-      //   this.barChartData[3]['data'][4],
-      //   this.barChartData[3]['data'][5],
-      //   this.barChartData[3]['data'][6],
-      //   this.barChartData[3]['data'][0],
-      //   this.barChartData[3]['data'][1],
-      //   this.barChartData[3]['data'][2],
-      // ];
-      // console.log({
-      //   total: this.totalMsg,
-      //   whatsapp: this.totalWhatsapp,
-      //   sms: this.totalSms,
-      // });
     });
     // console.log(this.barChartData);
   }
