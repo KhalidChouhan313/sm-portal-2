@@ -56,7 +56,6 @@ export class NavbarComponent implements OnInit {
         'home' + cleanedUrl.replace(/\//g, ' / ').replace(/-/g, ' ');
       const urlParts = this.currentUrl.split(' / ').filter(Boolean);
 
-      // last part beautify kar ke title me set karo
       this.title = this.beautifyTitle(urlParts[urlParts.length - 1]);
     }
   }
