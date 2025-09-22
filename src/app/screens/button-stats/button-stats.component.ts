@@ -1,12 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/services/admin/admin.service';
 
+interface Day {
+  date: Date;
+  isCurrentMonth: boolean;
+  isInRange?: boolean;
+}
 @Component({
   selector: 'app-button-stats',
   templateUrl: './button-stats.component.html',
   styleUrls: ['./button-stats.component.css'],
 })
 export class ButtonStatsComponent implements OnInit {
+  currentMonth: number;
+  currentYear: number;
+  days: Day[] = [];
+  showCalendar: boolean = false;
+  selectedStart: Date | null = null;
+  selectedEnd: Date | null = null;
+  private minDate: Date;
+  private maxDate: Date;
   col1: any[] = [];
   col2: any[] = [];
   col3: any[] = [];
@@ -89,6 +102,16 @@ export class ButtonStatsComponent implements OnInit {
           this.buildColumns();
         });
     });
+    const now = new Date();
+    this.currentMonth = now.getMonth();
+    this.currentYear = now.getFullYear();
+    this.minDate = new Date(
+      now.getFullYear(),
+      now.getMonth() - 3,
+      now.getDate()
+    );
+    this.maxDate = now;
+    this.generateCalendar(this.currentYear, this.currentMonth);
   }
 
   private buildColumns() {
@@ -100,18 +123,18 @@ export class ButtonStatsComponent implements OnInit {
 
     if (booking) {
       col1Arr.push(booking);
-    }  else {
-    const tracking = trackingArr.find((t: any) => t.title === 'Tracking');
-    if (tracking) {
-      col1Arr.push(tracking);
-      trackingArr = trackingArr.filter((t: any) => t.title !== 'Tracking');
     } else {
-      const followUp = trackingArr.find((t: any) => t.title === 'Follow Up');
-      if (followUp) {
-        col1Arr.push(followUp);
-        trackingArr = trackingArr.filter((t: any) => t.title !== 'Follow Up');
+      const tracking = trackingArr.find((t: any) => t.title === 'Tracking');
+      if (tracking) {
+        col1Arr.push(tracking);
+        trackingArr = trackingArr.filter((t: any) => t.title !== 'Tracking');
+      } else {
+        const followUp = trackingArr.find((t: any) => t.title === 'Follow Up');
+        if (followUp) {
+          col1Arr.push(followUp);
+          trackingArr = trackingArr.filter((t: any) => t.title !== 'Follow Up');
+        }
       }
-    }
     }
 
     const paylink = this.bookingOrPaylink.find(
@@ -136,5 +159,78 @@ export class ButtonStatsComponent implements OnInit {
       this.col2 = [...this.arrived];
       this.col3 = [];
     }
+  }
+  months: {
+    name: string;
+    days: { date: Date; isCurrentMonth: boolean }[];
+  }[] = [];
+
+  generateCalendar(year: number, month: number) {
+    if (month < 0) {
+      month = 11;
+      year -= 1;
+    } else if (month > 11) {
+      month = 0;
+      year += 1;
+    }
+
+    const firstDayOfMonth = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
+    this.days = [];
+    this.currentYear = year;
+    this.currentMonth = month;
+    const startDay = firstDayOfMonth.getDay();
+    for (let i = 0; i < startDay; i++) {
+      this.days.push({ date: null, isCurrentMonth: false });
+    }
+
+    const totalDays = lastDayOfMonth.getDate();
+    for (let d = 1; d <= totalDays; d++) {
+      const date = new Date(year, month, d);
+      const isInRange = date >= this.minDate && date <= this.maxDate;
+      this.days.push({ date, isCurrentMonth: true, isInRange });
+    }
+  }
+
+  selectDate(day: Day) {
+    if (!day.isCurrentMonth) return;
+
+    if (day.date > this.maxDate) return;
+
+    if (!this.selectedStart || (this.selectedStart && this.selectedEnd)) {
+      this.selectedStart = day.date;
+      this.selectedEnd = null;
+    } else {
+      if (day.date >= this.selectedStart) {
+        this.selectedEnd = day.date;
+      } else {
+        this.selectedEnd = this.selectedStart;
+        this.selectedStart = day.date;
+      }
+    }
+  }
+
+  isSelected(day: Day): boolean {
+    if (!this.selectedStart) return false;
+    if (this.selectedStart && !this.selectedEnd) {
+      return this.sameDate(day.date, this.selectedStart);
+    }
+    return (
+      this.selectedEnd &&
+      day.date >= this.selectedStart &&
+      day.date <= this.selectedEnd
+    );
+  }
+
+  sameDate(a: Date, b: Date) {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
+  toggleCalendar() {
+    this.showCalendar = !this.showCalendar;
   }
 }

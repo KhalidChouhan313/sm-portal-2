@@ -5,14 +5,50 @@
     <input type="text" placeholder="Search Loactions" />
   </div> -->
   <div class="rightIcon">
-    <span>View </span>
-    <img src="../../../assets/icons/Frame 73.svg" alt="" />
-    <img src="../../../assets/icons/Frame 74.svg" alt="" />
+    <img
+      src="../../../assets/icons/calendar-249.png"
+      alt="calendar-Icon"
+      class="calendarIcon"
+      (click)="toggleCalendar()"
+    />
+  </div>
+  <div class="calendar" *ngIf="showCalendar">
+    <div class="selected-info">
+      <p>Start: {{ selectedStart | date }}</p>
+      <p>End: {{ selectedEnd | date }}</p>
+    </div>
+    <div class="calendar-header">
+      <button (click)="generateCalendar(currentYear, currentMonth - 1)">
+        &lt;
+      </button>
+      <span>{{ currentYear }} - {{ currentMonth + 1 }}</span>
+      <button (click)="generateCalendar(currentYear, currentMonth + 1)">
+        &gt;
+      </button>
+    </div>
+
+    <div class="calendar-grid">
+      <div
+        class="day-name"
+        *ngFor="let name of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"
+      >
+        {{ name }}
+      </div>
+      <div
+        class="day"
+        *ngFor="let day of days"
+        [class.disabled]="!day.isCurrentMonth || !day.isInRange"
+        [class.selected]="isSelected(day)"
+        (click)="selectDate(day)"
+      >
+        {{ day.isCurrentMonth ? day.date.getDate() : "" }}
+      </div>
+    </div>
   </div>
 </header>
 
 <div class="row">
-  <div class="col" >
+  <div class="col">
     <div class="card" *ngFor="let template of col1">
       <div class="card-body">
         <div
@@ -33,13 +69,13 @@
         <div class="countBox">
           <div class="total-press">
             <div class="">
-              <span class="text-[#1C1C1C] fw-bold">Total Sent</span>
+              <span class="text-[#1C1C1C]">Total Sent</span>
             </div>
             <strong>{{ template.topSentCount | number }}</strong>
           </div>
           <div class="total-clicks">
             <div class="">
-              <span class="text-[#1C1C1C] fw-bold">Total Clicks</span>
+              <span class="text-[#1C1C1C]">Total Clicks</span>
             </div>
             <strong>{{ template.totalClicks | number }}</strong>
           </div>
@@ -80,7 +116,7 @@
       </ul>
     </div>
   </div>
- 
+
   <div class="col">
     <div class="card" *ngFor="let template of col2">
       <div class="card-body">
@@ -102,13 +138,13 @@
         <div class="countBox">
           <div class="total-press">
             <div class="">
-              <span class="text-[#1C1C1C] fw-bold">Total Sent</span>
+              <span class="text-[#1C1C1C]">Total Sent</span>
             </div>
             <strong>{{ template.topSentCount | number }}</strong>
           </div>
           <div class="total-clicks">
             <div class="">
-              <span class="text-[#1C1C1C] fw-bold">Total Clicks</span>
+              <span class="text-[#1C1C1C]">Total Clicks</span>
             </div>
             <strong>{{ template.totalClicks | number }}</strong>
           </div>
@@ -124,8 +160,8 @@
               >{{ item.percent }}%
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="13"
-                height="14"
+                width="12"
+                height="12"
                 viewBox="0 0 13 14"
                 fill="none"
               >
@@ -149,7 +185,7 @@
       </ul>
     </div>
   </div>
- 
+
   <div class="col">
     <div class="card" *ngFor="let template of col3">
       <div class="card-body">
@@ -171,13 +207,13 @@
         <div class="countBox">
           <div class="total-press">
             <div class="">
-              <span class="text-[#1C1C1C] fw-bold">Total Sent</span>
+              <span class="text-[#1C1C1C]">Total Sent</span>
             </div>
             <strong>{{ template.topSentCount | number }}</strong>
           </div>
           <div class="total-clicks">
             <div class="">
-              <span class="text-[#1C1C1C] fw-bold">Total Clicks</span>
+              <span class="text-[#1C1C1C]">Total Clicks</span>
             </div>
             <strong>{{ template.totalClicks | number }}</strong>
           </div>
@@ -218,6 +254,4 @@
       </ul>
     </div>
   </div>
- 
-  
 </div>
