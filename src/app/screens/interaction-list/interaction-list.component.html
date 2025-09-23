@@ -1,7 +1,8 @@
 <div *ngIf="interactionList.length" class="pagination">
-  <a class="active" *ngIf="page >= 1" (click)="previousPage()">&laquo; Prev
-  </a>
-  <a *ngIf="interactionList.length == 50" class="active" (click)="nextPage()">Next &raquo;</a>
+  <a class="active" *ngIf="page >= 1" (click)="previousPage()">&laquo; Prev </a>
+  <a *ngIf="interactionList.length == 50" class="active" (click)="nextPage()"
+    >Next &raquo;</a
+  >
 </div>
 <div class="a_table_wrapper">
   <table class="table">
@@ -32,15 +33,24 @@
           <span *ngIf="item.flow == 'location_qrscan'">Location QR Scan</span>
         </td>
         <td>
-          <span class="status-badge" [ngClass]="{
+          <span
+            class="status-badge"
+            [ngClass]="{
               active: item.status === 'completed',
               inactive: item.status !== 'completed'
-            }">
+            }"
+          >
             <span *ngIf="item.status === 'completed'">Completed</span>
             <span *ngIf="item.status !== 'completed'">Incomplete</span>
           </span>
         </td>
-        <td>{{ item?.time?.split("T")[0] }} {{ item?.time?.split("T")[1] }}</td>
+        <td>
+          {{
+            item?.time && item.time.includes("T")
+              ? item.time.split("T")[0] + " " + item.time.split("T")[1]
+              : "NA"
+          }}
+        </td>
 
         <div class="msg_cell">
           <div>
@@ -54,13 +64,21 @@
   </table>
 </div>
 <div *ngIf="interactionList.length" class="pagination">
-  <a class="active" *ngIf="page >= 1" (click)="previousPage()">&laquo; Prev
-  </a>
-  <a *ngIf="interactionList.length == 50" class="active" (click)="nextPage()">Next &raquo;</a>
+  <a class="active" *ngIf="page >= 1" (click)="previousPage()">&laquo; Prev </a>
+  <a *ngIf="interactionList.length == 50" class="active" (click)="nextPage()"
+    >Next &raquo;</a
+  >
 </div>
 <div class="interaction-flow-layer" *ngIf="interactionDetails"></div>
-<div class="interaction-flow-container col-md-12" *ngIf="interactionDetails" (click)="closeInteractionFlow()">
-  <div class="interaction-flow-box col-xl-4 col-lg-5 col-md-6 col-sm-12 col-xs-12" (click)="stopPropagation($event)">
+<div
+  class="interaction-flow-container col-md-12"
+  *ngIf="interactionDetails"
+  (click)="closeInteractionFlow()"
+>
+  <div
+    class="interaction-flow-box col-xl-4 col-lg-5 col-md-6 col-sm-12 col-xs-12"
+    (click)="stopPropagation($event)"
+  >
     <div class="interaction-flow-header">
       <div>
         <h1>Interaction Flow</h1>
@@ -70,6 +88,8 @@
       </div>
       <a (click)="closeInteractionFlow()" class="close-interaction-flow">x</a>
     </div>
-    <app-interaction-flow [interactionDetails]="interactionDetails"></app-interaction-flow>
+    <app-interaction-flow
+      [interactionDetails]="interactionDetails"
+    ></app-interaction-flow>
   </div>
 </div>

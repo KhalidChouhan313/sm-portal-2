@@ -141,7 +141,7 @@
       <div>
         <p>{{ deviceConnections[item.device_id] || "Active" }}</p>
         <!-- Display connection status for each device -->
-        <p>{{ item.device_name || "Official WhatsApp Account" }}</p>
+        <p>{{ item?.device_name || "Official WhatsApp Account" }}</p>
       </div>
     </li>
     <!-- <li

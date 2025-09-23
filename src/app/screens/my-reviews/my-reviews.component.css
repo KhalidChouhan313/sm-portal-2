@@ -202,7 +202,7 @@ main {
 }
 
 .r-star {
-  display: flex;
+  display: block;
   align-items: center;
   gap: 3px;
 }

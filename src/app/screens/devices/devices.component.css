@@ -350,7 +350,7 @@ strong {
 }
 
 .menu li.active p:last-child {
-  /* font-size: 16px; */
+  font-size: 16px;
 }
 
 .menu li .icon {

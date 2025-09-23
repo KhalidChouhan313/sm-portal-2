@@ -113,9 +113,9 @@ button:disabled {
 
 emoji-mart {
   position: absolute !important;
-  top: 435px !important;
+  bottom: 5px !important;
   left: 50% !important;
-  transform: translateX(-50%);
+  transform: translateX(-85%);
   z-index: 1000 !important;
   background: white !important;
   border: 3px solid black !important;

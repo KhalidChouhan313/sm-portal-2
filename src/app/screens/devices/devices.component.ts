@@ -38,7 +38,7 @@ export class DevicesComponent implements OnInit {
   isPageLoad = true;
   showFilter = false;
   isLoad = true;
-  isMsgLoad = true;
+  isMsgLoad = false;
   isGraphLoad = false;
   isLogout = false;
   isEdit = false;
@@ -47,7 +47,7 @@ export class DevicesComponent implements OnInit {
   currentEditDevice: any;
   currentEditIndex = -1;
   deviceList = [];
-  messageList: any;
+  messageList: any[] = [];
   userList = [];
   userIndex = 0;
   errMessage = '';
@@ -205,6 +205,7 @@ export class DevicesComponent implements OnInit {
       this.creatGraph(device, index);
       this.clean();
       this.isLoad = true;
+      this.messageList = [];
       this.isMsgLoad = true;
       this.deviceActive = false;
       this.qrShow = false;
@@ -219,10 +220,17 @@ export class DevicesComponent implements OnInit {
         company_id: this.currentUser._id,
         skip: this.currentPageLimit,
       };
-      this.AS.getMessageList(obj).subscribe((ml) => {
-        this.messageList = ml;
-        this.isMsgLoad = false;
-        // console.log('msgs', ml);
+      this.AS.getMessageList(obj).subscribe({
+        next: (ml: any) => {
+          console.log('msg list response', ml);
+          this.messageList = ml?.data ?? [];
+          this.isMsgLoad = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.messageList = [];
+          this.isMsgLoad = false;
+        },
       });
     } else if (device.wa_api_platform == 'maytapi') {
       this.openMaytApi(device, index);
