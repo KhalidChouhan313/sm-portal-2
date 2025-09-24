@@ -152,7 +152,7 @@ export class ReportsComponent implements OnInit, OnChanges {
     } else {
       const selectedData =
         this.activeIndex === 3
-          ? this.graphData[2] // Fix for "Not Send"
+          ? this.graphData[2] 
           : this.activeIndex === 2
             ? this.graphData[0]
             : this.activeIndex === 1

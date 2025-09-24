@@ -194,6 +194,7 @@ export class DevicesComponent implements OnInit {
       this.deviceList[index],
       index
     );
+    this.search()
   };
 
   toggleBanner() {
@@ -429,8 +430,8 @@ export class DevicesComponent implements OnInit {
       // console.log(ml.length);
       if (this.currentDeviceId !== device.device_id) return;
 
-      let tday = ml[ml.length - 1].day;
-      let today = ml[ml.length - 1].day;
+      let tday = ml[ml.length - 1]?.day;
+      let today = ml[ml.length - 1]?.day;
       let x = 0;
       while (x < 7) {
         today++;
@@ -743,7 +744,7 @@ export class DevicesComponent implements OnInit {
     this.isMsgLoad = true;
     this.currentPageLimit = 0;
     let obj = {
-      device_id: this.currentDevice.device_id,
+      device_id: this.currentDevice?.device_id,
       company_id: this.currentUser._id,
       skip: this.currentPageLimit,
     };
