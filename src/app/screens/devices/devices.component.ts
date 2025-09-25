@@ -120,25 +120,14 @@ export class DevicesComponent implements OnInit {
 
   ngOnInit(): void {
     let user_id = this.activatedRoute.params['value'].id;
-    this.currentUser = JSON.parse(localStorage.getItem('user_details'));
-
+    this.currentUser = JSON.parse(localStorage.getItem('user_details') || '{}');
     if (!this.currentUser) {
       this.router.navigateByUrl('login');
+      return;
     }
 
     this.AS.getUser(this.currentUser._id).subscribe((usr) => {
       this.currentUser = usr;
-
-      this.BKS.getCompanyBots(this.currentUser._id).subscribe((admin) => {
-        this.wabaDeviceDetails = admin.data[0];
-        if (admin.data[0].wa_phone_id.length) {
-          this.haveWabaDevice = true;
-          this.deviceList.push({
-            device_id: admin.data[0].wa_phone_id,
-            device_name: 'Official WhatsApp Account',
-          });
-        }
-      });
 
       this.deviceList = usr.wa_api.filter(
         (d) =>
@@ -157,16 +146,29 @@ export class DevicesComponent implements OnInit {
           }
         });
 
-        setTimeout(() => {
-          this.refreshingGreenApi();
-        }, 10000);
+        setTimeout(() => this.refreshingGreenApi(), 10000);
+      }
+
+      this.BKS.getCompanyBots(this.currentUser._id).subscribe((admin) => {
+        this.wabaDeviceDetails = admin.data[0];
+        if (admin.data[0].wa_phone_id.length) {
+          this.haveWabaDevice = true;
+          this.deviceList.push({
+            device_id: admin.data[0].wa_phone_id,
+            device_name: 'Official WhatsApp Account',
+            wa_api_platform: 'whatsapp',
+          });
+        }
 
         const lastIndex = localStorage.getItem('lastDeviceIndex');
-        const idx = lastIndex ? +lastIndex : 0;
-        this.setCurrent(this.deviceList[idx].device_id, idx);
-      } else {
-        this.isLoad = false;
-      }
+       
+        const selectedIndex = 0;
+
+        this.setCurrent(
+          this.deviceList[selectedIndex].device_id,
+          selectedIndex
+        );
+      });
     });
   }
 
@@ -194,7 +196,7 @@ export class DevicesComponent implements OnInit {
       this.deviceList[index],
       index
     );
-    this.search()
+    this.search();
   };
 
   toggleBanner() {

@@ -23,8 +23,13 @@
       <div class="filter">
         <p>Filter by Rating:</p>
         <div class="stars">
-          <span *ngFor="let star of stars; let i = index" (click)="setRating(i + 1)" (mouseenter)="hoverRating(i + 1)"
-            (mouseleave)="hoverRating(0)" [class.filled]="i + 1 <= (hovered || rating)">
+          <span
+            *ngFor="let star of stars; let i = index"
+            (click)="setRating(i + 1)"
+            (mouseenter)="hoverRating(i + 1)"
+            (mouseleave)="hoverRating(0)"
+            [class.filled]="i + 1 <= (hovered || rating)"
+          >
             &#9733;
           </span>
         </div>
@@ -168,33 +173,55 @@
       <p>Review</p>
     </div>
     <div class="list-body-con">
+      <div
+        style="display: flex; align-items: center; justify-content: center"
+        *ngIf="reviews.length === 0"
+      >
+        <div>No Data Found</div>
+      </div>
       <div class="list-body" *ngFor="let review of reviews; let i = index">
         <p>
           <span></span>
-          {{review.name}}
+          {{ review.name }}
         </p>
 
-        <p *ngIf="review.date">{{ review.date | date : "hh:mm, MMM dd, yy" }}</p>
-        <p *ngIf="!review.date">{{ review.createdAt | date : "hh:mm, MMM dd, yy" }}</p>
-        <p>{{review.booking_id}}</p>
+        <p *ngIf="review.date">
+          {{ review.date | date : "hh:mm, MMM dd, yy" }}
+        </p>
+        <p *ngIf="!review.date">
+          {{ review.createdAt | date : "hh:mm, MMM dd, yy" }}
+        </p>
+        <p>{{ review.booking_id }}</p>
         <p>{{ review.review_id }}</p>
         <p>{{ review.driver_id }}</p>
         <div class="r-star">
-          <span *ngFor="let star of stars; let i = index" class="my-star"
-            [ngClass]="getStarClass(review.rating, i)">★</span>
+          <span
+            *ngFor="let star of stars; let i = index"
+            class="my-star"
+            [ngClass]="getStarClass(review.rating, i)"
+            >★</span
+          >
         </div>
 
-        <p>{{ review.review }}</p>
+        <p>{{ review?.review || "—" }}</p>
       </div>
     </div>
     <!-- Pagination Buttons -->
     <div class="pagination">
-      <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="nav">
+      <button
+        (click)="goToPreviousPage()"
+        [disabled]="currentPage === 1"
+        class="nav"
+      >
         ◀
       </button>
 
       <ng-container *ngIf="totalPages > 1">
-        <button class="page" *ngIf="currentPage > 1" (click)="goToPage(currentPage - 1)">
+        <button
+          class="page"
+          *ngIf="currentPage > 1"
+          (click)="goToPage(currentPage - 1)"
+        >
           {{ currentPage - 1 }}
         </button>
 
@@ -202,12 +229,20 @@
           {{ currentPage }}
         </button>
 
-        <button class="page" *ngIf="currentPage < totalPages" (click)="goToPage(currentPage + 1)">
+        <button
+          class="page"
+          *ngIf="currentPage < totalPages"
+          (click)="goToPage(currentPage + 1)"
+        >
           {{ currentPage + 1 }}
         </button>
       </ng-container>
 
-      <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="nav">
+      <button
+        (click)="goToNextPage()"
+        [disabled]="currentPage === totalPages"
+        class="nav"
+      >
         ▶
       </button>
     </div>
