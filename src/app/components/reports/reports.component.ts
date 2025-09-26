@@ -5,7 +5,6 @@ import {
   SimpleChanges,
   OnChanges,
   ChangeDetectorRef,
-  AfterViewInit,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 
@@ -24,18 +23,23 @@ export class ReportsComponent implements OnInit, OnChanges {
   activeIndex: number = 0; // Default to "Total"
   buttons = ['Total', 'WhatsApp', 'SMS', 'Not Sent'];
   chart: any; // Store chart instance
+  isUpdated = false;
 
   constructor(private cdr: ChangeDetectorRef) {
     Chart.register(...registerables); // Ensure Chart.js is registered
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // if (this.graphData && this.graphData.length > 0) {
+    //   setTimeout(() => this.updateChart(), 200);
+    // }
+  }
   ngAfterViewInit(): void {
-    if (this.graphData && this.graphData.length > 0) {
-      setTimeout(() => this.updateChart(), 200);
+    // view ready hai aur agar data aa gaya hai tabhi chart banao
+    if (this.graphData && this.graphData.length) {
+      this.updateChart();
     }
   }
-  isUpdated = false;
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['graphData'] && changes['graphData'].currentValue) {
       // console.log(this.notSent);
@@ -45,7 +49,7 @@ export class ReportsComponent implements OnInit, OnChanges {
         this.activeIndex = 0;
         this.isUpdated = true;
         this.updateChart();
-      }, 3000);
+      }, 5000);
     }
   }
 
@@ -73,7 +77,10 @@ export class ReportsComponent implements OnInit, OnChanges {
     // );
 
     const canvas = document.getElementById('lineChart') as HTMLCanvasElement;
-    if (!canvas) return;
+    if (!canvas) {
+      setTimeout(() => this.updateChart(), 50);
+      return;
+    }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -154,7 +161,7 @@ export class ReportsComponent implements OnInit, OnChanges {
     } else {
       const selectedData =
         this.activeIndex === 3
-          ? this.graphData[2]
+          ? this.graphData[2] // Fix for "Not Send"
           : this.activeIndex === 2
           ? this.graphData[0]
           : this.activeIndex === 1
@@ -254,6 +261,6 @@ export class ReportsComponent implements OnInit, OnChanges {
   setActive(index: number): void {
     this.activeIndex = index;
     this.cdr.detectChanges();
-    setTimeout(() => this.updateChart(), 0);
+    this.updateChart();
   }
 }

@@ -323,12 +323,14 @@
   <div style="display: flex; gap: 10px; margin-top: 6rem">
     <div class="reports">
       <app-reports
+        *ngIf="barChartData && barChartData.length"
         [graphData]="barChartData"
         [totalMsg]="totalMsg"
         [totalSms]="totalSms"
         [totalWhatsapp]="totalWhatsapp"
         [notSent]="notSent"
       ></app-reports>
+      
     </div>
     <div class="msg-details">
       <div class="msg-details-sec">
