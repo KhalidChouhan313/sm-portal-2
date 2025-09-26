@@ -49,6 +49,7 @@ export class ReportsComponent implements OnInit, OnChanges {
         this.activeIndex = 0;
         this.isUpdated = true;
         this.updateChart();
+        this.cdr.detectChanges();
       }, 5000);
     }
   }
@@ -116,7 +117,7 @@ export class ReportsComponent implements OnInit, OnChanges {
           pointBackgroundColor: '#EAB054',
           backgroundColor: createGradient('rgba(234, 177, 84, 0.5)'),
           fill: true,
-          tension: 0.3, // Straight line
+          tension: 0.4, // Straight line
           borderWidth: 2,
           pointRadius: 0,
           pointHoverRadius: 4,
@@ -128,7 +129,7 @@ export class ReportsComponent implements OnInit, OnChanges {
           pointBackgroundColor: '#2EBC96',
           backgroundColor: createGradient('rgba(46, 188, 150, 0.5)'),
           fill: true,
-          tension: 0.3,
+          tension: 0.4,
           borderWidth: 2,
           pointRadius: 0,
           pointHoverRadius: 4,
@@ -140,7 +141,7 @@ export class ReportsComponent implements OnInit, OnChanges {
           pointBackgroundColor: '#3981F7',
           backgroundColor: createGradient('rgba(57, 130, 247, 0.5)'),
           fill: true,
-          tension: 0.3,
+          tension: 0.4,
           borderWidth: 2,
           pointRadius: 0,
           pointHoverRadius: 4,
@@ -152,7 +153,7 @@ export class ReportsComponent implements OnInit, OnChanges {
           pointBackgroundColor: '#FF0606',
           backgroundColor: createGradient('rgba(255, 6, 6, 0.5)'),
           fill: true,
-          tension: 0.3,
+          tension: 0.4,
           borderWidth: 2,
           pointRadius: 0,
           pointHoverRadius: 4,
@@ -195,7 +196,7 @@ export class ReportsComponent implements OnInit, OnChanges {
           pointBackgroundColor: selectedColor,
           backgroundColor: selectedBackgroundColor,
           fill: true,
-          tension: 0.3,
+          tension: 0.4,
           borderWidth: 2,
           pointRadius: 0,
           pointHoverRadius: 4,
@@ -210,6 +211,7 @@ export class ReportsComponent implements OnInit, OnChanges {
         datasets: datasets,
       },
       options: {
+        animation: false,
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -247,7 +249,7 @@ export class ReportsComponent implements OnInit, OnChanges {
         },
         elements: {
           line: {
-            tension: 0,
+            tension: 0.4,
           },
           point: {
             radius: 0,
