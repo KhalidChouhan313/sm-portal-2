@@ -14,7 +14,7 @@ import { Chart, registerables } from 'chart.js';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
 })
-export class ReportsComponent implements OnInit, OnChanges, AfterViewInit {
+export class ReportsComponent implements OnInit, OnChanges {
   @Input() graphData: any;
   @Input() totalMsg: any;
   @Input() totalSms: any;
