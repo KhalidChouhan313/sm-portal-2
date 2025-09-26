@@ -5,6 +5,7 @@ import {
   SimpleChanges,
   OnChanges,
   ChangeDetectorRef,
+  AfterViewInit,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 
@@ -13,7 +14,7 @@ import { Chart, registerables } from 'chart.js';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
 })
-export class ReportsComponent implements OnInit, OnChanges {
+export class ReportsComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() graphData: any;
   @Input() totalMsg: any;
   @Input() totalSms: any;
@@ -28,7 +29,8 @@ export class ReportsComponent implements OnInit, OnChanges {
     Chart.register(...registerables); // Ensure Chart.js is registered
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
     if (this.graphData && this.graphData.length > 0) {
       setTimeout(() => this.updateChart(), 200);
     }
@@ -252,6 +254,6 @@ export class ReportsComponent implements OnInit, OnChanges {
   setActive(index: number): void {
     this.activeIndex = index;
     this.cdr.detectChanges();
-    this.updateChart();
+    setTimeout(() => this.updateChart(), 0);
   }
 }

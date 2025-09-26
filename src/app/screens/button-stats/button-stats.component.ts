@@ -23,12 +23,13 @@ export class ButtonStatsComponent implements OnInit {
   col1: any[] = [];
   col2: any[] = [];
   col3: any[] = [];
-
+  loading: boolean = false;
   private bookingOrPaylink: any[] = [];
   private trackingOrReview: any[] = [];
   private arrived: any[] = [];
   constructor(private adminService: AdminService) {}
   ngOnInit(): void {
+    this.loading = true;
     const userData = localStorage.getItem('user_details');
     const user = userData ? JSON.parse(userData) : null;
     const companyId = user?._id;
@@ -100,6 +101,7 @@ export class ButtonStatsComponent implements OnInit {
             this.arrived.push(template);
           }
           this.buildColumns();
+          this.loading = false;
         });
     });
     const now = new Date();

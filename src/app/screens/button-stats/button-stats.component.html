@@ -48,6 +48,12 @@
 </header>
 
 <div class="row">
+  <div
+    style="display: flex; align-items: center; justify-content: center ; height: 50vh"
+    *ngIf="loading"
+  >
+    <app-loader></app-loader>
+  </div>
   <div class="col">
     <div class="card" *ngFor="let template of col1">
       <div class="card-body">
