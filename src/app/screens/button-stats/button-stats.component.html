@@ -22,9 +22,9 @@
         &lt;
       </button>
       <span>{{ currentYear }} - {{ currentMonth + 1 }}</span>
-      <button (click)="generateCalendar(currentYear, currentMonth + 1)">
-        &gt;
-      </button>
+      <button
+        (click)="generateCalendar(currentYear, currentMonth + 1)"
+      ></button>
     </div>
 
     <div class="calendar-grid">
@@ -49,12 +49,32 @@
 
 <div class="row">
   <div
-    style="display: flex; align-items: center; justify-content: center ; height: 50vh"
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50vh;
+    "
     *ngIf="loading"
   >
     <app-loader></app-loader>
   </div>
-  <div class="col">
+  <div
+    class="no-data"
+    *ngIf="
+      !loading && col1.length === 0 && col2.length === 0 && col3.length === 0
+    "
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40vh;
+      width: 100%;
+    "
+  >
+    <h3>No data found in this range 🚫</h3>
+  </div>
+  <div class="col" *ngIf="!loading && col1.length > 0">
     <div class="card" *ngFor="let template of col1">
       <div class="card-body">
         <div
@@ -123,7 +143,7 @@
     </div>
   </div>
 
-  <div class="col">
+  <div class="col" *ngIf="!loading && col2.length > 0">
     <div class="card" *ngFor="let template of col2">
       <div class="card-body">
         <div
@@ -192,7 +212,7 @@
     </div>
   </div>
 
-  <div class="col">
+  <div class="col" *ngIf="!loading && col3.length > 0">
     <div class="card" *ngFor="let template of col3">
       <div class="card-body">
         <div
