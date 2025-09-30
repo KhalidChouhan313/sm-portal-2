@@ -5,6 +5,7 @@ interface Day {
   date: Date;
   isCurrentMonth: boolean;
   isInRange?: boolean;
+  isSelected?: boolean;
 }
 @Component({
   selector: 'app-button-stats',
@@ -290,19 +291,35 @@ export class ButtonStatsComponent implements OnInit {
     for (let i = 0; i < startDay; i++) {
       this.days.push({ date: null, isCurrentMonth: false });
     }
+
     const totalDays = lastDayOfMonth.getDate();
     for (let d = 1; d <= totalDays; d++) {
       const date = new Date(year, month, d);
+
       if (date >= this.minDate && date <= this.maxDate) {
-        this.days.push({ date, isCurrentMonth: true, isInRange: true });
+        const isInRange =
+          date.getTime() >= this.minDate.getTime() &&
+          date.getTime() <= this.maxDate.getTime();
+        date >= this.selectedStart && date <= this.selectedEnd;
+
+        const isSelected =
+          (this.selectedStart && this.sameDate(date, this.selectedStart)) ||
+          (this.selectedEnd && this.sameDate(date, this.selectedEnd));
+
+        this.days.push({
+          date,
+          isCurrentMonth: true,
+          isInRange,
+          isSelected,
+        });
       }
     }
   }
 
   selectDate(day: Day) {
-    if (!day.isCurrentMonth) return;
-
+    if (!day.isCurrentMonth || !day.date) return;
     if (day.date > this.maxDate) return;
+
     if (!this.selectedStart || (this.selectedStart && this.selectedEnd)) {
       this.selectedStart = day.date;
       this.selectedEnd = null;
@@ -322,11 +339,12 @@ export class ButtonStatsComponent implements OnInit {
   }
 
   isSelected(day: Day): boolean {
-    if (!this.selectedStart) return false;
+    if (!day.date) return false;
     if (this.selectedStart && !this.selectedEnd) {
       return this.sameDate(day.date, this.selectedStart);
     }
     return (
+      this.selectedStart &&
       this.selectedEnd &&
       day.date >= this.selectedStart &&
       day.date <= this.selectedEnd
