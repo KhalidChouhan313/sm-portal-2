@@ -18,13 +18,19 @@
       <p>End: {{ selectedEnd | date }}</p>
     </div>
     <div class="calendar-header">
-      <button (click)="generateCalendar(currentYear, currentMonth - 1)">
+      <button
+        (click)="generateCalendar(currentYear, currentMonth - 1)"
+        [disabled]="isPrevDisabled()"
+      >
         &lt;
       </button>
       <span>{{ currentYear }} - {{ currentMonth + 1 }}</span>
       <button
         (click)="generateCalendar(currentYear, currentMonth + 1)"
-      ></button>
+        [disabled]="isNextDisabled()"
+      >
+        &gt;
+      </button>
     </div>
 
     <div class="calendar-grid">

@@ -28,6 +28,7 @@ export class ButtonStatsComponent implements OnInit {
   private trackingOrReview: any[] = [];
   private arrived: any[] = [];
   constructor(private adminService: AdminService) {}
+
   ngOnInit(): void {
     this.loading = true;
     const userData = localStorage.getItem('user_details');
@@ -284,16 +285,17 @@ export class ButtonStatsComponent implements OnInit {
     this.days = [];
     this.currentYear = year;
     this.currentMonth = month;
+
     const startDay = firstDayOfMonth.getDay();
     for (let i = 0; i < startDay; i++) {
       this.days.push({ date: null, isCurrentMonth: false });
     }
-
     const totalDays = lastDayOfMonth.getDate();
     for (let d = 1; d <= totalDays; d++) {
       const date = new Date(year, month, d);
-      const isInRange = date >= this.minDate && date <= this.maxDate;
-      this.days.push({ date, isCurrentMonth: true, isInRange });
+      if (date >= this.minDate && date <= this.maxDate) {
+        this.days.push({ date, isCurrentMonth: true, isInRange: true });
+      }
     }
   }
 
@@ -341,5 +343,17 @@ export class ButtonStatsComponent implements OnInit {
   toggleCalendar() {
     if (this.loading) return;
     this.showCalendar = !this.showCalendar;
+  }
+  isPrevDisabled(): boolean {
+    return (
+      this.currentYear === this.minDate.getFullYear() &&
+      this.currentMonth === this.minDate.getMonth()
+    );
+  }
+  isNextDisabled(): boolean {
+    return (
+      this.currentYear === this.maxDate.getFullYear() &&
+      this.currentMonth === this.maxDate.getMonth()
+    );
   }
 }
