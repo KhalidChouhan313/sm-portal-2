@@ -72,7 +72,9 @@ header input {
   gap: 8px;
   border-radius: 5px;
 }
-
+.card-head {
+  padding: 14px 4px;
+}
 .cards {
   column-count: 3;
   column-gap: 35px;
