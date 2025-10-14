@@ -11,25 +11,27 @@ export class SidebarComponent {
   constructor(
     private router: Router,
     private bookingsService: BookingsService
-  ) { }
+  ) {}
 
   loading = true;
   haveBot = false;
   token = false;
 
+  currentItem: string = '';
+  currentSubItem: string = '';
+  currentNestedItem: string = '';
+  hoveredItem: string | null = null;
+
   ngOnInit(): void {
-    let currentUser = JSON.parse(localStorage.getItem('user_details'));
-    if (!currentUser) {
+    const currentUser = JSON.parse(
+      localStorage.getItem('user_details') || '{}'
+    );
+    if (!currentUser || !currentUser._id) {
       this.router.navigateByUrl('login');
+      return;
     }
 
-    // console.log(currentUser._id);
-
-    if (!localStorage.getItem('token')) {
-      this.token = false;
-    } else {
-      this.token = true;
-    }
+    this.token = !!localStorage.getItem('token');
 
     this.bookingsService.getCompanyBots(currentUser._id).subscribe(
       (res) => {
@@ -41,39 +43,34 @@ export class SidebarComponent {
         this.haveBot = false;
       }
     );
-  }w
-
-  currentItem = '';
-  hoveredItem: string | null = null;
-
-  onMouseEnter(item: string) {
-    this.hoveredItem = item;
   }
 
-  onMouseLeave() {
-    if (this.currentSubItem == '') {
-      this.hoveredItem = null;
-    }
-  }
-
-  setCurrentItem = (e: string) => {
+  setCurrentItem(e: string, event?: Event) {
+    if (event) event.stopPropagation();
+    this.currentItem = this.currentItem === e ? '' : e;
     this.currentSubItem = '';
-    this.hoveredItem = null;
-    this.currentItem = this.currentItem === e ? null : e;
-  };
-  currentSubItem = '';
+    this.currentNestedItem = '';
+  }
 
-  setCurrentSubItem = (e: string) => {
-    this.currentItem = '';
-    this.currentSubItem = e;
-  };
+  setCurrentSubItem(e: string, event?: Event) {
+    if (event) event.stopPropagation();
+    this.currentSubItem = this.currentSubItem === e ? '' : e;
+  }
+
+ 
+setCurrentNestedItem(e: string, event?: Event) {
+  if (event) event.stopPropagation();
+  this.currentNestedItem = this.currentNestedItem === e ? '' : e;
+}
 
   isToggled = false;
-  toggleNavbar = () => (this.isToggled = !this.isToggled);
+  toggleNavbar() {
+    this.isToggled = !this.isToggled;
+  }
 
-  logoutHandler = () => {
+  logoutHandler() {
     localStorage.removeItem('token');
     localStorage.removeItem('user_details');
     this.router.navigateByUrl('/login');
-  };
+  }
 }

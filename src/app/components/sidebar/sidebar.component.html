@@ -88,7 +88,7 @@
           >
             <li
               [routerLink]="'/chatbot/analytics'"
-              (click)="setCurrentSubItem('Analytics')"
+              (click)="setCurrentSubItem('Analytics', $event)"
               [class.active]="currentSubItem === 'Analytics'"
               class="sub_menu_item"
             >
@@ -97,7 +97,7 @@
             </li>
             <li
               [routerLink]="'/chatbot/chat-flow'"
-              (click)="setCurrentSubItem('Chat')"
+              (click)="setCurrentSubItem('Chat', $event)"
               [class.active]="currentSubItem === 'Chat'"
               class="sub_menu_item"
             >
@@ -105,18 +105,17 @@
               <span>Chat Flow</span>
             </li>
             <li
-              [routerLink]="'/chatbot/QR-page'"
-              (click)="setCurrentSubItem('qrcode')"
+              [routerLink]="'/chatbot/QR-code'"
+              (click)="setCurrentSubItem('qrcode', $event)"
               [class.active]="currentSubItem === 'qrcode'"
               class="sub_menu_item"
             >
               <img src="../../../assets/qricon.png" />
               <span>QR Code</span>
             </li>
-
             <li
               [routerLink]="'/chatbot/bookings'"
-              (click)="setCurrentSubItem('Bookings')"
+              (click)="setCurrentSubItem('Bookings', $event)"
               [class.active]="currentSubItem === 'Bookings'"
               class="sub_menu_item"
             >
@@ -125,7 +124,7 @@
             </li>
             <li
               [routerLink]="'/chatbot/interactions'"
-              (click)="setCurrentSubItem('Interactions')"
+              (click)="setCurrentSubItem('Interactions', $event)"
               [class.active]="currentSubItem === 'Interactions'"
               class="sub_menu_item"
             >
@@ -134,7 +133,7 @@
             </li>
             <li
               [routerLink]="'/chatbot/customers'"
-              (click)="setCurrentSubItem('Customers')"
+              (click)="setCurrentSubItem('Customers', $event)"
               [class.active]="currentSubItem === 'Customers'"
               class="sub_menu_item"
             >
@@ -143,7 +142,7 @@
             </li>
             <li
               [routerLink]="'/chatbot/bot-settings'"
-              (click)="setCurrentSubItem('Bot Settings')"
+              (click)="setCurrentSubItem('Bot Settings', $event)"
               [class.active]="currentSubItem === 'Bot Settings'"
               class="sub_menu_item"
             >
@@ -167,12 +166,11 @@
           </li>
         </div>
 
-        <div (click)="setCurrentItem('Broadcast')">
+        <div (click)="setCurrentItem('Broadcast', $event)">
           <li
-            [routerLink]="'/broadcast-sms'"
-            (click)="setCurrentSubItem('SMS')"
-            [class.active]="currentItem === 'Broadcast'"
             class="menu_item"
+            [class.active]="currentItem === 'Broadcast'"
+            [routerLinkActive]="'active'"
           >
             <div>
               <img src="../../../assets/broadcasticon.png" />
@@ -180,19 +178,73 @@
             </div>
             <span>Broadcast</span>
           </li>
-          <!-- <ul *ngIf="hoveredItem === 'Broadcast' || currentItem === 'Broadcast'" class="sub_menu">
-            <li [routerLink]="'/broadcast-sms'" (click)="setCurrentSubItem('SMS')"
-              [class.active]="currentSubItem === 'SMS'" class="sub_menu_item">
+
+          <ul *ngIf="currentItem === 'Broadcast'" class="sub_menu">
+            <li
+              class="sub_menu_item"
+              routerLink="/broadcast-sms"
+              (click)="setCurrentSubItem('SMS', $event)"
+              [class.active]="currentSubItem === 'SMS'"
+            >
               <img src="../../../assets/icons/broadcast-sms.svg" />
               <span>SMS</span>
             </li>
-            <li [routerLink]="'/broadcast-whatsapp'" (click)="setCurrentSubItem('WhatsApp')"
-              [class.active]="currentSubItem === 'WhatsApp'" class="sub_menu_item">
+            <li
+              class="sub_menu_item"
+              routerLink="/broadcast/campaigns"
+              (click)="setCurrentSubItem('WhatsApp', $event)"
+              [class.active]="currentSubItem === 'WhatsApp'"
+            >
               <img src="../../../assets/icons/broadcast-w.svg" />
               <span>WhatsApp</span>
             </li>
-          </ul> -->
+            <ul
+              [class.show]="currentSubItem === 'WhatsApp'"
+              class="nested_sub_menu"
+            >
+              <li
+                routerLink="/broadcast/campaigns"
+                (click)="
+                  setCurrentSubItem('Campaign', $event);
+                  $event.stopPropagation()
+                "
+                routerLinkActive="active"
+                class="nested_sub_menu_item"
+              >
+                <img src="../../../assets/menu-board.svg" />
+
+                <span> Campaigns </span>
+              </li>
+              <li
+                routerLink="/broadcast-whatsapp/campaign"
+                routerLinkActive="active"
+                class="nested_sub_menu_item"
+              >
+                <img src="../../../assets/clipboard-text.svg" />
+                <span>Contact</span>
+              </li>
+              <li
+                routerLink="/broadcast-whatsapp/campaign"
+                routerLinkActive="active"
+                class="nested_sub_menu_item"
+              >
+                <img src="../../../assets/document-forward.svg" />
+                <span> SMS Templates </span>
+              </li>
+
+              <li
+                routerLink="/broadcast-whatsapp/campaign"
+                routerLinkActive="active"
+                class="nested_sub_menu_item"
+              >
+                <img src="../../../assets/document-forward.svg" />
+
+                <span> Create Templ... </span>
+              </li>
+            </ul>
+          </ul>
         </div>
+
         <div (click)="setCurrentItem('Buttons Stats')">
           <li
             [routerLink]="'/buttonsStats'"

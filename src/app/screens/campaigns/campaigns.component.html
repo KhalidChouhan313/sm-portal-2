@@ -1,0 +1,150 @@
+<div class="container-own">
+  <div class="compainheader">
+    <div class="headerHading">Campaigns</div>
+    <button [routerLink]="['/broadcast-whatsapp']">
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0 1.2227L0.877727 0.344971H7.89955L8.77727 1.2227V8.24452L7.89955 9.12224H0.877727L0 8.24452V1.2227ZM1.75545 2.10043V7.36679H7.02182V2.10043H1.75545ZM11.4105 0.344971L10.5327 1.2227V8.24452L11.4105 9.12224H18.4323L19.31 8.24452V1.2227L18.4323 0.344971H11.4105ZM12.2882 7.36679V2.10043H17.5545V7.36679H12.2882ZM15.7991 19.655H14.0436V16.1441H10.5327V14.3886H14.0436V10.8777H15.7991V14.3886H19.31V16.1441H15.7991V19.655ZM0.877727 10.8777L0 11.7554V18.7772L0.877727 19.655H7.89955L8.77727 18.7772V11.7554L7.89955 10.8777H0.877727ZM1.75545 17.8995V12.6332H7.02182V17.8995H1.75545Z"
+          fill="white"
+        />
+      </svg>
+      <span>Add New Campaigns</span>
+    </button>
+  </div>
+
+  <ng-container>
+    <div class="g-bg-head">My Broadcast</div>
+
+    <div class="table-wrapper">
+      <div class="table">
+        <div class="t-item-h">
+          <div class="ti-item">Date & Time</div>
+          <div class="ti-item">Campaign name</div>
+          <div class="ti-item">Template</div>
+          <div class="ti-item">Contacts</div>
+          <div class="ti-item">Delivery Rate</div>
+          <div class="ti-item">Read Rate</div>
+          <div class="ti-item">Status</div>
+          <div class="ti-item">Action</div>
+        </div>
+
+        <!-- 🧠 Loop starts -->
+        <div class="t-item" *ngFor="let item of broadcasts">
+          <div class="ti-item">{{ item.dateTime }}</div>
+          <div class="ti-item">{{ item.campaignName }}</div>
+          <div class="ti-item">{{ item.template }}</div>
+          <div class="ti-item">{{ item.contacts }}</div>
+          <div class="ti-item">
+            <button>78.15%</button> {{ item.deliveryRate }}
+          </div>
+          <div class="ti-item"><button>78.15%</button> {{ item.readRate }}</div>
+          <div class="ti-item">{{ item.status }}</div>
+          <div class="ti-item">
+            <img
+              src="../../../assets/icons/Bin.png"
+              alt="bin"
+              width="38px"
+              (click)="openModal()"
+              style="cursor: pointer"
+            />
+            <img src="../../../assets/Pencil.png" alt="pencil" width="38px" />
+          </div>
+        </div>
+        <!-- 🧠 Loop ends -->
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- <app-modal *ngIf="showDateAndTimeModal">
+  <div class="m-header">
+    <div class="mh-d">
+      <h1>Set Schedule</h1>
+      <button (click)="showDateAndTimeModal = false">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="21"
+          height="19"
+          viewBox="0 0 21 19"
+          fill="none"
+        >
+          <path
+            d="M18.8887 17.3363L2.16671 1.96289M18.8887 1.96289L2.16671 17.3363"
+            stroke="#2EBC96"
+            stroke-width="2.38885"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="mh-d">
+      <h1>Enter Date & Time</h1>
+      <div class="mhd-btns">
+        <button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M13.7111 27.711C6.13867 27.711 0 21.5724 0 13.9999C0 6.42749 6.13867 0.288818 13.7111 0.288818C21.2835 0.288818 27.4222 6.42749 27.4222 13.9999C27.4222 21.5724 21.2835 27.711 13.7111 27.711ZM17.6408 7.64636L7.35754 17.9297C6.68822 18.599 6.68822 19.6842 7.35754 20.3535C8.02686 21.0228 9.11203 21.0228 9.78135 20.3535L20.0647 10.0702C20.7339 9.40085 20.7339 8.31568 20.0647 7.64636C19.3954 6.97704 18.3102 6.97704 17.6408 7.64636Z"
+              fill="#333540"
+            />
+          </svg>
+          <span> Cancel </span>
+        </button>
+        <button>
+          <img src="../../../assets/save.png" alt="" />
+          <span> Save & Exit </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="m-body">
+    <div class="mb-left">
+      <div class="mbl-inp">
+        <label for="">Enter Date</label>
+        <input type="date" />
+      </div>
+      <div class="mbl-inp">
+        <label for="">Enter Time</label>
+        <input type="time" />
+      </div>
+    </div>
+    <div class="mb-right">
+      <img src="../../../assets/schedule-clock.png" alt="" />
+    </div>
+  </div>
+</app-modal> -->
+
+<app-modal *ngIf="isVisible">
+  <div class="modal-backdrop-custom">
+    <div class="modal-custom">
+      <h3>Are you sure?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="buttons">
+        <button class="btn-secondary">
+          <!-- (click)="confirm(broadcastList[currentBroadcastIndex])" -->
+          Confirm
+        </button>
+        <button class="btn-danger"
+        (click)="closeModal()"
+        >Cancel</button>
+      </div>
+    </div>
+  </div>
+</app-modal>
