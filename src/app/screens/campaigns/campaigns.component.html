@@ -1,8 +1,7 @@
 <div class="container-own">
   <div class="compainheader">
     <div class="headerHading">Campaigns</div>
-    <button [routerLink]="['/broadcast-whatsapp']">
-
+    <button [routerLink]="['/broadcast/new-campaigns']">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -50,13 +49,34 @@
           <div class="ti-item">{{ item.status }}</div>
           <div class="ti-item">
             <img
-              src="../../../assets/icons/Bin.png"
+              src="../../../assets/icons/Bin (1).png"
               alt="bin"
               width="38px"
-              (click)="openModal()"
               style="cursor: pointer"
             />
-            <img src="../../../assets/Pencil.png" alt="pencil" width="38px" />
+            <svg
+              [routerLink]="'/broadcast/campaigns-details'"
+              xmlns="http://www.w3.org/2000/svg"
+              width="35"
+              height="35"
+              viewBox="0 0 25 25"
+              fill="none"
+            >
+              <path
+                d="M16.0401 12.5676C16.0401 14.5476 14.4401 16.1476 12.4601 16.1476C10.4801 16.1476 8.88011 14.5476 8.88011 12.5676C8.88011 10.5876 10.4801 8.98759 12.4601 8.98759C14.4401 8.98759 16.0401 10.5876 16.0401 12.5676Z"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.4601 20.8376C15.9901 20.8376 19.2801 18.7576 21.5701 15.1576C22.4701 13.7476 22.4701 11.3776 21.5701 9.96759C19.2801 6.36759 15.9901 4.28759 12.4601 4.28759C8.93011 4.28759 5.64011 6.36759 3.35011 9.96759C2.45011 11.3776 2.45011 13.7476 3.35011 15.1576C5.64011 18.7576 8.93011 20.8376 12.4601 20.8376Z"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </div>
         </div>
         <!-- 🧠 Loop ends -->
@@ -141,9 +161,7 @@
           <!-- (click)="confirm(broadcastList[currentBroadcastIndex])" -->
           Confirm
         </button>
-        <button class="btn-danger"
-        (click)="closeModal()"
-        >Cancel</button>
+        <button class="btn-danger" (click)="closeModal()">Cancel</button>
       </div>
     </div>
   </div>

@@ -1,0 +1,106 @@
+<div class="container">
+  <!-- Top Header -->
+  <div class="add-top">
+    <h1>Campaign details</h1>
+    <div class="btns">
+      <button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 25 25"
+          fill="none"
+        >
+          <path
+            d="M12.6899 22.5C18.2128 22.5 22.6899 18.0228 22.6899 12.5C22.6899 6.97715 18.2128 2.5 12.6899 2.5C7.16709 2.5 2.68994 6.97715 2.68994 12.5C2.68994 18.0228 7.16709 22.5 12.6899 22.5Z"
+            stroke="white"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12.6899 9V15"
+            stroke="white"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9.68994 13L12.6899 16L15.6899 13"
+            stroke="white"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Export As CSV
+      </button>
+      <button class="back">Back</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="sectionLeft">
+      <div class="stats">
+        <div class="stat-card">
+          <h2>4512</h2>
+          <p>Messages</p>
+        </div>
+        <div class="stat-card">
+          <h2>456</h2>
+          <p>Sent</p>
+        </div>
+        <div class="stat-card">
+          <h2>451</h2>
+          <p>Delivered</p>
+        </div>
+        <div class="stat-card">
+          <h2>352</h2>
+          <p>Read</p>
+        </div>
+        <div class="stat-card">
+          <h2>120</h2>
+          <p>Failed</p>
+        </div>
+      </div>
+
+      <table class="campaign-table">
+        <thead>
+          <tr>
+            <th class="tableHead">Contact</th>
+            <th class="tableHead">Phone</th>
+            <th class="tableHead">Last Updated</th>
+            <th class="tableHead">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of campaigns">
+            <td>{{ item.contact }}</td>
+            <td>{{ item.phone }}</td>
+            <td>{{ item.date }}</td>
+            <td><span class="status accepted">Accepted</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sectionRight">
+      <div class="detail-card">
+        <h3>Campaign details</h3>
+        <div class="info">
+          <p><strong>Campaign name:</strong> This is the new Campaign</p>
+          <p><strong>Template:</strong> Broadcast template 5</p>
+          <p><strong>Recipients:</strong> All Contacts</p>
+          <p><strong>Time scheduled:</strong> 2025-09-29 09:00:00</p>
+        </div>
+        <div class="mobile-preview">
+          <img
+            src="../../../assets/mobileCampagin.png"
+            alt="mobile"
+            class="mobile"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

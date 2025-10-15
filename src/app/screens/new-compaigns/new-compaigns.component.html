@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="add-top">
+    <h1>New Campaign</h1>
+    <div class="btns">
+      <button [routerLink]="'/broadcast/campaigns'">Back</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="campaignsForm">
+      <form>
+        <div class="formitem">
+          <label for="name">Campaign name</label>
+          <input
+            type="text"
+            id="name"
+            class="name"
+            placeholder="Enter In English"
+            [(ngModel)]="campaignName"
+            name="campaignName"
+          />
+        </div>
+
+        <div class="formitem2">
+          <div class="formitem">
+            <label for="template">Template</label>
+            <select
+              id="template"
+              class="template"
+              [(ngModel)]="selectedTemplate"
+              name="template"
+            >
+              <option value="" disabled selected>Select Template</option>
+              <option value="Header">Header</option>
+              <option value="Body">Body</option>
+              <option value="Footer">Footer</option>
+              <option value="Signature">Signature</option>
+              <option value="Promotion">Promotion</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="send">Send To</label>
+            <select name="send" id="send" [(ngModel)]="sendTo">
+              <option value="" disabled selected>Select Contact</option>
+              <option value="All Contacts">All Contacts</option>
+              <option value="Subscribers">Subscribers</option>
+              <option value="Admins">Admins</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formitem">
+          <label for="date">Scheduled Time</label>
+          <input
+            type="datetime-local"
+            id="date"
+            class="date"
+            [(ngModel)]="scheduledTime"
+            name="date"
+          />
+        </div>
+
+        <!-- Checkbox -->
+        <div class="term">
+          <input
+            type="checkbox"
+            id="term"
+            [(ngModel)]="skipSchedule"
+            name="skipSchedule"
+          />
+          <label for="term">Skip scheduling & send immediately</label>
+        </div>
+
+        <div class="frombtn">
+          <button type="button">Cancel</button>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="mobileScreen">
+      <div class="mobile-con">
+        <div class="mobile-wrapper">
+          <img
+            src="../../../assets/mobileCampagin.png"
+            alt="mobile"
+            class="mobile"
+          />
+          <div class="mobile-text">
+            <h4>{{ campaignName || "Campaign Name" }}</h4>
+            <p>Template: {{ selectedTemplate || "No Template Selected" }}</p>
+            <p>Send To: {{ sendTo || "No Contact Selected" }}</p>
+            <p *ngIf="scheduledTime">
+              Scheduled: {{ scheduledTime | date : "short" }}
+            </p>
+            <p *ngIf="skipSchedule">📩 Sending Immediately</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

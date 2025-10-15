@@ -6,6 +6,8 @@ import { ReviewComponent } from './components/review/review.component';
 import { ProfileComponent } from './screens/profile/profile.component';
 import { ButtonStatsComponent } from './screens/button-stats/button-stats.component';
 import { CampaignsComponent } from './screens/campaigns/campaigns.component';
+import { NewCompaignsComponent } from './screens/new-compaigns/new-compaigns.component';
+import { CampaignDetailsComponent } from './screens/campaign-details/campaign-details.component';
 
 const routes: Routes = [
   { path: 'qr-code', component: GreenQrCodeComponent },
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'buttonsStats', component: ButtonStatsComponent },
   { path: 'broadcast/campaigns', component: CampaignsComponent },
+  { path: 'broadcast/new-campaigns', component: NewCompaignsComponent },
+  { path: 'broadcast/campaigns-details', component: CampaignDetailsComponent },
   {
     path: '',
     component: HomeComponent,
