@@ -63,6 +63,7 @@ import { ButtonStatsComponent } from './screens/button-stats/button-stats.compon
 import { CampaignsComponent } from './screens/campaigns/campaigns.component';
 import { NewCompaignsComponent } from './screens/new-compaigns/new-compaigns.component';
 import { CampaignDetailsComponent } from './screens/campaign-details/campaign-details.component';
+import { ContactComponent } from './screens/contact/contact.component';
 // import { SmartLocationQrComponent } from './components/smart-location-qr/smart-location-qr.component';
 // import { InteractionFlowComponent } from './screens/interaction-flow/interaction-flow.component';
 // import { InteractionListComponent } from './screens/interaction-list/interaction-list.component';
@@ -116,6 +117,7 @@ import { CampaignDetailsComponent } from './screens/campaign-details/campaign-de
     CampaignsComponent,
     NewCompaignsComponent,
     CampaignDetailsComponent,
+    ContactComponent,
     // SmartLocationQrComponent,
     // InteractionFlowComponent,
     // InteractionListComponent,

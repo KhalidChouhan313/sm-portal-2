@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="contactContianer">
+    <div class="g-bg-head">
+      <div class="leftheading">
+        <p>Total Contacts : 120</p>
+        <h2>Contacts</h2>
+      </div>
+      <div class="Rihgtheading">
+        <img src="../../../assets/icons/document-forwardright.svg" alt="" />
+        <img src="../../../assets/icons/document-download.svg" alt="" />
+        <img src="../../../assets/icons/element-plus.svg" alt="" />
+      </div>
+    </div>
+    <div class="contactSection">
+      <div class="buttonContainer">
+        <button [class.active]="!isGroup" (click)="closeGroup()">
+          All Contacts
+        </button>
+        <button [class.active]="isGroup" (click)="openGroup()">Groups</button>
+      </div>
+
+      <div class="allContact" *ngIf="!isGroup">
+        <div class="contactList" *ngFor="let contact of contactList">
+          <div class="contact">
+            <img [src]="contact.image" alt="" />
+          </div>
+          <div class="contactInfo">
+            <h3>{{ contact.name }}</h3>
+            <p>{{ contact.number }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="groupcontainer" *ngIf="isGroup">
+        <h2>No Group</h2>
+      </div>
+    </div>
+  </div>
+  <div class="RightContianer">
+    <div class="underContainer">
+      <h1>Select Contact</h1>
+      <img
+        src="../../../assets/Frame 1321316488.png"
+        alt=""
+        width="40px"
+        height="150px"
+      />
+      <div class="button2">
+        <button>Add Contact</button>
+        <button>Bulk Upload</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BroadcastService } from 'src/services/broad-casts/broadcast.service';
 
 @Component({
   selector: 'app-campaigns',
   templateUrl: './campaigns.component.html',
   styleUrls: ['./campaigns.component.css'],
 })
-export class CampaignsComponent {
+export class CampaignsComponent implements OnInit {
+  broadcasts: any[] = [];
   isVisible = false;
+  loading = false;
+  constructor(private bdcast: BroadcastService) {}
+
+  ngOnInit(): void {
+    this.fetchBroadcasts();
+    console.log(this.broadcasts);
+  }
 
   openModal() {
     this.isVisible = true;
@@ -16,51 +25,26 @@ export class CampaignsComponent {
     this.isVisible = false;
   }
 
-  broadcasts = [
-    {
-      dateTime: ' 12/07/2024, 4:38PM',
-      campaignName: 'This is the new Campaign',
-      template: 'Broadcast template 5',
-      contacts: 452,
-      deliveryRate: '385/452',
-      readRate: '385/452',
-      status: 'Completed',
-    },
-    {
-      dateTime: ' 12/07/2024, 4:38PM',
-      campaignName: 'This is the new Campaign',
-      template: 'Broadcast template 5',
-      contacts: 452,
-      deliveryRate: '385/452',
-      readRate: '385/452',
-      status: 'Completed',
-    },
-    {
-      dateTime: ' 12/07/2024, 4:38PM',
-      campaignName: 'This is the new Campaign',
-      template: 'Broadcast template 5',
-      contacts: 452,
-      deliveryRate: '385/452',
-      readRate: '385/452',
-      status: 'Completed',
-    },
-    {
-      dateTime: ' 12/07/2024, 4:38PM',
-      campaignName: 'This is the new Campaign',
-      template: 'Broadcast template 5',
-      contacts: 452,
-      deliveryRate: '385/452',
-      readRate: '385/452',
-      status: 'Completed',
-    },
-    {
-      dateTime: ' 12/07/2024, 4:38PM',
-      campaignName: 'This is the new Campaign',
-      template: 'Broadcast template 5',
-      contacts: 452,
-      deliveryRate: '385/452',
-      readRate: '385/452',
-      status: 'Completed',
-    },
-  ];
+  fetchBroadcasts() {
+    const Job_Id = '7';
+
+    this.loading = true;
+    this.bdcast.getBroadcast(Job_Id).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        if (Array.isArray(response)) {
+          this.broadcasts = response;
+        } else {
+          this.broadcasts = [response];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching broadcasts:', err);
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
+  }
 }

@@ -36,50 +36,74 @@
           <div class="ti-item">Action</div>
         </div>
 
-        <!-- 🧠 Loop starts -->
-        <div class="t-item" *ngFor="let item of broadcasts">
-          <div class="ti-item">{{ item.dateTime }}</div>
-          <div class="ti-item">{{ item.campaignName }}</div>
-          <div class="ti-item">{{ item.template }}</div>
-          <div class="ti-item">{{ item.contacts }}</div>
-          <div class="ti-item">
-            <button>78.15%</button> {{ item.deliveryRate }}
-          </div>
-          <div class="ti-item"><button>78.15%</button> {{ item.readRate }}</div>
-          <div class="ti-item">{{ item.status }}</div>
-          <div class="ti-item">
-            <img
-              src="../../../assets/icons/Bin (1).png"
-              alt="bin"
-              width="38px"
-              style="cursor: pointer"
-            />
-            <svg
-              [routerLink]="'/broadcast/campaigns-details'"
-              xmlns="http://www.w3.org/2000/svg"
-              width="35"
-              height="35"
-              viewBox="0 0 25 25"
-              fill="none"
-            >
-              <path
-                d="M16.0401 12.5676C16.0401 14.5476 14.4401 16.1476 12.4601 16.1476C10.4801 16.1476 8.88011 14.5476 8.88011 12.5676C8.88011 10.5876 10.4801 8.98759 12.4601 8.98759C14.4401 8.98759 16.0401 10.5876 16.0401 12.5676Z"
-                stroke="#292D32"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50vh;
+          "
+          *ngIf="loading"
+        >
+          <app-loader></app-loader>
+        </div>
+        <div *ngIf="!loading && broadcasts.length > 0">
+          <div class="t-item" *ngFor="let item of broadcasts">
+            <div class="ti-item">
+              {{ item.Date | date : "MMM, dd/MM/yyyy, h:mm a" }}
+            </div>
+            <div class="ti-item">{{ item.campaignName }}</div>
+            <div class="ti-item">{{ item.templateName }}</div>
+            <div class="ti-item">{{ item.totalContacts }}</div>
+            <div class="ti-item">
+              <button>
+                {{
+                  item.totalContacts
+                    ? ((item.successContacts / item.totalContacts) * 100
+                      | number : "1.0-2")
+                    : 0
+                }}%
+              </button>
+              {{ item.successContacts }}/{{ item.totalContacts }}
+            </div>
+            <div class="ti-item"><button>78.15%</button> 385/452</div>
+            <div class="ti-item">{{ item.state }}</div>
+            <div class="ti-item">
+              <img
+                src="../../../assets/icons/Bin (1).png"
+                alt="bin"
+                width="30px"
+                style="cursor: pointer"
               />
-              <path
-                d="M12.4601 20.8376C15.9901 20.8376 19.2801 18.7576 21.5701 15.1576C22.4701 13.7476 22.4701 11.3776 21.5701 9.96759C19.2801 6.36759 15.9901 4.28759 12.4601 4.28759C8.93011 4.28759 5.64011 6.36759 3.35011 9.96759C2.45011 11.3776 2.45011 13.7476 3.35011 15.1576C5.64011 18.7576 8.93011 20.8376 12.4601 20.8376Z"
-                stroke="#292D32"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+              <svg
+                [routerLink]="'/broadcast/campaigns-details'"
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 25 25"
+                fill="none"
+              >
+                <path
+                  d="M16.0401 12.5676C16.0401 14.5476 14.4401 16.1476 12.4601 16.1476C10.4801 16.1476 8.88011 14.5476 8.88011 12.5676C8.88011 10.5876 10.4801 8.98759 12.4601 8.98759C14.4401 8.98759 16.0401 10.5876 16.0401 12.5676Z"
+                  stroke="#292D32"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12.4601 20.8376C15.9901 20.8376 19.2801 18.7576 21.5701 15.1576C22.4701 13.7476 22.4701 11.3776 21.5701 9.96759C19.2801 6.36759 15.9901 4.28759 12.4601 4.28759C8.93011 4.28759 5.64011 6.36759 3.35011 9.96759C2.45011 11.3776 2.45011 13.7476 3.35011 15.1576C5.64011 18.7576 8.93011 20.8376 12.4601 20.8376Z"
+                  stroke="#292D32"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
           </div>
         </div>
-        <!-- 🧠 Loop ends -->
+        <div *ngIf="!loading && broadcasts.length === 0" class="no-data">
+          <h2>No Data Found</h2>
+        </div>
       </div>
     </div>
   </ng-container>

@@ -8,6 +8,7 @@ import { ButtonStatsComponent } from './screens/button-stats/button-stats.compon
 import { CampaignsComponent } from './screens/campaigns/campaigns.component';
 import { NewCompaignsComponent } from './screens/new-compaigns/new-compaigns.component';
 import { CampaignDetailsComponent } from './screens/campaign-details/campaign-details.component';
+import { ContactComponent } from './screens/contact/contact.component';
 
 const routes: Routes = [
   { path: 'qr-code', component: GreenQrCodeComponent },
@@ -17,6 +18,8 @@ const routes: Routes = [
   { path: 'broadcast/campaigns', component: CampaignsComponent },
   { path: 'broadcast/new-campaigns', component: NewCompaignsComponent },
   { path: 'broadcast/campaigns-details', component: CampaignDetailsComponent },
+  { path: 'broadcast/contact', component: ContactComponent },
+
   {
     path: '',
     component: HomeComponent,

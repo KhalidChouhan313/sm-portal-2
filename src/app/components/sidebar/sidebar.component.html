@@ -216,9 +216,12 @@
                 <span> Campaigns </span>
               </li>
               <li
-                routerLink="/broadcast-whatsapp/campaign"
+                routerLink="/broadcast/contact"
                 routerLinkActive="active"
                 class="nested_sub_menu_item"
+                (click)="
+                  setCurrentSubItem('contact', $event); $event.stopPropagation()
+                "
               >
                 <img src="../../../assets/clipboard-text.svg" />
                 <span>Contact</span>
