@@ -246,4 +246,12 @@
   font-weight: 400;
   line-height: normal;
 }
-    
+.group-button1 {
+  display: flex;
+  padding: 15px 24px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: linear-gradient(95deg, #2ebc96 -9.49%, #1a9096 89.62%);
+  border: none;
+}

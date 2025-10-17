@@ -16,22 +16,22 @@
           fill="white"
         />
       </svg>
-      <span>Add New Campaigns</span>
+      <span [routerLink]="'/broadcast/create-templates'"
+        >Create New Template</span
+      >
     </button>
   </div>
 
   <ng-container>
-    <div class="g-bg-head">My Broadcast</div>
+    <div class="g-bg-head">All Templates</div>
 
     <div class="table-wrapper">
       <div class="table">
         <div class="t-item-h">
           <div class="ti-item">Date & Time</div>
-          <div class="ti-item">Campaign name</div>
-          <div class="ti-item">Template</div>
-          <div class="ti-item">Contacts</div>
-          <div class="ti-item">Delivery Rate</div>
-          <div class="ti-item">Read Rate</div>
+          <div class="ti-item">Template Name</div>
+          <div class="ti-item">Last edit</div>
+
           <div class="ti-item">Status</div>
           <div class="ti-item">Action</div>
         </div>
@@ -47,37 +47,32 @@
         >
           <app-loader></app-loader>
         </div>
-        <div *ngIf="!loading && broadcasts.length > 0">
-          <div class="t-item" *ngFor="let item of broadcasts">
+        <div *ngIf="!loading && smstemplates.length > 0">
+          <div class="t-item" *ngFor="let item of smstemplates">
             <div class="ti-item">
-              {{ item.Date | date : "MMM, dd/MM/yyyy, h:mm a" }}
+              {{
+                (item.Date | date : "MMM, dd/MM/yyyy, h:mm a") ??
+                  "FEB, 12/07/2024, 4:38PM"
+              }}
             </div>
-            <div class="ti-item">{{ item.campaignName }}</div>
-            <div class="ti-item">{{ item.templateName }}</div>
-            <div class="ti-item">{{ item.totalContacts }}</div>
             <div class="ti-item">
-              <button>
-                {{
-                  item.totalContacts
-                    ? ((item.successContacts / item.totalContacts) * 100
-                      | number : "1.0-2")
-                    : 0
-                }}%
-              </button>
-              {{ item.successContacts }}/{{ item.totalContacts }}
+              {{ item.name }}
             </div>
-            <div class="ti-item"><button>78.15%</button> 385/452</div>
-            <div class="ti-item">{{ item.state }}</div>
+            <div class="ti-item">
+              {{ item.lastEdit || "FEB, 12/07/2024, 4:38PM" }}
+            </div>
+
+            <div class="ti-item">{{ item.status }}</div>
             <div class="ti-item">
               <img
                 src="../../../assets/icons/Bin (1).png"
                 alt="bin"
                 width="30px"
                 style="cursor: pointer"
+                (click)="deleteTemplate(item.id, item.name)"
               />
               <svg
                 [routerLink]="'/broadcast/campaigns-details'"
-                [queryParams]="{ id: item.jobId }"
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
                 height="30"
@@ -102,7 +97,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="!loading && broadcasts.length === 0" class="no-data">
+        <div *ngIf="!loading && smstemplates.length === 0" class="no-data">
           <h2>No Data Found</h2>
         </div>
       </div>

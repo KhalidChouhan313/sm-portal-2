@@ -227,8 +227,12 @@
                 <span>Contact</span>
               </li>
               <li
-                routerLink="/broadcast-whatsapp/campaign"
+                routerLink="/broadcast/sms-templates"
                 routerLinkActive="active"
+                (click)="
+                  setCurrentSubItem('smstemplates', $event);
+                  $event.stopPropagation()
+                "
                 class="nested_sub_menu_item"
               >
                 <img src="../../../assets/document-forward.svg" />
@@ -236,8 +240,12 @@
               </li>
 
               <li
-                routerLink="/broadcast-whatsapp/campaign"
+                routerLink="/broadcast/create-templates"
                 routerLinkActive="active"
+                (click)="
+                  setCurrentSubItem('createtemplates', $event);
+                  $event.stopPropagation()
+                "
                 class="nested_sub_menu_item"
               >
                 <img src="../../../assets/document-forward.svg" />

@@ -9,6 +9,8 @@ import { CampaignsComponent } from './screens/campaigns/campaigns.component';
 import { NewCompaignsComponent } from './screens/new-compaigns/new-compaigns.component';
 import { CampaignDetailsComponent } from './screens/campaign-details/campaign-details.component';
 import { ContactComponent } from './screens/contact/contact.component';
+import { SmsTemplatesComponent } from './screens/sms-templates/sms-templates.component';
+import { CreateTemlatesComponent } from './screens/create-temlates/create-temlates.component';
 
 const routes: Routes = [
   { path: 'qr-code', component: GreenQrCodeComponent },
@@ -19,6 +21,8 @@ const routes: Routes = [
   { path: 'broadcast/new-campaigns', component: NewCompaignsComponent },
   { path: 'broadcast/campaigns-details', component: CampaignDetailsComponent },
   { path: 'broadcast/contact', component: ContactComponent },
+  { path: 'broadcast/sms-templates', component: SmsTemplatesComponent },
+  { path: 'broadcast/create-templates', component: CreateTemlatesComponent },
 
   {
     path: '',

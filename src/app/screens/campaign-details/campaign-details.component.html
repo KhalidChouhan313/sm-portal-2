@@ -1,5 +1,4 @@
 <div class="container">
-  <!-- Top Header -->
   <div class="add-top">
     <h1>Campaign details</h1>
     <div class="btns">
@@ -39,28 +38,28 @@
     </div>
   </div>
 
-  <div class="main">
+  <div class="main" *ngIf="campaign">
     <div class="sectionLeft">
       <div class="stats">
         <div class="stat-card">
-          <h2>4512</h2>
+          <h2>{{ campaign.totalContacts }}</h2>
           <p>Messages</p>
         </div>
         <div class="stat-card">
-          <h2>456</h2>
-          <p>Sent</p>
+          <h2>{{ campaign.processedContacts }}</h2>
+          <p>sent</p>
         </div>
         <div class="stat-card">
-          <h2>451</h2>
+          <h2>{{ campaign.successContacts }}</h2>
           <p>Delivered</p>
         </div>
         <div class="stat-card">
-          <h2>352</h2>
-          <p>Read</p>
+          <h2>{{ campaign.failedContacts }}</h2>
+          <p>Failed</p>
         </div>
         <div class="stat-card">
-          <h2>120</h2>
-          <p>Failed</p>
+          <h2>{{ campaign.progress }}</h2>
+          <p>Progress</p>
         </div>
       </div>
 
@@ -74,11 +73,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of campaigns">
-            <td>{{ item.contact }}</td>
-            <td>{{ item.phone }}</td>
-            <td>{{ item.date }}</td>
-            <td><span class="status accepted">Accepted</span></td>
+          <tr *ngFor="let item of campaign?.contacts">
+            <td>{{ campaign?.campaignName }}</td>
+            <td>{{ item.phone_number }}</td>
+            <td>{{ item.timestamp | date : "MMM dd, yyyy, h:mm a" }}</td>
+            <td>
+              <span class="status accepted">{{
+                item.state || "Accepted"
+              }}</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -88,10 +91,13 @@
       <div class="detail-card">
         <h3>Campaign details</h3>
         <div class="info">
-          <p><strong>Campaign name:</strong> This is the new Campaign</p>
-          <p><strong>Template:</strong> Broadcast template 5</p>
-          <p><strong>Recipients:</strong> All Contacts</p>
-          <p><strong>Time scheduled:</strong> 2025-09-29 09:00:00</p>
+          <p><strong>Campaign name:</strong> {{ campaign.campaignName }}</p>
+          <p><strong>Template:</strong> {{ campaign.templateName }}</p>
+          <p><strong>Recipients:</strong> {{ campaign.totalContacts }}</p>
+          <p>
+            <strong>Time scheduled:</strong>
+            {{ campaign.Date | date : "MMM dd, yyyy, h:mm a" }}
+          </p>
         </div>
         <div class="mobile-preview">
           <img

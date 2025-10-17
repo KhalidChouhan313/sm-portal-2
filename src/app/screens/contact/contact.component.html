@@ -37,14 +37,16 @@
   </div>
   <div class="RightContianer">
     <div class="underContainer">
-      <h1>Select Contact</h1>
+      <h1>{{ isGroup ? "Select Group" : "Select Contact" }}</h1>
       <img
         src="../../../assets/Frame 1321316488.png"
         alt=""
         width="40px"
         height="150px"
       />
-      <div class="button2">
+      <button *ngIf="isGroup" class="group-button1">Add Group</button>
+
+      <div *ngIf="!isGroup" class="button2">
         <button>Add Contact</button>
         <button>Bulk Upload</button>
       </div>

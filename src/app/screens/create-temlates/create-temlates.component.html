@@ -1,0 +1,159 @@
+<div class="container">
+  <div class="add-top">
+    <h1>Create Template</h1>
+    <div class="btns">
+      <button [routerLink]="'/broadcast/campaigns'">Cancel</button>
+      <button [routerLink]="'/broadcast/campaigns'">Save</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="campaignsForm">
+      <form>
+        <div class="formitem">
+          <label for="name">Template Name</label>
+          <input
+            type="text"
+            id="name"
+            class="name"
+            placeholder="Enter in English"
+            name="templateName"
+          />
+        </div>
+
+        <div class="formitem2">
+          <div class="formitem">
+            <label for="template">Category</label>
+            <select id="template" class="template" name="category">
+              <option disabled selected>Select Category</option>
+              <option value="MARKETING">Marketing</option>
+              <option value="UTILITY">Utility</option>
+              <option value="AUTHENTICATION">Authentication</option>
+            </select>
+          </div>
+
+          <div class="formitem">
+            <label for="language">Language</label>
+            <select id="language" name="language">
+              <option disabled selected>Select Language</option>
+              <option value="en">English</option>
+              <option value="ur">Urdu</option>
+              <option value="ar">Arabic</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formitem">
+          <label>Header (Optional)</label>
+          <p>
+            Add a title or choose which type of media you'll use for this heade
+          </p>
+
+          <div class="headertype">
+            <div>
+              <img src="../../../assets/icons/Mask group (1).svg" alt="" />
+              <p>Text</p>
+            </div>
+            <div>
+              <img src="../../../assets/icons/Mask group (2).svg" alt="" />
+              <p>Image</p>
+            </div>
+            <div>
+              <img src="../../../assets/icons/Mask group (3).svg" alt="" />
+              <p>Video</p>
+            </div>
+            <div>
+              <img src="../../../assets/icons/Mask group (4).svg" alt="" />
+              <p>Document</p>
+            </div>
+          </div>
+
+          <input type="text" placeholder="Type here...." name="headerText" />
+          <div class="between">
+            <span>Characters: 0/60</span>
+            <span>Add Variable (Max: 1)</span>
+          </div>
+        </div>
+
+        <div class="formitem">
+          <div class="between">
+            <h2 style="font-size: 20px; font-weight: 700">Body</h2>
+            <span>0/1024</span>
+          </div>
+          <p>
+            Enter the text for your message in the language that you've selected
+          </p>
+          <textarea
+            rows="5"
+            placeholder="Type message here..."
+            name="bodyText"
+          ></textarea>
+          <div class="between">
+            <span>Characters: 0/1098</span>
+            <span>
+              <i
+                class="bi bi-type-italic"
+                style="width: 18px; height: 18px; aspect-ratio: 1/1"
+              ></i>
+              <i
+                class="bi bi-type-bold"
+                style="width: 18px; height: 18px; aspect-ratio: 1/1"
+              ></i>
+              <i
+                class="bi bi-type-underline"
+                style="width: 18px; height: 18px; aspect-ratio: 1/1"
+              ></i>
+              Add Variable</span
+            >
+          </div>
+        </div>
+
+        <div class="formitem">
+          <label>Footer Description <small>(Optional)</small></label>
+          <p>Add a short line of text to the bottom of your message template</p>
+          <input
+            type="text"
+            placeholder="Add a short footer message..."
+            name="footerText"
+          />
+          <small> Characters: 0/60 </small>
+        </div>
+
+        <div class="formitem">
+          <label>Buttons <small>(Optional)</small></label>
+          <p>
+            Create buttons that let customers respond to your message or take
+            action
+          </p>
+
+          <div class="button-types">
+            <button type="button">Call phone number (1)</button>
+            <button type="button">Visit Website(2)</button>
+            <button type="button">Copy Code(1)</button>
+            <button type="button">Confirm Action(6)</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="mobileScreen">
+      <div class="mobile-con">
+        <div class="mobile-wrapper">
+          <img
+            src="../../../assets/mobileCampagin.png"
+            alt="mobile"
+            class="mobile"
+          />
+          <div class="mobile-text">
+            <h4>{{ campaignName || "Campaign Name" }}</h4>
+            <p>Template: {{ selectedTemplate || "No Template Selected" }}</p>
+            <p>Send To: {{ sendTo || "No Contact Selected" }}</p>
+            <p *ngIf="scheduledTime">
+              Scheduled: {{ scheduledTime | date : "short" }}
+            </p>
+            <p *ngIf="skipSchedule">📩 Sending Immediately</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
